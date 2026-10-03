@@ -206,57 +206,102 @@ logo (`.svg`, `.ai`, `.pdf`), ele deve substituir o selo — e então rode
 - **Sitemap** (`/sitemap.xml`) é gerado a cada build com todas as páginas
   públicas — não precisa editar. Página nova entra sozinha; para deixar uma
   página de fora, coloque `robots: noindex` no front matter dela.
-- **robots.txt** é gerado a partir do interruptor `publicavel` em
-  `src/_data/site.js` (ver seção 7).
+- **robots.txt** é gerado a partir do interruptor `publicavel` de
+  `src/_data/site.js`, decidido no build (ver seção 6).
 
 ---
 
 ## 6. Publicar na Vercel
 
-1. Suba este repositório para o GitHub (já está).
-2. Em [vercel.com](https://vercel.com) → **Add New… → Project** → importe o
-   repositório `casa-eme-`.
-3. A Vercel lê o `vercel.json`: comando `npm run build`, pasta `dist`. Não é
-   preciso mudar nada na tela de configuração. Em **Node.js Version**, escolha
-   22.x (ou 20.x).
-4. **Deploy**. Cada push na branch principal publica de novo; cada branch ou
-   pull request ganha um endereço de prévia.
+### Antes de importar: a branch certa
 
-O `vercel.json` já envia os cabeçalhos de segurança (HSTS, nosniff,
-X-Frame-Options, Referrer-Policy, Permissions-Policy) e o cache certo para
+A Vercel publica em produção a **branch padrão** do repositório no GitHub.
+Neste repositório a branch padrão é `ccr-9c8e322d-m70ysg`, que só tem os prints
+originais — o site está na branch `claude/brave-faraday-alroh1`. Escolha um
+caminho **antes** de importar o projeto (senão o primeiro deploy publica a
+branch sem o site):
+
+- **Recomendado:** juntar `claude/brave-faraday-alroh1` na branch padrão
+  (pull request + merge no GitHub). Depois, se quiser, renomeie a branch
+  padrão para `main` em *Settings → General → Default branch* do repositório.
+- **Alternativa:** importar mesmo assim e, em seguida, na Vercel, ir em
+  *Settings → Git → Production Branch*, digitar `claude/brave-faraday-alroh1`
+  e fazer um novo deploy (*Deployments → ⋯ → Redeploy*).
+
+### Importar
+
+1. Em [vercel.com](https://vercel.com), entre com a conta do GitHub.
+2. **Add New… → Project** → na lista, **Import** ao lado de `casa-eme-`.
+   (Se o repositório não aparecer: *Adjust GitHub App Permissions* e libere o
+   acesso a ele.)
+3. Na tela de configuração **não mude nada**: o `vercel.json` já define
+   tudo — sem preset de framework, instalação `npm ci`, build
+   `npm run build`, pasta `dist`, Node 22 (lido do `package.json`).
+   *Root Directory* fica vazio.
+4. **Deploy**. Em cerca de um minuto o site está no ar em
+   `https://<nome-do-projeto>.vercel.app`.
+
+Daí em diante, cada push na branch de produção publica de novo; cada outra
+branch ou pull request ganha um endereço de prévia.
+
+### O que acontece sozinho
+
+| Situação | Endereço usado no canonical, sitemap e cartão social | Google |
+|---|---|---|
+| Produção sem domínio próprio | `https://<projeto>.vercel.app` | fora (`noindex`) |
+| Produção com domínio próprio | o domínio | **indexa** |
+| Prévias (branches, PRs) | o endereço de produção | fora (`noindex`) |
+| Build local / outro provedor | `SITE_URL`, ou o domínio de reserva | fora, salvo `SITE_PUBLICAVEL=true` |
+
+Ou seja: dá para publicar já, mandar o link pelo WhatsApp (o cartão com a
+foto aparece) e só entrar no Google quando o domínio estiver conectado. A
+regra está em `src/_data/site.js`.
+
+**Variáveis opcionais** (*Settings → Environment Variables*, ambiente
+*Production*; depois, *Redeploy*):
+
+| Variável | Para quê |
+|---|---|
+| `SITE_URL` | fixar o domínio principal, ex.: `https://www.casaeme.com.br`. Use quando o principal for o **www** (a Vercel, sozinha, escolhe o domínio mais curto, que é o sem www). |
+| `SITE_PUBLICAVEL` | `false` segura o site fora do Google mesmo com domínio; `true` libera mesmo no `.vercel.app` (não recomendado). |
+
+O `vercel.json` também envia os cabeçalhos de segurança (HSTS, nosniff,
+X-Frame-Options, Referrer-Policy, Permissions-Policy) e o cache certo de
 cada tipo de arquivo. A CSP vai na própria página (`<meta>`), com os hashes
 calculados no build.
 
 **Netlify / Cloudflare Pages:** use o `netlify.toml` (mesmo comando, pasta
-`dist`); os cabeçalhos saem do `dist/_headers`, gerado no build.
-**Servidor próprio:** veja `deploy/nginx.conf` e `deploy/apache.htaccess`.
+`dist`); os cabeçalhos saem do `dist/_headers`, gerado no build. Defina
+`SITE_URL` e `SITE_PUBLICAVEL=true` nas variáveis do provedor quando o
+domínio estiver pronto.
+**Servidor próprio:** veja `deploy/nginx.conf` e `deploy/apache.htaccess`;
+rode o build com `SITE_URL=https://seu.dominio SITE_PUBLICAVEL=true npm run build`.
 
 ---
 
 ## 7. Conectar o domínio
 
 1. Na Vercel: **Project → Settings → Domains → Add** e digite o domínio
-   (ex.: `www.casaememoema.com.br`). Adicione também a versão sem `www` e
-   marque o redirecionamento para a principal.
+   (ex.: `casaeme.com.br`). A Vercel oferece adicionar junto a versão com
+   `www` e redirecionar uma para a outra — aceite.
 2. No registro do domínio (Registro.br, por exemplo), crie os registros DNS
-   que a Vercel mostrar — normalmente um `CNAME` de `www` para
-   `cname.vercel-dns.com` e um `A` do domínio raiz para o IP indicado. O HTTPS
-   é emitido sozinho.
-3. Em `src/_data/site.js`:
-   - troque `url` pelo domínio definitivo (com `https://`, sem barra no fim);
-   - mude `publicavel` para `true`.
-4. Rode `npm run build && npm run test`, faça o commit e o push.
-
-> **Por que `publicavel` começa em `false`:** enquanto o domínio não estiver
-> definido, todas as páginas saem com `noindex` e o `robots.txt` bloqueia o
-> rastreamento. Assim o Google não indexa um endereço provisório (como o da
-> prévia da Vercel), o que deixaria rastro difícil de limpar.
+   que a Vercel mostrar — normalmente um `A` do domínio raiz para o IP
+   indicado e um `CNAME` de `www` para o endereço indicado. O HTTPS é emitido
+   sozinho quando o DNS propagar (de minutos a algumas horas).
+3. Se o domínio **principal** for o com `www`, crie a variável
+   `SITE_URL=https://www.seudominio.com.br` (seção 6).
+4. **Deployments → ⋯ → Redeploy** no último deploy de produção. Esse deploy
+   já sai com o domínio no canonical, no sitemap e no cartão social, e com a
+   indexação liberada.
+5. Confira: `https://seudominio.com.br/robots.txt` deve mostrar `Allow: /`
+   e o endereço do sitemap.
 
 ---
 
 ## 8. Google Search Console e Perfil da Empresa
 
-**Search Console** (depois que o domínio estiver no ar e `publicavel: true`):
+**Search Console** (depois que o domínio próprio estiver conectado e o
+`robots.txt` dele mostrar `Allow: /`):
 
 1. Acesse [search.google.com/search-console](https://search.google.com/search-console)
    → **Adicionar propriedade**.
@@ -385,8 +430,9 @@ melhoram o site:
 8. **Outubro Rosa.** Seção ligada (`src/_data/outubroRosa.js`). Desligue em
    novembro e, no próximo outubro, atualize o link do INCA para a campanha do
    ano.
-9. **Domínio.** `site.url` está com um domínio provisório
-   (`www.casaememoema.com.br`) e `publicavel: false`. Ver seção 7.
+9. **Domínio.** Sem domínio próprio, o site funciona no endereço
+   `.vercel.app`, fora do Google. Conectar o domínio libera a indexação
+   (seções 6 e 7).
 10. **Logo vetorial.** O selo foi redesenhado a partir do print do perfil;
     se houver o arquivo original, ele substitui o redesenho (seção 4).
 
@@ -394,13 +440,13 @@ melhoram o site:
 
 ## 13. Antes de publicar — checklist
 
-- [ ] Domínio definitivo em `src/_data/site.js` → `url`
-- [ ] `publicavel: true` em `src/_data/site.js`
 - [ ] Horários confirmados com a casa (pendência 1)
 - [ ] Autoria das fotos de unhas confirmada (pendência 3)
 - [ ] Valores das assinaturas conferidos
 - [ ] `npm run build && npm run test && npm run qa` sem falhas
-- [ ] Domínio conectado na Vercel, HTTPS ativo
+- [ ] Branch do site juntada na branch padrão (ou Production Branch ajustada na Vercel)
+- [ ] Domínio conectado na Vercel, HTTPS ativo, redeploy feito
+- [ ] `robots.txt` do domínio com `Allow: /`
 - [ ] Search Console verificado e `sitemap.xml` enviado
 - [ ] Site cadastrado no Perfil da Empresa no Google, com NAP idêntico
 

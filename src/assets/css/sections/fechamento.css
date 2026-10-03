@@ -1,0 +1,453 @@
+/** Galeria (resumo), avaliações, Outubro Rosa, dúvidas, como chegar e chamada final. */
+
+/* Galeria na home ------------------------------------------------------------- */
+.mostra {
+  padding-block: var(--secao);
+  background-color: var(--linho);
+}
+
+.mostra__cab {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--e-2) var(--e-4);
+}
+
+.mostra__cab .acoes {
+  margin-block-start: 0;
+}
+
+.mostra__titulo {
+  font-size: var(--t-h2);
+}
+
+.mostra__grade {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--e-4) var(--e-3);
+  align-items: start;
+  margin-block-start: var(--e-5);
+}
+
+.mostra__item:nth-child(even) {
+  margin-block-start: var(--e-5);
+}
+
+.mostra__abrir,
+.galeria__abrir {
+  display: block;
+  inline-size: 100%;
+  overflow: hidden;
+  cursor: zoom-in;
+  background-color: var(--creme);
+}
+
+.mostra__abrir img,
+.galeria__abrir img {
+  inline-size: 100%;
+  transition: scale var(--lento) var(--curva);
+}
+
+.mostra__abrir:hover img,
+.galeria__abrir:hover img {
+  scale: 1.03;
+}
+
+.mostra__legenda {
+  margin-block-start: 0.625rem;
+  font-size: var(--t-pequeno);
+  color: var(--texto-2);
+}
+
+@media (min-width: 64rem) {
+  .mostra__grade {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--e-4);
+  }
+}
+
+/* Avaliações ---------------------------------------------------------------- */
+.vozes {
+  padding-block: var(--secao);
+  text-align: center;
+}
+
+.vozes .rotulo {
+  justify-content: center;
+}
+
+.vozes__titulo {
+  font-size: var(--t-h2);
+}
+
+.vozes__intro {
+  max-inline-size: 34rem;
+  margin: var(--e-3) auto 0;
+  color: var(--texto-2);
+}
+
+.vozes__temas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.25rem;
+  max-inline-size: 62rem;
+  margin: var(--e-5) auto 0;
+}
+
+.vozes__temas li {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-family: var(--serifa);
+  font-style: italic;
+  font-size: clamp(1.375rem, 1.05rem + 1.3vw, 2.25rem);
+  line-height: 1.35;
+}
+
+.vozes__temas li:nth-child(odd) {
+  color: var(--marca);
+}
+
+.vozes__temas li::before {
+  content: '';
+  inline-size: 0.5rem;
+  block-size: 0.5rem;
+  border: 1px solid var(--mel);
+  border-radius: 50%;
+  flex: none;
+}
+
+.vozes__citacoes {
+  display: grid;
+  gap: var(--e-4);
+  margin-block: var(--e-5);
+  text-align: start;
+}
+
+.citacao blockquote {
+  font-family: var(--serifa);
+  font-style: italic;
+  font-size: var(--t-h4);
+}
+
+.citacao figcaption {
+  margin-block-start: var(--e-1);
+  font-size: var(--t-pequeno);
+  color: var(--texto-2);
+}
+
+@media (min-width: 48rem) {
+  .vozes__citacoes {
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  }
+}
+
+.vozes__fonte {
+  margin-block-start: var(--e-5);
+}
+
+.vozes__fonte a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  color: var(--marca);
+  font-size: var(--t-pequeno);
+  font-weight: 600;
+}
+
+/* Outubro Rosa -------------------------------------------------------------- */
+.rosa {
+  padding-block: var(--secao);
+  background-color: var(--rosa-fundo);
+}
+
+.rosa__grade {
+  display: grid;
+  gap: var(--e-5);
+  align-items: center;
+}
+
+.rosa__simbolo svg {
+  inline-size: clamp(8rem, 22vw, 16rem);
+  margin-inline: auto;
+  fill: none;
+  stroke: var(--rosa);
+  stroke-width: 0.9;
+}
+
+.rosa__laco {
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.rosa .rotulo {
+  color: var(--rosa-texto);
+}
+
+.rosa .rotulo::before {
+  background-color: var(--rosa);
+}
+
+.rosa__titulo {
+  font-size: var(--t-h2);
+  margin-block-end: var(--e-3);
+}
+
+.rosa__texto > p:not(.rotulo) {
+  max-inline-size: 36rem;
+  color: var(--texto-2);
+}
+
+.rosa__texto > p + p {
+  margin-block-start: var(--e-2);
+}
+
+.rosa__texto .rosa__aviso {
+  margin-block: var(--e-3);
+  padding-inline-start: var(--e-2);
+  border-inline-start: 1px solid var(--rosa);
+  font-family: var(--serifa);
+  font-style: italic;
+  color: var(--rosa-texto);
+}
+
+.rosa .link-seta {
+  color: var(--rosa-texto);
+}
+
+.rosa :focus-visible {
+  outline-color: var(--rosa-texto);
+}
+
+@media (min-width: 48rem) {
+  .rosa__grade {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    gap: var(--e-7);
+  }
+}
+
+/* Dúvidas ------------------------------------------------------------------- */
+.duvidas {
+  padding-block: var(--secao);
+}
+
+.duvidas__grade {
+  display: grid;
+  gap: var(--e-4);
+}
+
+.duvidas__titulo {
+  font-size: var(--t-h2);
+  margin-block-end: var(--e-2);
+}
+
+@media (min-width: 64rem) {
+  .duvidas__grade {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: var(--e-7);
+    align-items: start;
+  }
+}
+
+/* Como chegar --------------------------------------------------------------- */
+.local {
+  padding-block: var(--secao);
+  background-color: var(--creme);
+  scroll-margin-top: var(--altura-cab);
+}
+
+.local__grade {
+  display: grid;
+  gap: var(--e-5);
+}
+
+.local__titulo {
+  font-size: var(--t-h2);
+}
+
+.local__end {
+  margin-block-start: var(--e-3);
+  font-size: var(--t-lead);
+  line-height: 1.6;
+}
+
+.local__rua {
+  display: block;
+  font-family: var(--serifa);
+  font-size: var(--t-h3);
+  color: var(--marca);
+}
+
+.local__bairro {
+  margin-block-start: var(--e-2);
+  font-family: var(--serifa);
+  font-style: italic;
+  color: var(--texto-2);
+}
+
+.horarios {
+  margin-block-start: var(--e-5);
+}
+
+.horarios__titulo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--t-h4);
+  margin-block-end: var(--e-2);
+}
+
+.horarios__titulo .estado {
+  margin-inline-start: 0;
+}
+
+.horarios__tabela {
+  inline-size: 100%;
+  font-size: var(--t-pequeno);
+}
+
+.horarios__tabela th,
+.horarios__tabela td {
+  padding-block: 0.5rem;
+  border-block-end: 1px solid var(--fio-forte);
+  text-align: start;
+  font-weight: 400;
+}
+
+.horarios__tabela td {
+  text-align: end;
+  color: var(--texto-2);
+  white-space: nowrap;
+}
+
+.horarios__linha--hoje th,
+.horarios__linha--hoje td {
+  color: var(--marca);
+  font-weight: 600;
+}
+
+.horarios__linha--hoje th::after {
+  content: ' · hoje';
+  font-weight: 400;
+}
+
+.horarios__nota {
+  margin-block-start: var(--e-2);
+  font-size: var(--t-mini);
+  color: var(--texto-2);
+}
+
+.mapa {
+  position: relative;
+  display: grid;
+  min-block-size: 24rem;
+  border: 1px solid var(--fio-forte);
+  background-color: var(--papel);
+}
+
+.mapa iframe {
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: 24rem;
+  border: 0;
+}
+
+.mapa__capa {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--e-2);
+  padding: var(--e-5) var(--e-3);
+  text-align: center;
+}
+
+.mapa__aneis {
+  inline-size: 8rem;
+  fill: none;
+  stroke: var(--marca);
+  stroke-width: 0.9;
+}
+
+.mapa__aneis circle:last-child {
+  fill: var(--marca);
+}
+
+.mapa__rua {
+  font-family: var(--serifa);
+  font-size: var(--t-h3);
+}
+
+.mapa__aviso {
+  max-inline-size: 22rem;
+  font-size: var(--t-pequeno);
+  color: var(--texto-2);
+}
+
+@media (min-width: 64rem) {
+  .local__grade {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--e-6);
+  }
+}
+
+/* Chamada final -------------------------------------------------------------- */
+.final {
+  padding-block: var(--secao);
+  border-block-start: 1px solid var(--fio);
+}
+
+.final__grade {
+  display: grid;
+  gap: var(--e-6);
+}
+
+.final__instagram {
+  order: 2;
+}
+
+.final__instagram p:not(.rotulo) {
+  color: var(--texto-2);
+}
+
+.final__handle {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  font-family: var(--serifa);
+  font-size: clamp(1.5rem, 1.1rem + 1.8vw, 2.5rem);
+  color: var(--marca);
+  text-decoration: underline;
+  text-decoration-color: var(--fio-forte);
+}
+
+.final__handle:hover {
+  text-decoration-color: currentColor;
+}
+
+.final__titulo {
+  font-size: var(--t-h2);
+  max-inline-size: 20ch;
+  margin-block-end: var(--e-4);
+}
+
+.final__meta {
+  margin-block-start: var(--e-2);
+  font-size: var(--t-pequeno);
+  color: var(--texto-2);
+}
+
+@media (min-width: 64rem) {
+  .final__grade {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    align-items: end;
+    gap: var(--e-7);
+  }
+
+  .final__instagram {
+    order: 0;
+  }
+}

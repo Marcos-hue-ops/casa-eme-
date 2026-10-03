@@ -1,0 +1,31 @@
+{%- import "components/macros.njk" as m -%}
+{%- set est = servicos | categoria('estetica-avancada') -%}
+{#- Estética avançada — a faixa escura da home. Linguagem responsável: avaliação antes de tudo. -#}
+<section class="estetica faixa-noite" aria-labelledby="estetica-titulo">
+  <svg class="estetica__aneis" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+    <circle cx="100" cy="100" r="98"/><circle cx="100" cy="100" r="88"/>
+  </svg>
+  <div class="env estetica__grade">
+    <div class="estetica__texto">
+      <p class="rotulo">02 · {{ est.nome }}</p>
+      <h2 class="estetica__titulo" id="estetica-titulo">Tudo começa por <em>uma avaliação individual</em></h2>
+      <p>{{ est.texto }}</p>
+      <p class="estetica__nota">Procedimentos estéticos têm indicações, contraindicações e cuidados próprios, e a resposta varia de pessoa para pessoa. Por isso nenhum protocolo é definido sem avaliação.</p>
+      <div class="acoes">
+        {{ m.wa(business, 'estetica', est.cta, 'btn btn--claro') }}
+        {{ m.seta(est.pagina, 'Conhecer a estética avançada', 'link-seta link-seta--claro') }}
+      </div>
+    </div>
+
+    <div class="estetica__listas">
+      {%- for g in est.grupos %}
+      <div class="lista-dupla">
+        <h3 class="lista-dupla__titulo"><span>{{ g.nome }}</span></h3>
+        <ul>
+          {%- for i in g.itens %}<li>{{ i.nome }}</li>{% endfor %}
+        </ul>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>

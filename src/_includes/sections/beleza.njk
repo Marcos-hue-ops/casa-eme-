@@ -1,0 +1,41 @@
+{%- import "components/macros.njk" as m -%}
+{%- set beleza = servicos | categoria('beleza') -%}
+{%- set escova = galeria.fotos[2] -%}
+{%- set tartaruga = galeria.fotos[3] -%}
+{#- Beleza: cabelo, mãos e pés. A foto de antes e depois entra na moldura dupla dos posts da casa. -#}
+<section class="beleza" aria-labelledby="beleza-titulo">
+  <div class="env beleza__grade">
+    <figure class="beleza__foto moldura">
+      {{ m.foto(escova.imagem, escova.alt, '(min-width: 64rem) 34rem, 92vw') }}
+      <figcaption>{{ escova.legenda }}</figcaption>
+    </figure>
+
+    <div class="beleza__texto">
+      <p class="rotulo">01 · {{ beleza.nome }}</p>
+      <h2 class="beleza__titulo" id="beleza-titulo">Cabelo, mãos e pés: <em>o cuidado de todo dia</em></h2>
+      <p>{{ beleza.texto }}</p>
+
+      <div class="beleza__listas">
+        {%- for g in beleza.grupos %}
+        <div class="lista-fina">
+          <h3 class="lista-fina__titulo">{{ g.nome }}</h3>
+          <ul>
+            {%- for i in g.itens %}<li>{{ i.nome }}</li>{% endfor %}
+          </ul>
+        </div>
+        {%- endfor %}
+      </div>
+
+      <p class="beleza__nota">Na esmaltação em gel, a durabilidade é, em média, de 15 a 20 dias.</p>
+
+      <div class="acoes">
+        {{ m.seta('/servicos/#beleza', 'Ver os serviços de beleza') }}
+        {{ m.wa(business, 'beleza', beleza.cta, 'btn btn--linha') }}
+      </div>
+    </div>
+
+    <figure class="beleza__detalhe">
+      {{ m.foto(tartaruga.imagem, tartaruga.alt, '(min-width: 64rem) 16rem, 60vw') }}
+    </figure>
+  </div>
+</section>

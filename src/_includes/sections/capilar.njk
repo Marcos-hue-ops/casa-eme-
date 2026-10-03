@@ -1,0 +1,47 @@
+{%- import "components/macros.njk" as m -%}
+{%- set cap = servicos | categoria('saude-capilar') -%}
+{#-
+  Saúde capilar — em três tempos, como a própria casa organiza: diagnóstico,
+  tratamento, cuidado e recuperação. O fio que liga as etapas se desenha
+  quando a seção entra na tela.
+
+  `nivelCapilar` deixa reaproveitar a seção sob outro título (página própria).
+-#}
+{%- set n = nivelCapilar or 2 -%}
+<section class="capilar" aria-labelledby="capilar-titulo">
+  <div class="env">
+    <div class="capilar__cab">
+      {%- if not semCabecalhoCapilar %}
+      <p class="rotulo">03 · {{ cap.nome }}</p>
+      <h{{ n }} class="capilar__titulo" id="capilar-titulo">Primeiro entender o fio. <em>Depois tratar.</em></h{{ n }}>
+      <p class="capilar__lead">{{ cap.texto }}</p>
+      {%- else %}
+      <h{{ n }} class="capilar__titulo capilar__titulo--menor" id="capilar-titulo">Como funciona, em três tempos</h{{ n }}>
+      {%- endif %}
+    </div>
+
+    <ol class="etapas reveal">
+      {%- for g in cap.grupos %}
+      <li class="etapa">
+        <span class="etapa__num" aria-hidden="true">{{ loop.index | dois }}</span>
+        <p class="etapa__tempo">{{ g.etapa }}</p>
+        <h{{ n + 1 }} class="etapa__titulo">{{ g.nome }}</h{{ n + 1 }}>
+        <p class="etapa__txt">{{ g.texto }}</p>
+        <ul class="etapa__itens">
+          {%- for i in g.itens %}
+          <li>{{ i.nome }}{% if i.desc and detalharCapilar %}<span class="etapa__desc"> — {{ i.desc }}</span>{% endif %}</li>
+          {%- endfor %}
+        </ul>
+      </li>
+      {%- endfor %}
+    </ol>
+
+    <div class="capilar__pe">
+      <p class="capilar__aviso">Queda de cabelo e alopecias podem ter causas clínicas que pedem investigação médica. O cuidado capilar da Casa EME não substitui o acompanhamento com um dermatologista.</p>
+      <div class="acoes">
+        {{ m.wa(business, 'capilar', cap.cta) }}
+        {%- if not semLinkCapilar %}{{ m.seta(cap.pagina, 'Saúde capilar em detalhe') }}{% endif %}
+      </div>
+    </div>
+  </div>
+</section>

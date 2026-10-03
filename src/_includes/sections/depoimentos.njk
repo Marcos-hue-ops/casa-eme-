@@ -1,0 +1,33 @@
+{#-
+  Prova social. Sem avaliação inventada: enquanto depoimentos.js não tiver
+  avaliações reais transcritas, a seção mostra os temas que mais se repetem
+  nelas, como a casa informou — sem aspas e sem autoria, porque não são
+  citações.
+-#}
+<section class="vozes" aria-labelledby="vozes-titulo">
+  <div class="env">
+    <p class="rotulo">Nas avaliações</p>
+    <h2 class="vozes__titulo" id="vozes-titulo">O que as clientes mais destacam</h2>
+
+    {%- if depoimentos.itens.length %}
+    <ul class="vozes__citacoes">
+      {%- for d in depoimentos.itens %}
+      <li>
+        <figure class="citacao">
+          <blockquote><p>{{ d.texto }}</p></blockquote>
+          <figcaption>{{ d.autor }}{% if d.fonte %} <span>· avaliação no {{ d.fonte }}</span>{% endif %}</figcaption>
+        </figure>
+      </li>
+      {%- endfor %}
+    </ul>
+    {%- endif %}
+
+    <p class="vozes__intro">Nos comentários de quem já passou pela Casa EME, alguns pontos se repetem:</p>
+    <ul class="vozes__temas">
+      {%- for tema in depoimentos.destaques %}
+      <li>{{ tema }}</li>
+      {%- endfor %}
+    </ul>
+    <p class="vozes__fonte"><a href="{{ business.maps.search }}" target="_blank" rel="noopener noreferrer">Ver a Casa EME no Google Maps</a></p>
+  </div>
+</section>

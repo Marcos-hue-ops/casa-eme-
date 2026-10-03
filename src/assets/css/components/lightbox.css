@@ -1,0 +1,95 @@
+/** Ampliação de foto, num <dialog>. */
+.lupa {
+  inline-size: 100%;
+  block-size: 100%;
+  max-inline-size: 100%;
+  max-block-size: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--creme-texto);
+}
+
+.lupa::backdrop {
+  background-color: rgb(30 21 14 / 0.94);
+}
+
+.lupa[open] {
+  display: grid;
+  place-items: center;
+}
+
+.lupa__caixa {
+  position: relative;
+  display: grid;
+  gap: var(--e-2);
+  inline-size: min(100% - 2rem, 56rem);
+  max-block-size: calc(100dvh - 2rem);
+}
+
+.lupa__fig {
+  display: grid;
+  gap: var(--e-2);
+  justify-items: center;
+}
+
+.lupa__fig img {
+  max-block-size: calc(100dvh - 10rem);
+  inline-size: auto;
+  max-inline-size: 100%;
+  object-fit: contain;
+}
+
+.lupa__legenda {
+  font-size: var(--t-pequeno);
+  color: var(--creme-texto-2);
+  text-align: center;
+}
+
+.lupa__fechar {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: 1px solid var(--fio-noite);
+  border-radius: 50%;
+  color: var(--creme-texto);
+}
+
+.lupa__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--e-3);
+}
+
+.lupa__passo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: 1px solid var(--fio-noite);
+  border-radius: 50%;
+  color: var(--creme-texto);
+}
+
+.lupa__passo:hover,
+.lupa__fechar:hover {
+  border-color: var(--mel-claro);
+  color: var(--mel-claro);
+}
+
+.lupa__conta {
+  font-size: var(--t-mini);
+  letter-spacing: 0.12em;
+  color: var(--creme-texto-2);
+  min-inline-size: 3.5rem;
+  text-align: center;
+}
+
+.lupa :focus-visible {
+  outline-color: var(--mel-claro);
+}

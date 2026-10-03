@@ -1,0 +1,48 @@
+---
+layout: layouts/pagina.njk
+permalink: /saude-capilar/
+title: "Saúde Capilar em Moema | Avaliação e Tratamento | Casa EME"
+description: "Saúde capilar em Moema: consulta, tricoscopia e plano individualizado para queda, afinamento dos fios, alopecias e couro cabeludo. Agende sua avaliação capilar."
+tituloPagina: "Saúde capilar em Moema"
+chamadaPagina: "Para queda, afinamento dos fios, alopecias e saúde do couro cabeludo, o cuidado começa por entender — e segue com um plano feito para você."
+waChave: capilar
+trilha:
+  - nome: Início
+    href: /
+  - nome: Serviços
+    href: /servicos/
+  - nome: Saúde capilar
+    href: /saude-capilar/
+eleventyComputed:
+  servicoSchema:
+    "@context": https://schema.org
+    "@type": Service
+    name: Saúde capilar
+    serviceType: Avaliação e tratamento capilar
+    url: "{{ site.url }}/saude-capilar/"
+    areaServed: Moema, São Paulo
+    provider:
+      "@id": "{{ site.url }}/#casa-eme"
+---
+{%- import "components/macros.njk" as m -%}
+
+<section class="texto-longo" aria-labelledby="capilar-intro">
+  <div class="env texto-longo__grade">
+    <p class="rotulo">Por onde começa</p>
+    <div>
+      <h2 class="texto-longo__titulo" id="capilar-intro">Cada queixa tem uma origem</h2>
+      <p class="texto-longo__lead">Fio que cai, fio que afina, couro cabeludo que incomoda: queixas parecidas podem ter causas bem diferentes. Por isso a saúde capilar na Casa EME começa por um diagnóstico — consulta, avaliação do couro cabeludo e tricoscopia — antes de qualquer tratamento.</p>
+      <p>A tricoscopia é o exame do couro cabeludo e dos fios com um aparelho de ampliação. Junto com a consulta, ela ajuda a montar um plano individualizado, que é acompanhado ao longo do tratamento.</p>
+    </div>
+  </div>
+</section>
+
+{% set nivelCapilar = 2 %}
+{% set semCabecalhoCapilar = true %}
+{% set semLinkCapilar = true %}
+{% set detalharCapilar = true %}
+{% include "sections/capilar.njk" %}
+
+{% set contextoFaq = 'capilar' %}
+{% set tituloFaq = 'Dúvidas sobre saúde capilar' %}
+{% include "sections/faq-resumo.njk" %}

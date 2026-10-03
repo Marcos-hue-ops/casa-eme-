@@ -1,0 +1,16 @@
+---
+permalink: /robots.txt
+eleventyExcludeFromCollections: true
+---
+{%- if site.publicavel -%}
+User-agent: *
+Allow: /
+
+Sitemap: {{ site.url }}/sitemap.xml
+{%- else -%}
+# O site ainda não está liberado para indexação: o domínio definitivo não foi
+# definido, e o endereço provisório alimenta canonical, sitemap e JSON-LD.
+# O interruptor está em src/_data/site.js (`publicavel`).
+User-agent: *
+Disallow: /
+{%- endif %}

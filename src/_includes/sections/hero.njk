@@ -1,0 +1,74 @@
+{%- import "components/macros.njk" as m -%}
+{#-
+  Primeira dobra. Em poucos segundos: o que é (beleza, estética avançada,
+  saúde capilar), onde fica (Moema), que experiência oferece (uma casa — a
+  nova gestão) e o que fazer (WhatsApp).
+
+  O nome e o slogan formam o h1, como na logo. As duas "janelas" redondas
+  repetem o círculo do selo e mostram trabalho da casa.
+-#}
+<section class="hero" aria-labelledby="hero-titulo">
+  <svg class="hero__fundo" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+    <circle cx="100" cy="100" r="98"/><circle cx="100" cy="100" r="90"/>
+  </svg>
+
+  <div class="env hero__grade">
+    <div class="hero__texto">
+      <p class="hero__sobre"><span>Nova gestão</span> <span class="hero__ponto" aria-hidden="true"></span> <span>Moema · São Paulo</span></p>
+
+      <h1 class="hero__marca" id="hero-titulo">
+        <span class="hero__nome">Casa EME</span>
+        <span class="hero__slogan"><span class="hero__item">Beleza</span> <span class="hero__barra" aria-hidden="true">|</span> <span class="hero__item">Estética avançada</span> <span class="hero__barra" aria-hidden="true">|</span> <span class="hero__item">Saúde capilar</span></span>
+      </h1>
+
+      <span class="hero__fio" aria-hidden="true"></span>
+
+      <p class="hero__lema">Uma nova experiência <em>em Moema.</em></p>
+
+      <p class="hero__lead">Cabelo, unhas, sobrancelhas e cílios, estética facial e corporal, saúde capilar e massagens — tudo na {{ business.address.street }}, com agendamento pelo WhatsApp.</p>
+
+      <div class="hero__acoes">
+        {{ m.wa(business, 'geral', 'Agendar pelo WhatsApp', 'btn btn--wa btn--grande', 'data-wa-gatilho') }}
+        {{ m.seta('/servicos/', 'Conhecer serviços') }}
+      </div>
+    </div>
+
+    <div class="hero__visual">
+      <div class="janelas">
+        <figure class="janela janela--grande">
+          {{ m.anel('anel anel--desenha') }}
+          <div class="janela__vidro">
+            {{ m.foto(galeria.janelas.principal.imagem, galeria.janelas.principal.alt, galeria.janelas.principal.sizes, true) }}
+          </div>
+        </figure>
+        <figure class="janela janela--pequena">
+          {{ m.anel('anel anel--desenha anel--tarde') }}
+          <div class="janela__vidro">
+            {{ m.foto(galeria.janelas.secundaria.imagem, galeria.janelas.secundaria.alt, '(min-width: 64rem) 11rem, 8rem') }}
+          </div>
+        </figure>
+        <p class="janelas__lugar">{% icon "local" %}<span>{{ business.address.street }}<br>{{ business.address.neighborhood }}, {{ business.address.city }}</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{#- Ficha: os três dados práticos logo abaixo da primeira dobra. -#}
+<section class="ficha" aria-label="Endereço, horário e agendamento">
+  <div class="env ficha__grade">
+    <div class="ficha__item">
+      <p class="ficha__rot">Endereço</p>
+      <p class="ficha__val"><a href="{{ business.maps.search }}" target="_blank" rel="noopener noreferrer">{{ business.address.street }}</a><br>{{ business.address.district }}, {{ business.address.neighborhood }}</p>
+    </div>
+    <div class="ficha__item">
+      <p class="ficha__rot">Horário <span class="estado" data-estado data-semana="{{ hours.semana | json }}" hidden></span></p>
+      <p class="ficha__val">
+        {%- for g in hours.grupos | selectattr('aberto') %}{{ g.dias }}, {{ g.horas }}{% if not loop.last %}<br>{% endif %}{% endfor -%}
+      </p>
+    </div>
+    <div class="ficha__item">
+      <p class="ficha__rot">Agendamento</p>
+      <p class="ficha__val"><a href="{{ business.whatsapp | wa('geral') }}" target="_blank" rel="noopener noreferrer">WhatsApp {{ business.whatsapp.display }}</a><br><a href="{{ business.instagram.url }}" target="_blank" rel="noopener noreferrer">{{ business.instagram.handle }}</a></p>
+    </div>
+  </div>
+</section>

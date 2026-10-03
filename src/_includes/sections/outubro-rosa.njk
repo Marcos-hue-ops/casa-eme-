@@ -1,0 +1,27 @@
+{#-
+  Outubro Rosa. Institucional e discreto: sem botão de agendamento, sem
+  relação entre procedimento estético e prevenção. O conteúdo está em
+  src/_data/outubroRosa.js — inclusive o interruptor para tirar a seção.
+-#}
+{%- if outubroRosa.ativo %}
+<section class="rosa" aria-labelledby="rosa-titulo">
+  <div class="env rosa__grade">
+    <div class="rosa__simbolo" aria-hidden="true">
+      <svg viewBox="0 0 200 200" focusable="false">
+        <circle class="rosa__anel" cx="100" cy="100" r="96"/>
+        <circle class="rosa__anel" cx="100" cy="100" r="86"/>
+        <path class="rosa__laco" d="M100 74c-9-15-13-26-13-32 0-8 6-13 13-13s13 5 13 13c0 6-4 17-13 32Zm0 0-34 80 19-6 7 14 22-55m-14-33 34 80-19-6-7 14-15-36"/>
+      </svg>
+    </div>
+    <div class="rosa__texto">
+      <p class="rotulo">Outubro Rosa</p>
+      <h2 class="rosa__titulo" id="rosa-titulo">{{ outubroRosa.titulo }}</h2>
+      {%- for p in outubroRosa.paragrafos %}
+      <p>{{ p }}</p>
+      {%- endfor %}
+      <p class="rosa__aviso">{{ outubroRosa.aviso }}</p>
+      <a class="link-seta" href="{{ outubroRosa.link.url }}" target="_blank" rel="noopener noreferrer"><span>{{ outubroRosa.link.rotulo }}</span>{% icon "externo" %}</a>
+    </div>
+  </div>
+</section>
+{%- endif %}

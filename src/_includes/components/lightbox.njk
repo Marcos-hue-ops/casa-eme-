@@ -1,0 +1,21 @@
+{#-
+  Diálogo de ampliação de foto. Fica no HTML de todas as páginas porque custa
+  poucos bytes e evita criar elemento por JavaScript; o módulo só o usa se a
+  página tiver foto ampliável.
+-#}
+<dialog class="lupa" data-lupa-dialogo aria-labelledby="lupa-legenda">
+  <div class="lupa__caixa">
+    <button type="button" class="lupa__fechar" data-lupa-fechar>
+      {% icon "fechar" %}<span class="so-leitor">Fechar</span>
+    </button>
+    <figure class="lupa__fig">
+      <img data-lupa-img alt="">
+      <figcaption class="lupa__legenda" id="lupa-legenda" data-lupa-texto>Foto ampliada</figcaption>
+    </figure>
+    <div class="lupa__nav">
+      <button type="button" class="lupa__passo" data-lupa-ant>{% icon "seta", "icon--esq" %}<span class="so-leitor">Foto anterior</span></button>
+      <span class="lupa__conta" data-lupa-conta aria-live="polite"></span>
+      <button type="button" class="lupa__passo" data-lupa-prox>{% icon "seta" %}<span class="so-leitor">Próxima foto</span></button>
+    </div>
+  </div>
+</dialog>

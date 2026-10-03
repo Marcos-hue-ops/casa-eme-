@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="{{ site.lang }}" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  {#-
+    Política de segurança de conteúdo. Os hashes dos scripts inline são
+    calculados no build (tools/postbuild.js) e injetados no lugar da marca
+    abaixo: a política fica estrita, sem 'unsafe-inline'.
+
+    `frame-src` libera só o Google Maps, que entra depois do clique de quem
+    visita. `frame-ancestors` só vale por cabeçalho HTTP e sai nos arquivos
+    gerados para a hospedagem (dist/_headers, vercel.json).
+  -#}
+  {%- if not build.dev %}
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' {{ '__CSP_SCRIPT_HASHES__' }}; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'none'; frame-src https://www.google.com; manifest-src 'self'; upgrade-insecure-requests">
+  {%- endif %}
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}">
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  <meta name="robots" content="{{ 'noindex, follow' if robots == 'noindex' and site.publicavel else ('index, follow, max-image-preview:large' if site.publicavel else 'noindex, nofollow') }}">
+  <meta name="theme-color" content="{{ site.themeColor }}">
+
+  {#-
+    Google Search Console: o valor vai em src/_data/site.js
+    (googleSiteVerification). Vazio, nada sai.
+  -#}
+  {%- if site.googleSiteVerification %}
+  <meta name="google-site-verification" content="{{ site.googleSiteVerification }}">
+  {%- endif %}
+
+  <meta name="geo.region" content="BR-SP">
+  <meta name="geo.placename" content="Moema, São Paulo">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ business.fullName }}">
+  <meta property="og:locale" content="{{ site.locale }}">
+  <meta property="og:title" content="{{ ogTitle or title }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:image" content="{{ site.url }}{{ site.ogImage }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{ site.ogImageAlt }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ ogTitle or title }}">
+  <meta name="twitter:description" content="{{ description }}">
+  <meta name="twitter:image" content="{{ site.url }}{{ site.ogImage }}">
+  <meta name="twitter:image:alt" content="{{ site.ogImageAlt }}">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  {#- Fontes do próprio domínio: nenhuma requisição sai para terceiros. O itálico
+      só é baixado quando aparece na tela, por isso não está no preload. -#}
+  <link rel="preload" href="/assets/fonts/baskervville-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/hanken-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  {%- if preloadHero %}
+  {#- A foto da primeira dobra é o maior elemento visível: vem antes do resto. -#}
+  <link rel="preload" as="image" href="{{ galeria.janelas.principal.imagem | src }}" imagesrcset="{{ galeria.janelas.principal.imagem | srcset }}" imagesizes="{{ galeria.janelas.principal.sizes }}" fetchpriority="high">
+  {%- endif %}
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <script>document.documentElement.classList.replace('no-js','js');</script>
+  <script type="module" src="/assets/js/main.js"></script>
+
+  {#-
+    Analytics: não há nenhum instalado, de propósito — o site não coleta dado
+    de quem visita. Se um dia a Casa EME decidir medir audiência, ver
+    README.md → "Analytics": a CSP e a página de privacidade precisam mudar
+    junto.
+  -#}
+
+  <script type="application/ld+json">{{ schema | json | safe }}</script>
+  {%- if trilha %}
+  <script type="application/ld+json">{{ trilha | trilhaLd(site.url) | json | safe }}</script>
+  {%- endif %}
+  {%- if faqSchema %}
+  <script type="application/ld+json">{{ faq | faqLd(site.url) | json | safe }}</script>
+  {%- endif %}
+  {%- if servicoSchema %}
+  <script type="application/ld+json">{{ servicoSchema | json | safe }}</script>
+  {%- endif %}
+</head>
+
+<body{% if corpoClasse %} class="{{ corpoClasse }}"{% endif %}>
+  <a class="pular" href="#conteudo">Ir para o conteúdo</a>
+
+  {% include "components/header.njk" %}
+
+  <main id="conteudo" tabindex="-1">
+    {{ content | safe }}
+  </main>
+
+  {% include "components/footer.njk" %}
+
+  {#- Botão fixo do WhatsApp. Só aparece depois que o botão principal da página sai da tela. -#}
+  <a class="wa-fixo" data-wa-fixo href="{{ business.whatsapp | wa(waChave or 'geral') }}" target="_blank" rel="noopener noreferrer">
+    {% icon "whatsapp" %}
+    <span class="wa-fixo__txt">Agendar</span>
+    <span class="so-leitor">pelo WhatsApp (abre o WhatsApp)</span>
+  </a>
+
+  {% include "components/lightbox.njk" %}
+</body>
+</html>

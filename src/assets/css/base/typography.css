@@ -1,0 +1,86 @@
+/**
+ * Tipografia.
+ *
+ * Títulos em Baskervville, peso 500, com o itálico reservado para a segunda
+ * metade da frase — o mesmo gesto do manifesto da casa ("M de Mulher —
+ * porque..."). Texto em Hanken Grotesk.
+ */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--serifa);
+  font-weight: 500;
+  line-height: var(--entrelinha-titulo);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+h1 em,
+h2 em,
+h3 em,
+p em {
+  font-style: italic;
+}
+
+h2 em,
+h1 em {
+  color: var(--marca);
+}
+
+p,
+li,
+dd,
+dt,
+td,
+th {
+  text-wrap: pretty;
+}
+
+strong,
+b {
+  font-weight: 600;
+}
+
+/**
+ * Rótulo de seção: fio curto e versais espaçadas — o "BELEZA | ESTÉTICA
+ * AVANÇADA | SAÚDE CAPILAR" da logo, usado como sobretítulo.
+ */
+.rotulo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--sans);
+  font-size: var(--t-mini);
+  font-weight: 500;
+  letter-spacing: var(--versal);
+  text-transform: uppercase;
+  color: var(--texto-2);
+  margin-block-end: var(--e-3);
+}
+
+.rotulo::before {
+  content: '';
+  inline-size: 1.75rem;
+  block-size: 1px;
+  background-color: var(--mel);
+  flex: none;
+}
+
+.prosa > * + * {
+  margin-block-start: var(--e-2);
+}
+
+.prosa h2 {
+  font-size: var(--t-h3);
+  margin-block-start: var(--e-5);
+}
+
+.prosa h2:first-child {
+  margin-block-start: 0;
+}
+
+.prosa p {
+  max-inline-size: var(--largura-texto);
+  color: var(--texto-2);
+}

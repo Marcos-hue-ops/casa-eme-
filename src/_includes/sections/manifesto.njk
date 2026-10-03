@@ -1,0 +1,45 @@
+{#-
+  "Por que Casa EME?" — o manifesto que a própria casa publicou. EME é o nome
+  da letra M, e cada M é uma razão.
+
+  No desktop, o M grande fica parado enquanto a lista passa; a palavra ao lado
+  dele acompanha o item que está no meio da tela (ver modules/manifesto.js).
+  Sem JavaScript, ou com movimento reduzido, a lista é só uma lista — o
+  conteúdo é o mesmo.
+
+  `nivel` permite reaproveitar a seção sob um h1 (home) ou um h2 (sobre).
+-#}
+{%- set nivel = nivelManifesto or 2 -%}
+<section class="manifesto" id="por-que-casa-eme" aria-labelledby="manifesto-titulo" data-manifesto>
+  <div class="env manifesto__grade">
+    <div class="manifesto__lado">
+      <div class="manifesto__fixo">
+        <p class="rotulo">Nova gestão</p>
+        <h{{ nivel }} class="manifesto__titulo" id="manifesto-titulo">{{ manifesto.pergunta }}</h{{ nivel }}>
+        <p class="manifesto__intro">A Casa EME está sob nova gestão, e o que muda é a experiência. A ideia está no próprio nome — uma casa: intimista, acolhedora, onde beleza, estética, saúde capilar e bem-estar são cuidados no mesmo lugar.</p>
+
+        <div class="monograma" aria-hidden="true">
+          <svg class="monograma__aneis" viewBox="0 0 200 200" focusable="false">
+            <circle cx="100" cy="100" r="98"/><circle cx="100" cy="100" r="88"/>
+          </svg>
+          <span class="monograma__m">M</span>
+          <span class="monograma__de">de <span data-manifesto-palavra>{{ manifesto.itens[0].palavra }}</span></span>
+          <span class="monograma__conta"><span data-manifesto-conta>01</span> / {{ manifesto.itens | length | dois }}</span>
+        </div>
+      </div>
+    </div>
+
+    <ol class="manifesto__lista">
+      {%- for item in manifesto.itens %}
+      <li class="manifesto__item" data-palavra="{{ item.palavra }}">
+        <p class="manifesto__m"><span class="manifesto__de">M de</span> <strong>{{ item.palavra }}</strong></p>
+        <p class="manifesto__txt">— {{ item.texto }}</p>
+      </li>
+      {%- endfor %}
+      <li class="manifesto__item manifesto__item--fecho" data-palavra="mim">
+        <p class="manifesto__m"><span class="manifesto__de">{{ manifesto.fecho.antes }} M de</span> <strong>{{ manifesto.fecho.palavra }}</strong>.</p>
+        <p class="manifesto__assina">Casa EME. {{ manifesto.fecho.depois }}</p>
+      </li>
+    </ol>
+  </div>
+</section>

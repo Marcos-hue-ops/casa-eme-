@@ -1,0 +1,76 @@
+---
+layout: layouts/pagina.njk
+permalink: /sobre/
+title: "Sobre a Casa EME | Nova gestão em Moema, São Paulo"
+description: "A Casa EME está sob nova gestão em Moema. Conheça a proposta da casa — beleza, estética avançada, saúde capilar e bem-estar num ambiente intimista."
+tituloPagina: "Sobre a Casa EME"
+chamadaPagina: "Nova gestão. Uma nova experiência em Moema — e uma ideia que já está no nome: <em>uma casa para cuidar de mim.</em>"
+trilha:
+  - nome: Início
+    href: /
+  - nome: Sobre
+    href: /sobre/
+---
+{%- import "components/macros.njk" as m -%}
+
+<section class="texto-longo" aria-labelledby="capitulo-titulo">
+  <div class="env texto-longo__grade">
+    <p class="rotulo">Nova gestão</p>
+    <div>
+      <h2 class="texto-longo__titulo" id="capitulo-titulo">Um novo capítulo na Rua Pintassilgo</h2>
+      <p class="texto-longo__lead">A Casa EME está sob nova gestão. O endereço é em Moema, na {{ business.address.street }}; a proposta é reunir num só lugar salão de beleza, estética avançada, saúde capilar e bem-estar — o cuidado com o cabelo, as unhas, a pele, o corpo e o couro cabeludo —, com o clima de casa que dá nome ao espaço.</p>
+      <p>A palavra "casa" não está ali por acaso: é um lugar de acolhimento, e não de passagem — intimista, com profissionais experientes e atenciosas, como as clientes costumam descrever. E EME é o nome da letra M, a letra de uma série de razões que a própria casa resumiu no seu manifesto.</p>
+    </div>
+  </div>
+</section>
+
+{% set nivelManifesto = 2 %}
+{% include "sections/manifesto.njk" %}
+
+<section class="diferenciais" aria-labelledby="diferenciais-titulo">
+  <div class="env">
+    <div class="diferenciais__cab">
+      <p class="rotulo">A experiência</p>
+      <h2 class="diferenciais__titulo" id="diferenciais-titulo">Como é estar na Casa EME</h2>
+      <p class="diferenciais__lead">O que segue foi escrito a partir do que a casa propõe e do que as clientes mais comentam nas avaliações.</p>
+    </div>
+    <ol class="diferenciais__lista">
+      {%- for d in diferenciais %}
+      <li class="diferencial">
+        <span class="diferencial__num" aria-hidden="true">{{ loop.index | dois }}</span>
+        <h3 class="diferencial__titulo">{{ d.titulo }}</h3>
+        <p>{{ d.texto }}</p>
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="ambiente" aria-labelledby="ambiente-titulo">
+  <div class="env ambiente__grade">
+    <div class="ambiente__texto">
+      <p class="rotulo">O ambiente</p>
+      <h2 class="ambiente__titulo" id="ambiente-titulo">Intimista, como uma casa</h2>
+      <p>Ambiente intimista e sensação de estar em casa são os comentários que mais aparecem quando as clientes falam do espaço. É essa a experiência que a Casa EME propõe em cada atendimento.</p>
+      <p>Para ver o espaço e os trabalhos mais recentes, o caminho mais curto é o Instagram da casa.</p>
+      <a class="link-seta" href="{{ business.instagram.url }}" target="_blank" rel="noopener noreferrer"><span>Ver {{ business.instagram.handle }}</span>{% icon "externo" %}</a>
+    </div>
+    {#- Fotos do ambiente: entram sozinhas quando houver itens com categoria 'ambiente' em galeria.js. -#}
+    {%- set fotosAmbiente = galeria.fotos | fotosDe('ambiente') %}
+    {%- if fotosAmbiente.length %}
+    <ul class="ambiente__fotos">
+      {%- for foto in fotosAmbiente | batch(3) | first %}
+      <li>{{ m.foto(foto.imagem, foto.alt, '(min-width: 64rem) 30vw, 92vw') }}</li>
+      {%- endfor %}
+    </ul>
+    {%- endif %}
+    <div class="ambiente__servicos">
+      <h3 class="ambiente__subtitulo">O que se faz aqui</h3>
+      <ul class="ambiente__lista">
+        {%- for cat in servicos %}
+        <li><a href="{{ cat.pagina }}"><span>{{ cat.nome }}</span><span class="ambiente__chamada">{{ cat.chamada }}</span></a></li>
+        {%- endfor %}
+      </ul>
+    </div>
+  </div>
+</section>

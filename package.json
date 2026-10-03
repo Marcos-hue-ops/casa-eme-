@@ -1,0 +1,33 @@
+{
+  "name": "casa-eme-moema",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site da Casa EME — beleza, estética avançada e saúde capilar em Moema, São Paulo.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "clean": "node tools/clean.js",
+    "build:css": "lightningcss --bundle --minify --targets defaults src/assets/css/main.css -o dist/assets/css/main.css",
+    "build:js": "esbuild src/assets/js/main.js --bundle --minify --format=esm --target=es2020 --outfile=dist/assets/js/main.js",
+    "build:html": "eleventy",
+    "build": "npm run clean && npm run build:html && npm run build:css && npm run build:js && node tools/postbuild.js",
+    "dev": "node tools/dev.js",
+    "serve": "node tools/serve.js",
+    "images": "node tools/images.js",
+    "icons": "node tools/icons.js",
+    "og": "node tools/make-og.js",
+    "shots": "node tools/shots.js",
+    "qa": "node tools/qa.js",
+    "test": "node tools/test.js"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.6",
+    "esbuild": "^0.28.2",
+    "lightningcss-cli": "^1.33.0",
+    "playwright-core": "^1.63.0",
+    "sharp": "^0.35.4"
+  }
+}

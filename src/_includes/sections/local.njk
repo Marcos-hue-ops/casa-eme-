@@ -1,0 +1,51 @@
+{%- import "components/macros.njk" as m -%}
+{#-
+  Como chegar: endereço, horários com "aberto agora" e o mapa — que só carrega
+  depois do clique (privacidade e desempenho).
+-#}
+{%- set n = nivelLocal or 2 -%}
+<section class="local" id="como-chegar" aria-labelledby="local-titulo">
+  <div class="env local__grade">
+    <div class="local__texto">
+      <p class="rotulo">Localização</p>
+      <h{{ n }} class="local__titulo" id="local-titulo">Como chegar</h{{ n }}>
+      <address class="local__end">
+        <span class="local__rua">{{ business.address.street }}</span>
+        {{ business.address.district }} / {{ business.address.neighborhood }}<br>
+        {{ business.address.city }} – {{ business.address.state }} · CEP {{ business.address.zip }}
+      </address>
+      <p class="local__bairro">No trecho de Moema conhecido como Moema Pássaros — onde as ruas levam nomes de pássaros.</p>
+      <div class="acoes">
+        <a class="btn btn--linha" href="{{ business.maps.route }}" target="_blank" rel="noopener noreferrer">{% icon "rota" %}<span>Traçar rota</span></a>
+        <a class="link-seta" href="{{ business.maps.search }}" target="_blank" rel="noopener noreferrer"><span>Abrir no Google Maps</span>{% icon "externo" %}</a>
+      </div>
+
+      <div class="horarios">
+        <h{{ n + 1 }} class="horarios__titulo">Horários <span class="estado" data-estado data-semana="{{ hours.semana | json }}" hidden></span></h{{ n + 1 }}>
+        <table class="horarios__tabela" data-horarios>
+          <caption class="so-leitor">Horário de funcionamento da Casa EME</caption>
+          <tbody>
+            {%- for d in hours.semana %}
+            <tr data-dia="{{ d.en }}">
+              <th scope="row">{{ d.nome }}</th>
+              <td>{% if d.abre %}{{ d.abre | hora }} – {{ d.fecha | hora }}{% else %}Fechado{% endif %}</td>
+            </tr>
+            {%- endfor %}
+          </tbody>
+        </table>
+        <p class="horarios__nota">{{ hours.nota }}</p>
+      </div>
+    </div>
+
+    <div class="mapa" data-mapa="{{ business.maps.embed }}">
+      <div class="mapa__capa">
+        <svg class="mapa__aneis" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+          <circle cx="100" cy="100" r="98"/><circle cx="100" cy="100" r="88"/><circle cx="100" cy="100" r="4"/>
+        </svg>
+        <p class="mapa__rua">{{ business.address.street }}</p>
+        <p class="mapa__aviso">O mapa é do Google e só carrega se você pedir — até lá, nenhum dado sai do seu navegador.</p>
+        <button type="button" class="btn btn--linha" data-mapa-abrir>{% icon "mapa" %}<span>Mostrar o mapa</span></button>
+      </div>
+    </div>
+  </div>
+</section>

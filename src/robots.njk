@@ -8,9 +8,9 @@ Allow: /
 
 Sitemap: {{ site.url }}/sitemap.xml
 {%- else -%}
-# O site ainda não está liberado para indexação: o domínio definitivo não foi
-# definido, e o endereço provisório alimenta canonical, sitemap e JSON-LD.
-# O interruptor está em src/_data/site.js (`publicavel`).
+# Este endereço não está liberado para indexação (prévia, endereço
+# ...vercel.app ou build local). A regra está em src/_data/site.js: a indexação
+# é liberada sozinha no deploy de produção com domínio próprio.
 User-agent: *
 Disallow: /
 {%- endif %}

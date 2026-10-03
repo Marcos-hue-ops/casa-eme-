@@ -129,12 +129,16 @@ const netlify = [
   '',
 ].join('\n');
 
-await writeFile(path.join(DIST, '_headers'), netlify, 'utf8');
-await writeFile(
-  path.join(DIST, 'csp.gerada.txt'),
-  `${csp}\n\n# Cabeçalhos recomendados\n${cabecalhos.join('\n')}\n`,
-  'utf8'
-);
+/* Na Vercel os cabeçalhos vêm do vercel.json (e a CSP, da meta tag de cada
+   página): os dois arquivos abaixo seriam só lixo público no site. */
+if (!process.env.VERCEL) {
+  await writeFile(path.join(DIST, '_headers'), netlify, 'utf8');
+  await writeFile(
+    path.join(DIST, 'csp.gerada.txt'),
+    `${csp}\n\n# Cabeçalhos recomendados\n${cabecalhos.join('\n')}\n`,
+    'utf8'
+  );
+}
 
 console.log(
   `postbuild: ${arquivos.length} página(s), ${todosHashes.size} hash(es) de script inline, ` +

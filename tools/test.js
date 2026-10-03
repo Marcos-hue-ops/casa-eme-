@@ -241,8 +241,9 @@ for (const [nome, conteudo] of Object.entries(html)) {
   for (const a of novaAba) ok(/rel="[^"]*noopener/.test(a), `${nome}: target=_blank com noopener`, a.slice(0, 90));
 }
 
-const cabecalhos = await readFile(path.join(DIST, '_headers'), 'utf8');
-for (const esperado of [
+/* O _headers (Netlify, Cloudflare) não é gerado em build da Vercel. */
+const cabecalhos = process.env.VERCEL ? null : await readFile(path.join(DIST, '_headers'), 'utf8');
+for (const esperado of cabecalhos === null ? [] : [
   'Content-Security-Policy',
   "frame-ancestors 'none'",
   'X-Content-Type-Options: nosniff',
@@ -253,7 +254,9 @@ for (const esperado of [
 ]) {
   ok(cabecalhos.includes(esperado), `_headers inclui ${esperado}`);
 }
-ok(/script-src 'self' 'sha256-/.test(cabecalhos), '_headers tem hash de script em vez de unsafe-inline');
+if (cabecalhos !== null) {
+  ok(/script-src 'self' 'sha256-/.test(cabecalhos), '_headers tem hash de script em vez de unsafe-inline');
+}
 
 const vercel = JSON.parse(await readFile(new URL('../vercel.json', import.meta.url), 'utf8'));
 const chavesVercel = vercel.headers.flatMap((h) => h.headers.map((x) => x.key));

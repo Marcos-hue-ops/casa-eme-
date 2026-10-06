@@ -1,11 +1,12 @@
 ---
 layout: layouts/pagina.njk
 permalink: /saude-capilar/
-title: "Saúde Capilar em Moema | Avaliação e Tratamento | Casa EME"
-description: "Saúde capilar em Moema: consulta, tricoscopia e plano individualizado para queda, afinamento dos fios, alopecias e couro cabeludo. Agende sua avaliação capilar."
+title: "Saúde Capilar em Moema | Queda, Alopecia e Dermatite | Casa EME"
+description: "Avaliação capilar em Moema com a Dra. Rejane Rabelo: consulta, tricoscopia e registro fotográfico para queda, alopecias, dermatite e afinamento dos fios."
 tituloPagina: "Saúde capilar em Moema"
-chamadaPagina: "Para queda, afinamento dos fios, alopecias e saúde do couro cabeludo, o cuidado começa por entender — e segue com um plano feito para você."
+chamadaPagina: "Para alopecias, dermatite, queda, afinamento dos fios e falta de crescimento, o cuidado começa por entender, com a Dra. Rejane Rabelo, e segue com um plano feito para você."
 waChave: capilar
+videoSchema: true
 trilha:
   - nome: Início
     href: /
@@ -37,11 +38,23 @@ eleventyComputed:
   </div>
 </section>
 
+{% set semIntroCapilar = true %}
+{% set rotuloQueixas = 'O que se trata aqui' %}
+{% include "sections/capilar-destaque.njk" %}
+
 {% set nivelCapilar = 2 %}
 {% set semCabecalhoCapilar = true %}
 {% set semLinkCapilar = true %}
 {% set detalharCapilar = true %}
 {% include "sections/capilar.njk" %}
+
+{% set rejaneCompleta = true %}
+{% include "sections/rejane.njk" %}
+
+{% set areaCasos = 'capilar' %}
+{% include "sections/casos.njk" %}
+
+{% include "sections/depoimentos.njk" %}
 
 {% set contextoFaq = 'capilar' %}
 {% set tituloFaq = 'Dúvidas sobre saúde capilar' %}

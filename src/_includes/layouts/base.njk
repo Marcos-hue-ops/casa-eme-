@@ -57,10 +57,14 @@
   <link rel="manifest" href="/site.webmanifest">
 
   {#- Fontes do próprio domínio: nenhuma requisição sai para terceiros. O itálico
-      só é baixado quando aparece na tela, por isso não está no preload. -#}
+      só é baixado quando aparece na tela, por isso só entra no preload da
+      home (abaixo), onde ele está na primeira dobra. -#}
   <link rel="preload" href="/assets/fonts/baskervville-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/hanken-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   {%- if preloadHero %}
+  {#- Na home o lema da primeira dobra é itálico: sem o preload, a troca de
+      fonte muda a quebra de linha e empurra o resto da dobra. -#}
+  <link rel="preload" href="/assets/fonts/baskervville-italic-latin.woff2" as="font" type="font/woff2" crossorigin>
   {#- A foto da primeira dobra é o maior elemento visível: vem antes do resto. -#}
   <link rel="preload" as="image" href="{{ galeria.janelas.principal.imagem | src }}" imagesrcset="{{ galeria.janelas.principal.imagem | srcset }}" imagesizes="{{ galeria.janelas.principal.sizes }}" fetchpriority="high">
   {%- endif %}
@@ -85,6 +89,11 @@
   {%- endif %}
   {%- if servicoSchema %}
   <script type="application/ld+json">{{ servicoSchema | json | safe }}</script>
+  {%- endif %}
+  {%- if videoSchema %}
+  {%- for d in depoimentos.itens %}{% if d.tipo == 'video' %}
+  <script type="application/ld+json">{{ d | videoLd(site.url) | json | safe }}</script>
+  {%- endif %}{% endfor %}
   {%- endif %}
 </head>
 

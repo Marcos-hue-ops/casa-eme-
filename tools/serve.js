@@ -23,6 +23,7 @@ const TYPES = {
   '.webm': 'video/webm',
   '.xml': 'application/xml; charset=utf-8',
   '.txt': 'text/plain; charset=utf-8',
+  '.vtt': 'text/vtt; charset=utf-8',
   '.webmanifest': 'application/manifest+json',
 };
 

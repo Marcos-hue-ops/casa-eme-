@@ -11,7 +11,7 @@
     </figure>
 
     <div class="beleza__texto">
-      <p class="rotulo">01 · {{ beleza.nome }}</p>
+      <p class="rotulo">{{ servicos | numeroDe('beleza') }} · {{ beleza.nome }}</p>
       <h2 class="beleza__titulo" id="beleza-titulo">Cabelo, mãos e pés: <em>o cuidado de todo dia</em></h2>
       <p>{{ beleza.texto }}</p>
 

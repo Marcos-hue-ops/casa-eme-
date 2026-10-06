@@ -2,6 +2,7 @@ import site from './site.js';
 import business from './business.js';
 import hours from './hours.js';
 import servicos from './servicos.js';
+import equipe from './equipe.js';
 
 /**
  * Dados estruturados do site (JSON-LD), montados a partir dos mesmos objetos
@@ -23,6 +24,8 @@ import servicos from './servicos.js';
 
 const idNegocio = `${site.url}/#casa-eme`;
 const idSite = `${site.url}/#site`;
+const idRejane = `${site.url}/#dra-rejane-rabelo`;
+const rejane = equipe.rejane;
 
 const horarios = hours.semana
   .filter((dia) => dia.abre && dia.fecha)
@@ -80,6 +83,7 @@ const negocio = {
   currenciesAccepted: 'BRL',
   knowsLanguage: 'pt-BR',
   sameAs: [business.instagram.url],
+  employee: { '@id': idRejane },
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'reservations',
@@ -90,10 +94,36 @@ const negocio = {
   hasOfferCatalog: catalogo,
 };
 
+/**
+ * Quem atende. Só o que está nas artes dela: função, registro no conselho,
+ * formação e cursos. `identifier` leva o número do CRBM, que é o
+ * identificador público da profissional.
+ */
+const pessoa = {
+  '@type': 'Person',
+  '@id': idRejane,
+  name: rejane.nome.replace(/^Dra\. /, ''),
+  honorificPrefix: 'Dra.',
+  jobTitle: rejane.funcao,
+  description: `${rejane.funcao} (${rejane.registro.formatado}) na Casa EME, em Moema. ${rejane.formacao.join('. ')}.`,
+  identifier: {
+    '@type': 'PropertyValue',
+    propertyID: rejane.registro.conselho,
+    value: rejane.registro.numero,
+  },
+  alumniOf: { '@type': 'EducationalOrganization', name: 'IOA — Instituto Orofacial das Américas' },
+  knowsAbout: ['Saúde capilar', 'Tricologia', 'Metabolismo capilar', 'Estética avançada', ...rejane.tratamentosCapilares],
+  image: `${site.url}/assets/img/${rejane.fotos.principal.imagem.pasta}/${rejane.fotos.principal.imagem.arquivo}-${rejane.fotos.principal.imagem.largura}.webp`,
+  worksFor: { '@id': idNegocio },
+  sameAs: [rejane.instagram.url],
+  url: `${site.url}/sobre/#quem-atende`,
+};
+
 export default {
   '@context': 'https://schema.org',
   '@graph': [
     negocio,
+    pessoa,
     {
       '@type': 'WebSite',
       '@id': idSite,

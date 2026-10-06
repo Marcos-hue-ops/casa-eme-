@@ -18,6 +18,7 @@ const PAGINAS = [
   ['servicos', '/servicos/'],
   ['estetica', '/estetica-avancada/'],
   ['capilar', '/saude-capilar/'],
+  ['emagrecimento', '/emagrecimento/'],
   ['galeria', '/galeria/'],
   ['faq', '/perguntas-frequentes/'],
   ['contato', '/contato/'],

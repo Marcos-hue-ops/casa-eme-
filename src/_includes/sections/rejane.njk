@@ -1,0 +1,68 @@
+{%- import "components/macros.njk" as m -%}
+{#-
+  Quem atende: a Dra. Rejane Rabelo. Dados em equipe.js (formação, registro,
+  fotos) e textos em destaques.js → rejane.
+
+  `rejaneCompleta` mostra também as quatro etapas da avaliação (página Sobre
+  e página de saúde capilar). `nivelRejane` ajusta o nível do título.
+-#}
+{%- set r = equipe.rejane -%}
+{%- set t = destaques.rejane -%}
+{%- set n = nivelRejane or 2 -%}
+<section class="rejane" id="quem-atende" aria-labelledby="rejane-titulo">
+  <div class="env rejane__grade">
+    <figure class="rejane__foto moldura">
+      {{ m.foto(r.fotos.principal.imagem, r.fotos.principal.alt, '(min-width: 64rem) 30rem, (min-width: 40rem) 70vw, 92vw') }}
+      <figcaption>{{ r.nome }} · {{ r.funcao }} · {{ r.registro.formatado }}</figcaption>
+    </figure>
+
+    <div class="rejane__texto">
+      <p class="rotulo">Quem atende</p>
+      <h{{ n }} class="rejane__titulo" id="rejane-titulo">{{ t.titulo | enfase(t.enfase) | safe }}</h{{ n }}>
+      {%- for p in t.paragrafos %}
+      <p{% if loop.first %} class="rejane__lead"{% endif %}>{{ p }}</p>
+      {%- endfor %}
+
+      <dl class="rejane__ficha">
+        <div>
+          <dt>Registro</dt>
+          <dd>{{ r.funcao }}, {{ r.registro.formatado }}</dd>
+        </div>
+        <div>
+          <dt>Formação</dt>
+          <dd>{% for f in r.formacao %}{{ f }}{% if not loop.last %}<br>{% endif %}{% endfor %}</dd>
+        </div>
+        <div>
+          <dt>Cursos</dt>
+          <dd>{{ r.cursos | join(' · ') }}</dd>
+        </div>
+        <div>
+          <dt>Queixas capilares</dt>
+          <dd>{{ r.tratamentosCapilares | join(' · ') }}</dd>
+        </div>
+      </dl>
+
+      <div class="acoes">
+        {{ m.wa(business, 'rejane', 'Agendar avaliação com a ' + r.nomeCurto, 'btn btn--wa') }}
+        <a class="link-seta" href="{{ r.instagram.url }}" target="_blank" rel="noopener noreferrer"><span>{{ r.instagram.handle }}</span>{% icon "externo" %}</a>
+      </div>
+    </div>
+  </div>
+
+  {%- if rejaneCompleta %}
+  <div class="env">
+    <div class="avaliacao">
+      <h{{ n + 1 }} class="avaliacao__titulo">{{ t.fraseAvaliacao }}</h{{ n + 1 }}>
+      <ol class="avaliacao__passos">
+        {%- for passo in r.avaliacao %}
+        <li class="avaliacao__passo">
+          <span class="avaliacao__num" aria-hidden="true">{{ loop.index | dois }}</span>
+          <h{{ n + 2 }} class="avaliacao__nome">{{ passo.nome }}</h{{ n + 2 }}>
+          <p>{{ passo.texto }}</p>
+        </li>
+        {%- endfor %}
+      </ol>
+    </div>
+  </div>
+  {%- endif %}
+</section>

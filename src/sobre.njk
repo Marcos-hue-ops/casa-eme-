@@ -2,7 +2,7 @@
 layout: layouts/pagina.njk
 permalink: /sobre/
 title: "Sobre a Casa EME | Nova gestão em Moema, São Paulo"
-description: "A Casa EME está sob nova gestão em Moema. Conheça a proposta da casa — beleza, estética avançada, saúde capilar e bem-estar num ambiente intimista."
+description: "A Casa EME está sob nova gestão em Moema. Conheça a proposta da casa e a Dra. Rejane Rabelo, biomédica esteta que atende na saúde capilar e na estética avançada."
 tituloPagina: "Sobre a Casa EME"
 chamadaPagina: "Nova gestão. Uma nova experiência em Moema — e uma ideia que já está no nome: <em>uma casa para cuidar de mim.</em>"
 trilha:
@@ -18,11 +18,14 @@ trilha:
     <p class="rotulo">Nova gestão</p>
     <div>
       <h2 class="texto-longo__titulo" id="capitulo-titulo">Um novo capítulo na Rua Pintassilgo</h2>
-      <p class="texto-longo__lead">A Casa EME está sob nova gestão. O endereço é em Moema, na {{ business.address.street }}; a proposta é reunir num só lugar salão de beleza, estética avançada, saúde capilar e bem-estar — o cuidado com o cabelo, as unhas, a pele, o corpo e o couro cabeludo —, com o clima de casa que dá nome ao espaço.</p>
+      <p class="texto-longo__lead">A Casa EME está sob nova gestão. O endereço é em Moema, na {{ business.address.street }}; a proposta é reunir num só lugar salão de beleza, estética avançada, saúde capilar, emagrecimento e bem-estar — o cuidado com o cabelo, as unhas, a pele, o corpo e o couro cabeludo —, com o clima de casa que dá nome ao espaço.</p>
       <p>A palavra "casa" não está ali por acaso: é um lugar de acolhimento, e não de passagem — intimista, com profissionais experientes e atenciosas, como as clientes costumam descrever. E EME é o nome da letra M, a letra de uma série de razões que a própria casa resumiu no seu manifesto.</p>
     </div>
   </div>
 </section>
+
+{% set rejaneCompleta = true %}
+{% include "sections/rejane.njk" %}
 
 {% set nivelManifesto = 2 %}
 {% include "sections/manifesto.njk" %}

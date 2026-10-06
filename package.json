@@ -17,6 +17,7 @@
     "dev": "node tools/dev.js",
     "serve": "node tools/serve.js",
     "images": "node tools/images.js",
+    "video": "node tools/video.js",
     "icons": "node tools/icons.js",
     "og": "node tools/make-og.js",
     "shots": "node tools/shots.js",

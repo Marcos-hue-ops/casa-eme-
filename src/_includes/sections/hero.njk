@@ -4,9 +4,15 @@
   saúde capilar), onde fica (Moema), que experiência oferece (uma casa — a
   nova gestão) e o que fazer (WhatsApp).
 
-  O nome e o slogan formam o h1, como na logo. As duas "janelas" redondas
-  repetem o círculo do selo e mostram trabalho da casa.
+  O nome e o slogan formam o h1, como na logo. O texto embaixo dele é o da
+  arte "Cuidado que vai além da beleza", enviada pela casa (destaques.js →
+  hero): escrito em HTML, e não deixado dentro da imagem, para ser lido por
+  leitor de tela e pelo Google.
+
+  As duas "janelas" redondas repetem o círculo do selo: na grande, a foto da
+  arte; na pequena, a Dra. Rejane Rabelo, quem atende.
 -#}
+{%- set rejane = equipe.rejane -%}
 <section class="hero" aria-labelledby="hero-titulo">
   <svg class="hero__fundo" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
     <circle cx="100" cy="100" r="98"/><circle cx="100" cy="100" r="90"/>
@@ -14,7 +20,7 @@
 
   <div class="env hero__grade">
     <div class="hero__texto">
-      <p class="hero__sobre"><span>Nova gestão</span> <span class="hero__ponto" aria-hidden="true"></span> <span>Moema · São Paulo</span></p>
+      <p class="hero__sobre"><span>Nova gestão</span> <span class="hero__ponto" aria-hidden="true"></span> <span>{{ business.lema | replace(".", "") }}</span></p>
 
       <h1 class="hero__marca" id="hero-titulo">
         <span class="hero__nome">Casa EME</span>
@@ -23,9 +29,10 @@
 
       <span class="hero__fio" aria-hidden="true"></span>
 
-      <p class="hero__lema">Uma nova experiência <em>em Moema.</em></p>
+      <p class="hero__lema">{{ destaques.hero.lema | enfase(destaques.hero.enfase) | safe }}</p>
 
-      <p class="hero__lead">Cabelo, unhas, sobrancelhas e cílios, estética facial e corporal, saúde capilar e massagens — tudo na {{ business.address.street }}, com agendamento pelo WhatsApp.</p>
+      <p class="hero__lead">{{ destaques.hero.texto }}</p>
+      <p class="hero__fecho">{{ destaques.hero.fecho }}</p>
 
       <div class="hero__acoes">
         {{ m.wa(business, 'geral', 'Agendar pelo WhatsApp', 'btn btn--wa btn--grande', 'data-wa-gatilho') }}
@@ -46,8 +53,11 @@
           <div class="janela__vidro">
             {{ m.foto(galeria.janelas.secundaria.imagem, galeria.janelas.secundaria.alt, '(min-width: 64rem) 11rem, 8rem') }}
           </div>
+          <figcaption class="janela__legenda">
+            <a href="/sobre/#quem-atende"><span class="janela__nome">{{ rejane.nome }}</span></a>
+            <span class="janela__cargo">{{ rejane.funcao }} · {{ rejane.registro.formatado }}</span>
+          </figcaption>
         </figure>
-        <p class="janelas__lugar">{% icon "local" %}<span>{{ business.address.street }}<br>{{ business.address.neighborhood }}, {{ business.address.city }}</span></p>
       </div>
     </div>
   </div>

@@ -12,13 +12,19 @@
  *   3. copie a linha `imagem:` para um item novo aqui e escreva o `alt`
  *      descrevendo o que a foto mostra (para quem não enxerga).
  *
- * Origem das fotos atuais: posts do Instagram @casaeme_moema, recortados de
- * prints (sem a interface do aplicativo — ver tools/images.js).
+ * Origem das quatro primeiras fotos: posts do Instagram @casaeme_moema,
+ * recortados de prints (sem a interface do aplicativo — ver tools/images.js).
+ *
+ * Os casos de antes e depois (casos.js) entram no fim da lista sozinhos, nas
+ * categorias "Saúde capilar" e "Estética", com o crédito de quem atendeu.
+ * Para mudar um deles, edite casos.js — não este arquivo.
  *
  * `confirmar: true` marca foto cuja autoria precisa ser confirmada com a casa
  * antes de publicar (ver README → "Pendências"). Enquanto marcada, ela aparece
  * normalmente — o campo existe para a revisão não esquecer dela.
  */
+import casos from './casos.js';
+
 const categorias = {
   ambiente: 'Ambiente',
   cabelo: 'Cabelo',
@@ -57,6 +63,13 @@ export default {
       confirmar: true,
       imagem: { pasta: 'galeria', arquivo: 'unhas-esmaltacao-tartaruga', larguras: [480, 719], largura: 719, altura: 480 },
     },
+    ...casos.itens.map((caso) => ({
+      categoria: caso.area === 'capilar' ? 'saude-capilar' : 'estetica',
+      alt: caso.alt,
+      legenda: `${caso.titulo} — antes e depois`,
+      credito: casos.credito,
+      imagem: caso.imagem,
+    })),
   ],
 
   /**
@@ -65,14 +78,20 @@ export default {
    * ambiente, uma delas pode virar a fachada ou a recepção.
    */
   janelas: {
+    /* Foto da arte "Cuidado que vai além da beleza", enviada pela casa para a
+       primeira dobra. É uma imagem de campanha (a mesma modelo aparece na
+       arte das assinaturas): o alt não a apresenta como cliente. */
     principal: {
-      alt: 'Detalhe de cabelo longo em ondas, em tons de caramelo e mel.',
-      sizes: '(min-width: 64rem) 22.5rem, (min-width: 30rem) 18rem, 15rem',
-      imagem: { pasta: 'janela', arquivo: 'ondas-caramelo', larguras: [357], largura: 357, altura: 357 },
+      alt: 'Mulher sorrindo, de cabelo preso, com a mão apoiada no queixo.',
+      sizes: '(min-width: 64rem) 26rem, (min-width: 30rem) 20rem, 16rem',
+      imagem: { pasta: 'janela', arquivo: 'mulher-sorrindo', larguras: [360, 650], largura: 650, altura: 650 },
     },
+    /* Retrato da Dra. Rejane Rabelo, quem atende na saúde capilar e na estética. */
     secundaria: {
-      alt: 'Detalhe de unhas em francesinha, com pontas brancas.',
-      imagem: { pasta: 'janela', arquivo: 'francesinha', larguras: [360, 420], largura: 420, altura: 420 },
+      alt: 'Retrato da Dra. Rejane Rabelo sorrindo.',
+      imagem: { pasta: 'janela', arquivo: 'dra-rejane', larguras: [360, 460], largura: 460, altura: 460 },
     },
+    /* As janelas anteriores (ondas e francesinha) continuam geradas por
+       tools/images.js, caso a casa queira voltar a usá-las. */
   },
 };

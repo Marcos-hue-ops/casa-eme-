@@ -77,6 +77,8 @@ export default {
       unhas: 'Olá! Gostaria de agendar manicure e/ou pedicure na Casa EME.',
       estetica: 'Olá! Gostaria de saber mais sobre os tratamentos de estética avançada.',
       capilar: 'Olá! Gostaria de agendar uma avaliação capilar.',
+      emagrecimento: 'Olá! Gostaria de saber mais sobre o emagrecimento na Casa EME.',
+      rejane: 'Olá! Gostaria de agendar uma avaliação com a Dra. Rejane.',
       relax: 'Olá! Gostaria de agendar uma massagem ou drenagem na Casa EME.',
       sobrancelhas: 'Olá! Gostaria de agendar sobrancelhas ou cílios na Casa EME.',
       assinaturas: 'Olá! Gostaria de saber mais sobre as assinaturas da Casa EME.',

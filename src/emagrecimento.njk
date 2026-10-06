@@ -1,0 +1,77 @@
+---
+layout: layouts/pagina.njk
+permalink: /emagrecimento/
+title: "Emagrecimento e Contorno Corporal em Moema | Casa EME"
+description: "Emagrecimento em Moema com avaliação individual: protocolos para gordura localizada, flacidez, celulite e contorno, com acompanhamento da evolução. Agende."
+tituloPagina: "Emagrecimento em Moema"
+waChave: emagrecimento
+trilha:
+  - nome: Início
+    href: /
+  - nome: Serviços
+    href: /servicos/
+  - nome: Emagrecimento
+    href: /emagrecimento/
+eleventyComputed:
+  chamadaPagina: "{{ destaques.emagrecimento.lead }}"
+  servicoSchema:
+    "@context": https://schema.org
+    "@type": Service
+    name: Emagrecimento
+    serviceType: Protocolos corporais de emagrecimento e contorno
+    url: "{{ site.url }}/emagrecimento/"
+    areaServed: Moema, São Paulo
+    provider:
+      "@id": "{{ site.url }}/#casa-eme"
+---
+{%- import "components/macros.njk" as m -%}
+{%- set cat = servicos | categoria('emagrecimento') -%}
+{#-
+  Emagrecimento: textos em destaques.js → emagrecimento; itens em
+  servicos.js. Sem quilos, prazos ou medicamentos — o plano sai da avaliação.
+-#}
+
+{% set semLinkEmagrecimento = true %}
+{% set rotuloEmagrecimento = 'Como funciona' %}
+{% include "sections/emagrecimento.njk" %}
+
+{%- for g in cat.grupos %}
+<section class="categoria categoria--alt" id="o-que-entra-no-plano" aria-labelledby="grupo-{{ g.id }}">
+  <div class="env categoria__grade">
+    <header class="categoria__cab">
+      <p class="rotulo">O plano</p>
+      <h2 class="categoria__titulo" id="grupo-{{ g.id }}">O que pode entrar no plano</h2>
+      <p class="categoria__texto">A lista mostra o que a casa trabalha no corpo. Quais técnicas entram no seu plano, e em quantas sessões, é o que a avaliação define.</p>
+    </header>
+    <div class="categoria__grupos categoria__grupos--um">
+      <div class="grupo">
+        <h3 class="so-leitor">{{ g.nome }}: o que a casa trabalha</h3>
+        <ul class="grupo__itens">
+          {%- for i in g.itens %}
+          <li class="grupo__item">
+            <span class="grupo__nome">{{ i.nome }}</span>
+            {%- if i.desc %}<span class="grupo__desc">{{ i.desc }}</span>{% endif %}
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+{%- endfor %}
+
+{% include "sections/rejane.njk" %}
+
+<section class="aviso-responsavel faixa-noite" aria-labelledby="responsavel-titulo">
+  <div class="env aviso-responsavel__env">
+    <h2 class="aviso-responsavel__titulo" id="responsavel-titulo">Com responsabilidade</h2>
+    <p>Cada organismo responde de um jeito, por isso a Casa EME não promete quilos, medidas nem prazos. {{ destaques.emagrecimento.aviso }}</p>
+    <div class="acoes acoes--centro">
+      {{ m.wa(business, 'emagrecimento', cat.cta, 'btn btn--claro btn--grande') }}
+    </div>
+  </div>
+</section>
+
+{% set contextoFaq = 'emagrecimento' %}
+{% set tituloFaq = 'Dúvidas sobre emagrecimento' %}
+{% include "sections/faq-resumo.njk" %}

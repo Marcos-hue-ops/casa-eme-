@@ -23,6 +23,8 @@ import servicos from '../src/_data/servicos.js';
 import galeria from '../src/_data/galeria.js';
 import depoimentos from '../src/_data/depoimentos.js';
 import outubroRosa from '../src/_data/outubroRosa.js';
+import casos from '../src/_data/casos.js';
+import equipe from '../src/_data/equipe.js';
 
 const DIST = fileURLToPath(new URL('../dist/', import.meta.url));
 
@@ -65,6 +67,7 @@ const PAGINAS_PUBLICAS = [
   '/servicos/',
   '/estetica-avancada/',
   '/saude-capilar/',
+  '/emagrecimento/',
   '/galeria/',
   '/perguntas-frequentes/',
   '/contato/',
@@ -289,6 +292,9 @@ const proibidos = [
   [/nota \d|★|estrelas no google/i, 'nota de avaliação não informada'],
   [/lorem ipsum/i, 'texto provisório'],
   [/previne|previn(a|e) o c[aâ]ncer|trata(r)? o c[aâ]ncer/i, 'alegação médica (Outubro Rosa)'],
+  [/perca (at[ée] )?\d+|emagre[çc]a \d+|\d+\s?kg\b|\d+ quilos|em \d+ (dias|semanas) voc[eê]/i, 'promessa de emagrecimento'],
+  [/cura (a |da )?(calv[ií]cie|alopecia|queda)|fim da (calv[ií]cie|queda)|nascer cabelo em/i, 'promessa capilar'],
+  [/Rejane( Rabelo)?,? (é |a )?(m[ée]dica|dermatologista)|(m[ée]dica|dermatologista) Rejane/i, 'Dra. Rejane apresentada como médica'],
 ];
 for (const [nome, conteudo] of Object.entries(html)) {
   const texto = textoDe(conteudo);
@@ -339,6 +345,61 @@ if (outubroRosa.ativo) {
   ok(textoDe(secao).includes(outubroRosa.aviso), 'Outubro Rosa: aviso de que não substitui acompanhamento médico');
   ok(!secao.includes('wa.me'), 'Outubro Rosa: sem botão de agendamento');
 }
+
+/* Telefone: um só, o da casa. O pessoal da Dra. Rejane (que aparece nas artes
+   dela) não entra no site. */
+for (const [nome, conteudo] of Object.entries(html)) {
+  const telefones = [...textoDe(conteudo).matchAll(/\(?\b\d{2}\)?\s?9\d{4}[-\s]?\d{4}\b/g)].map((m) => m[0]);
+  for (const tel of telefones) ok(tel === business.whatsapp.display, `${nome}: só o telefone da casa`, tel);
+}
+
+/* Antes e depois: crédito com registro e ressalva onde houver caso. */
+for (const [nome, conteudo] of Object.entries(html)) {
+  if (!conteudo.includes('class="caso ') && !conteudo.includes('galeria__credito')) continue;
+  const texto = textoDe(conteudo);
+  ok(texto.includes(equipe.rejane.registro.formatado), `${nome}: antes e depois com o registro de quem atende`);
+  ok(texto.includes(casos.ressalva), `${nome}: antes e depois com a ressalva`);
+}
+for (const caso of casos.itens) {
+  ok(html['index.html'].includes(`${caso.imagem.arquivo}-`), `home: caso ${caso.imagem.arquivo}`);
+}
+
+/* Quem atende: nome, função e registro juntos, e a seção nas páginas certas. */
+for (const pagina of ['index.html', 'sobre/index.html', 'saude-capilar/index.html']) {
+  const texto = textoDe(html[pagina]);
+  ok(html[pagina].includes('id="quem-atende"'), `${pagina}: seção de quem atende`);
+  ok(texto.includes(equipe.rejane.funcao) && texto.includes(equipe.rejane.registro.formatado), `${pagina}: função e registro da Dra. Rejane`);
+}
+const pessoa = blocosDe(html['index.html'])[0]['@graph'].find((n) => n['@type'] === 'Person');
+ok(pessoa?.identifier?.propertyID === equipe.rejane.registro.conselho && pessoa?.identifier?.value === equipe.rejane.registro.numero, 'schema: Person com o registro da Dra. Rejane');
+ok(salao?.employee?.['@id'] === pessoa?.['@id'], 'schema: Dra. Rejane ligada à Casa EME');
+
+/* Depoimento em vídeo: sem baixar antes do play, com legenda e transcrição. */
+const video = depoimentos.itens.find((d) => d.tipo === 'video');
+if (video) {
+  for (const pagina of ['index.html', 'saude-capilar/index.html']) {
+    const conteudo = html[pagina];
+    const tag = conteudo.match(/<video\b[^>]*>/)?.[0] ?? '';
+    ok(Boolean(tag), `${pagina}: vídeo do depoimento`);
+    ok(tag.includes('preload="none"'), `${pagina}: vídeo só baixa no play`);
+    ok(/\sposter="\/[^"]+"/.test(tag), `${pagina}: vídeo com capa`);
+    ok(/<track kind="captions"[^>]*srclang="pt-BR"[^>]*default/.test(conteudo), `${pagina}: vídeo com legenda`);
+    ok(textoDe(conteudo).includes(video.transcricao), `${pagina}: transcrição completa na página`);
+    const ld = blocosDe(conteudo).find((b) => b['@type'] === 'VideoObject');
+    ok(Boolean(ld), `${pagina}: VideoObject`);
+    ok(ld?.contentUrl === `${site.url}${video.video.mp4}`, `${pagina}: VideoObject aponta o arquivo`);
+    ok(/^\d{4}-\d{2}-\d{2}/.test(ld?.uploadDate || ''), `${pagina}: VideoObject com data`);
+  }
+  for (const arquivo of [video.video.mp4, video.video.legendas, ...video.video.capa.larguras.map((l) => `/assets/img/${video.video.capa.pasta}/${video.video.capa.arquivo}-${l}.webp`)]) {
+    const existe = await stat(path.join(DIST, arquivo.replace(/^\//, ''))).then(() => true).catch(() => false);
+    ok(existe, `arquivo do vídeo publicado: ${arquivo}`);
+  }
+  const legendas = await readFile(path.join(DIST, video.video.legendas.replace(/^\//, '')), 'utf8');
+  ok(legendas.startsWith('WEBVTT'), 'legendas em WebVTT');
+}
+
+/* Emagrecimento: aviso de que não substitui o acompanhamento médico. */
+ok(textoDe(html['emagrecimento/index.html']).includes('não substituem o acompanhamento médico e nutricional'), 'emagrecimento: aviso do acompanhamento médico');
 
 /* Divergência de horário documentada no código (não escondida). */
 const fonteHorario = await readFile(new URL('../src/_data/hours.js', import.meta.url), 'utf8');

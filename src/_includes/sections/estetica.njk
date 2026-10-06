@@ -7,7 +7,7 @@
   </svg>
   <div class="env estetica__grade">
     <div class="estetica__texto">
-      <p class="rotulo">02 · {{ est.nome }}</p>
+      <p class="rotulo">{{ servicos | numeroDe('estetica-avancada') }} · {{ est.nome }}</p>
       <h2 class="estetica__titulo" id="estetica-titulo">Tudo começa por <em>uma avaliação individual</em></h2>
       <p>{{ est.texto }}</p>
       <p class="estetica__nota">Procedimentos estéticos têm indicações, contraindicações e cuidados próprios, e a resposta varia de pessoa para pessoa. Por isso nenhum protocolo é definido sem avaliação.</p>

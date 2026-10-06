@@ -448,6 +448,22 @@
   }
 }
 
+/* Com os antes e depois (fotos altas), três colunas no desktop: a página não
+   vira uma rolagem sem fim. O degrau passa para a coluna do meio. */
+@media (min-width: 64rem) {
+  .galeria__grade {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .galeria__item:nth-child(even) {
+    margin-block-start: 0;
+  }
+
+  .galeria__item:nth-child(3n + 2) {
+    margin-block-start: var(--e-6);
+  }
+}
+
 /* FAQ (página) -------------------------------------------------------------- */
 .faq-pagina {
   padding-block: var(--e-4) var(--secao);

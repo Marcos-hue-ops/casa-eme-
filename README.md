@@ -50,6 +50,7 @@ Outros comandos:
 | Comando | O que faz |
 |---|---|
 | `npm run images` | gera os WebP a partir de `fotos/` (ver seção 4) |
+| `npm run video` | prepara o vídeo do depoimento para a web e gera a capa (ver seção 4) |
 | `npm run og` | redesenha o cartão de compartilhamento (`src/assets/img/og-casa-eme.jpg`) |
 | `npm run icons` | regera favicon e ícones PNG a partir dos SVG da marca |
 | `npm run test` | testes de conteúdo, SEO e segurança sobre o `dist/` |
@@ -71,9 +72,13 @@ máquina, aponte a variável `CHROMIUM` para o executável do Chrome/Chromium.
 ```
 .
 ├── fotos/                     originais das fotos (não vão para o site direto)
+│   ├── hero/                  arte "Cuidado que vai além da beleza" (primeira dobra)
+│   ├── casos/                 antes e depois de pacientes (saúde capilar e rosto)
+│   ├── equipe/                as três artes da Dra. Rejane Rabelo
 │   ├── galeria/               fotos de trabalhos → viram WebP
-│   ├── referencias/           prints usados como referência (logo, manifesto, assinaturas)
+│   ├── referencias/           prints usados como referência (logo, manifesto, assinaturas, depoimento escrito)
 │   └── nao-publicar/          o que NÃO pode ir ao site (ver LEIAME.md)
+├── videos/                    original do depoimento em vídeo (→ `npm run video`)
 ├── src/
 │   ├── _data/                 ★ TODO O CONTEÚDO EDITÁVEL MORA AQUI
 │   ├── _includes/
@@ -84,10 +89,11 @@ máquina, aponte a variável `CHROMIUM` para o executável do Chrome/Chromium.
 │   │   ├── css/               tokens (cores, fontes, espaços) → base → componentes → seções
 │   │   ├── js/                main.js + módulos (menu, horários, galeria, mapa...)
 │   │   ├── fonts/             Baskervville e Hanken Grotesk (servidas do próprio site)
-│   │   └── img/               imagens prontas (geradas por `npm run images`)
+│   │   ├── img/               imagens prontas (geradas por `npm run images`)
+│   │   └── video/             vídeo do depoimento pronto para a web + legendas (.vtt)
 │   ├── static/                favicon, ícones e manifest (copiados para a raiz)
 │   ├── index.njk              home
-│   ├── sobre.njk  servicos.njk  estetica-avancada.njk  saude-capilar.njk
+│   ├── sobre.njk  servicos.njk  saude-capilar.njk  emagrecimento.njk  estetica-avancada.njk
 │   ├── galeria.njk  perguntas-frequentes.njk  contato.njk  privacidade.njk  404.njk
 │   ├── sitemap.njk            → /sitemap.xml (automático)
 │   └── robots.njk             → /robots.txt (automático)
@@ -105,8 +111,9 @@ Páginas e endereços:
 | Início | `/` |
 | Sobre | `/sobre/` |
 | Serviços (todas as categorias + assinaturas) | `/servicos/` |
-| Estética avançada | `/estetica-avancada/` |
 | Saúde capilar | `/saude-capilar/` |
+| Emagrecimento | `/emagrecimento/` |
+| Estética avançada | `/estetica-avancada/` |
 | Galeria | `/galeria/` |
 | Perguntas frequentes | `/perguntas-frequentes/` |
 | Contato | `/contato/` |
@@ -126,11 +133,14 @@ explicando os campos. Mude, rode `npm run build`, confira e publique.
 | **Instagram** | `src/_data/business.js` → `instagram` | |
 | **Endereço / CEP** | `src/_data/business.js` → `address` e `enderecoMaps` | o mesmo dado alimenta rodapé, contato, mapa e schema |
 | **Horários** | `src/_data/hours.js` | mude a `semana` **e** os `grupos`/resumos logo abaixo (ver pendência sobre a bio do Instagram) |
-| **Serviços** (incluir, tirar, renomear) | `src/_data/servicos.js` | alimenta home, serviços, estética, capilar, FAQ e schema |
+| **Serviços** (incluir, tirar, renomear) | `src/_data/servicos.js` | alimenta home, serviços, estética, capilar, emagrecimento, FAQ e schema. A **ordem** das categorias é a ordem do índice e da numeração da home: as três primeiras são os destaques |
+| **Textos das especialidades** (primeira dobra, saúde capilar, emagrecimento, estética, antes e depois, quem atende, depoimentos) | `src/_data/destaques.js` | `enfase` é o trecho do título que sai em itálico |
+| **Dra. Rejane Rabelo** (formação, cursos, registro, fotos, etapas da avaliação) | `src/_data/equipe.js` | só o que está nas artes dela; nunca "médica" |
+| **Antes e depois** | `src/_data/casos.js` | crédito e ressalva aparecem junto das fotos; os casos entram sozinhos na galeria |
 | **Assinaturas** (planos, valores, condições) | `src/_data/assinaturas.js` | `mostrarPrecos: false` esconde os valores |
 | **Perguntas frequentes** | `src/_data/faq.js` | o campo `em` diz em que outras páginas a pergunta aparece |
 | **Manifesto "Por que Casa EME?"** | `src/_data/manifesto.js` | texto da própria casa |
-| **Depoimentos** | `src/_data/depoimentos.js` | só avaliações reais, transcritas sem mudar o sentido |
+| **Depoimentos** (vídeo e texto) | `src/_data/depoimentos.js` | só depoimentos reais, sem mudar o sentido; o vídeo tem transcrição e legendas (`src/assets/video/*.vtt`) |
 | **Diferenciais (página Sobre)** | `src/_data/diferenciais.js` | |
 | **Outubro Rosa** (texto, link, ligar/desligar) | `src/_data/outubroRosa.js` | `ativo: false` tira a seção |
 | **Menu** | `src/_data/nav.js` | |
@@ -168,12 +178,34 @@ pequeno demais.
 
 ### Trocar as "janelas" redondas da primeira dobra
 
-São recortes quadrados das fotos de cabelo e unhas, declarados em
-`tools/images.js` (`DERIVADOS`) e referenciados em `galeria.js → janelas`.
-Quando houver uma boa foto do espaço (fachada, recepção, sala), ela pode
-virar a janela principal: declare o recorte em `DERIVADOS`, rode
-`npm run images` e troque a linha `imagem:` em `janelas.principal`. Depois
-rode `npm run og` para atualizar o cartão social.
+A grande é a foto da arte "Cuidado que vai além da beleza" (a mulher
+sorrindo); a pequena é o rosto da Dra. Rejane Rabelo. São recortes quadrados
+declarados em `tools/images.js` (`DERIVADOS`) e referenciados em
+`galeria.js → janelas`. O **texto** da arte não fica na imagem: ele é HTML, em
+`destaques.js → hero`, para ser lido pelo Google e por leitor de tela.
+
+Para trocar uma janela, declare o recorte em `DERIVADOS`, rode
+`npm run images` e troque a linha `imagem:` em `janelas.principal` (ou
+`secundaria`). Os recortes antigos (ondas e francesinha) continuam gerados.
+
+### Antes e depois
+
+Os originais ficam em `fotos/casos/`. Para incluir um caso: salve a montagem
+(antes em cima, depois embaixo) em `fotos/casos/`, rode `npm run images` e
+crie um item em `src/_data/casos.js` com `area` (`capilar` ou `facial`),
+`titulo`, `detalhe`, `alt` e a linha `imagem:`. O site escreve "Antes" e
+"Depois" sobre cada metade (`layout: 'empilhado'`); montagem com marcações
+próprias usa `layout: 'montagem'`. **Só publique com a autorização de uso de
+imagem do paciente por escrito** (ver pendências).
+
+### Vídeo do depoimento
+
+O original fica em `videos/`. `npm run video` gera a versão para a web
+(H.264, áudio normalizado, `faststart` para começar a tocar antes de baixar
+tudo, ~2 MB) e a capa em WebP. O vídeo só começa a baixar quando a pessoa
+aperta o play. A legenda (`src/assets/video/depoimento-capilar.vtt`) e a
+transcrição (`depoimentos.js → transcricao`) foram feitas com reconhecimento
+de voz rodando localmente e revisadas; se mudar uma, mude a outra.
 
 ### Logo
 
@@ -196,9 +228,11 @@ logo (`.svg`, `.ai`, `.pdf`), ele deve substituir o selo — e então rode
   (`src/_includes/layouts/base.njk`), a partir de `site.url` + o endereço da
   página.
 - **Dados estruturados** (`src/_data/schema.js`): `BeautySalon` com endereço,
-  telefone, horários, Instagram e catálogo de serviços; `WebSite`;
-  `BreadcrumbList` nas páginas internas; `Service` nas páginas de estética e
-  saúde capilar; `FAQPage` só na página de perguntas frequentes. Ficam de fora,
+  telefone, horários, Instagram e catálogo de serviços; `Person` para a Dra.
+  Rejane Rabelo (com o registro no CRBM), ligada ao salão; `WebSite`;
+  `BreadcrumbList` nas páginas internas; `Service` nas páginas de saúde
+  capilar, emagrecimento e estética; `VideoObject` para o depoimento em vídeo
+  (home e saúde capilar); `FAQPage` só na página de perguntas frequentes. Ficam de fora,
   de propósito, nota média, número de avaliações, preços e coordenadas — nada
   disso foi informado ou aferido. (O Google hoje só mostra o resultado
   enriquecido de FAQ para sites de governo e saúde; a marcação continua
@@ -380,9 +414,13 @@ npm run build && npm run test && npm run qa
   serviços); `FAQPage` só no FAQ; ausência de formulário, iframe, rastreador e
   recurso de terceiros; CSP sem `unsafe-*`; preços só os das assinaturas;
   nenhuma frase proibida pelo briefing ("resultado garantido", "sem riscos",
-  clichês, superlativos, certificações, tempo de mercado...); nenhuma citação
-  enquanto não houver depoimento real; imagens existentes, com dimensões e
-  `alt` descritivo; nada de `fotos/nao-publicar/` publicado.
+  clichês, superlativos, certificações, tempo de mercado, promessa de quilos
+  ou de cura capilar, a Dra. Rejane chamada de médica...); um único telefone
+  (o da casa); antes e depois sempre com o crédito (registro no CRBM) e a
+  ressalva; vídeo com `preload="none"`, capa, legenda, transcrição e
+  `VideoObject`; aviso de acompanhamento médico no emagrecimento; imagens
+  existentes, com dimensões e `alt` descritivo; nada de `fotos/nao-publicar/`
+  publicado.
 - **`npm run qa`** abre cada página no Chromium em 320, 375, 390, 430, 768,
   1024, 1440 e 1920 px e cobra: sem rolagem horizontal, sem erro de console,
   sem violação de CSP, alvos de toque ≥ 44 px nas ações, contraste WCAG AA,

@@ -12,7 +12,7 @@
   <div class="env">
     <div class="capilar__cab">
       {%- if not semCabecalhoCapilar %}
-      <p class="rotulo">03 · {{ cap.nome }}</p>
+      <p class="rotulo">{{ servicos | numeroDe('saude-capilar') }} · {{ cap.nome }}</p>
       <h{{ n }} class="capilar__titulo" id="capilar-titulo">Primeiro entender o fio. <em>Depois tratar.</em></h{{ n }}>
       <p class="capilar__lead">{{ cap.texto }}</p>
       {%- else %}

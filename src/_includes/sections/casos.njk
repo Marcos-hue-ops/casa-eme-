@@ -1,0 +1,62 @@
+{%- import "components/macros.njk" as m -%}
+{#-
+  Antes e depois (casos.js). Na home entram as duas áreas: primeiro o
+  capilar, depois o rosto. `areaCasos` ('capilar' ou 'facial') mostra só uma
+  delas, nas páginas de cada especialidade; `nivelCasos` ajusta o título.
+
+  Toda foto vai junto com quem atendeu (crédito com o registro profissional)
+  e com a ressalva de que resultado não se repete igual.
+-#}
+{%- set t = destaques.casos -%}
+{%- set n = nivelCasos or 2 -%}
+{%- set capilares = casos.itens | casosDe('capilar') -%}
+{%- set faciais = casos.itens | casosDe('facial') -%}
+<section class="casos" id="antes-e-depois" aria-labelledby="casos-titulo">
+  <div class="env">
+    <div class="casos__cab">
+      <p class="rotulo">Antes e depois</p>
+      {%- if areaCasos == 'facial' %}
+      <h{{ n }} class="casos__titulo" id="casos-titulo">{{ t.tituloFacial }}: <em>antes e depois</em></h{{ n }}>
+      <p class="casos__intro">{{ t.introFacial }}</p>
+      {%- elif areaCasos == 'capilar' %}
+      <h{{ n }} class="casos__titulo" id="casos-titulo">Tratamento capilar: <em>antes e depois</em></h{{ n }}>
+      <p class="casos__intro">Fotos do couro cabeludo de pacientes atendidos aqui. A própria imagem traz as datas dos registros ou o número de sessões.</p>
+      {%- else %}
+      <h{{ n }} class="casos__titulo" id="casos-titulo">{{ t.titulo | enfase(t.enfase) | safe }}</h{{ n }}>
+      <p class="casos__intro">{{ t.intro }}</p>
+      {%- endif %}
+    </div>
+
+    <div data-lupa-grupo>
+      {%- if areaCasos != 'facial' %}
+      <div class="casos__bloco">
+        {%- if not areaCasos %}<h{{ n + 1 }} class="casos__sub">No couro cabeludo</h{{ n + 1 }}>{% endif %}
+        <ul class="casos__grade casos__grade--capilar">
+          {%- for c in capilares %}
+          <li>{{ m.caso(c, '(min-width: 64rem) 26rem, (min-width: 40rem) 46vw, 92vw') }}</li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- endif %}
+
+      {%- if areaCasos != 'capilar' %}
+      <div class="casos__bloco">
+        {%- if not areaCasos %}
+        <h{{ n + 1 }} class="casos__sub">{{ t.tituloFacial }}</h{{ n + 1 }}>
+        <p class="casos__sub-intro">{{ t.introFacial }}</p>
+        {%- endif %}
+        <ul class="casos__grade casos__grade--facial">
+          {%- for c in faciais %}
+          <li>{{ m.caso(c) }}</li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- endif %}
+    </div>
+
+    <div class="casos__pe">
+      <p class="casos__credito">{{ casos.credito }}</p>
+      <p class="casos__ressalva">{{ casos.ressalva }}</p>
+    </div>
+  </div>
+</section>

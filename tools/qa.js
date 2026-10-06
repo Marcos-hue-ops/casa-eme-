@@ -21,6 +21,7 @@ const PAGINAS = [
   '/servicos/',
   '/estetica-avancada/',
   '/saude-capilar/',
+  '/emagrecimento/',
   '/galeria/',
   '/perguntas-frequentes/',
   '/contato/',

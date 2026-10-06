@@ -36,6 +36,9 @@ const LARGURAS = {
   galeria: [480, 960],
   ambiente: [640, 1280],
   janela: [360, 720],
+  hero: [480, 680],
+  casos: [480, 900],
+  equipe: [480, 960],
 };
 const PADRAO = [480, 960];
 
@@ -80,6 +83,49 @@ const RECORTES = {
     width: 720,
     height: 760,
   },
+
+  /* Arte "Cuidado que vai além da beleza" (1600×900): o texto da esquerda vira
+     texto de verdade na página (legível, indexável, acessível); aqui fica só a
+     foto, que começa em x=930. */
+  'hero/arte-cuidado-que-vai-alem': {
+    origem: { width: 1600, height: 900 },
+    left: 930,
+    top: 0,
+    width: 670,
+    height: 900,
+  },
+  /* Painel "Before/After" do Protocolo Capilaris: só as quatro fotos, sem o
+     cabeçalho em inglês e sem a faixa de texto de baixo. Os rótulos "Antes" e
+     "Depois" entram em HTML, em português. */
+  'casos/capilar-protocolo-capilaris': {
+    origem: { width: 1080, height: 1080 },
+    left: 38,
+    top: 138,
+    width: 1006,
+    height: 763,
+  },
+  /* Retratos da Dra. Rejane: só a foto, sem os painéis de texto das artes. */
+  'equipe/dra-rejane-rabelo-formacao': {
+    origem: { width: 1600, height: 900 },
+    left: 0,
+    top: 0,
+    width: 956,
+    height: 900,
+  },
+  'equipe/dra-rejane-rabelo-blazer': {
+    origem: { width: 1600, height: 900 },
+    left: 0,
+    top: 0,
+    width: 1032,
+    height: 900,
+  },
+  'equipe/dra-rejane-rabelo-avaliacao': {
+    origem: { width: 720, height: 1280 },
+    left: 0,
+    top: 90,
+    width: 720,
+    height: 743,
+  },
 };
 
 /**
@@ -96,6 +142,24 @@ const DERIVADOS = {
     top: 290,
     width: 357,
     height: 357,
+  },
+  /* Janela principal do hero: o rosto da arte "Cuidado que vai além da beleza". */
+  'janela/mulher-sorrindo': {
+    de: 'hero/arte-cuidado-que-vai-alem',
+    origem: { width: 1600, height: 900 },
+    left: 890,
+    top: 15,
+    width: 650,
+    height: 650,
+  },
+  /* Janela menor do hero: o rosto da Dra. Rejane. */
+  'janela/dra-rejane': {
+    de: 'equipe/dra-rejane-rabelo-blazer',
+    origem: { width: 1600, height: 900 },
+    left: 330,
+    top: 10,
+    width: 460,
+    height: 460,
   },
   'janela/francesinha': {
     de: 'galeria/unhas-francesinha-gel',

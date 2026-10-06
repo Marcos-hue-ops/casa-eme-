@@ -1,0 +1,827 @@
+/**
+ * As seções das especialidades da casa: as três especialidades, as queixas
+ * capilares, quem atende, antes e depois, depoimentos e emagrecimento.
+ *
+ * Mesmo vocabulário do resto do site — fio fino entre itens, versal espaçada
+ * nos rótulos, itálico na segunda metade dos títulos, o anel duplo da logo
+ * nos números — para que as seções novas pareçam da mesma casa.
+ */
+
+/* Primeira dobra: fecho do texto e legenda da janela pequena ------------------ */
+.hero__fecho {
+  margin-block-start: var(--e-2);
+  max-inline-size: 34rem;
+  font-family: var(--serifa);
+  font-style: italic;
+  font-size: var(--t-h4);
+  line-height: 1.4;
+  color: var(--marca);
+}
+
+/* No celular, "Nova gestão" e o lema ficam um sobre o outro, sem o ponto
+   solto no fim da primeira linha. */
+@media (max-width: 39.99rem) {
+  .hero__sobre {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero__ponto {
+    display: none;
+  }
+}
+
+/* À direita da janela pequena, no espaço que a janela grande deixa livre.
+   A largura é medida na própria janela: 138% dela é o que sobra até a borda. */
+.janela__legenda {
+  position: absolute;
+  inset-block-end: 6%;
+  inset-inline-start: calc(100% + 0.75rem);
+  inline-size: calc(138% - 0.75rem);
+  display: grid;
+  gap: 0.25rem;
+}
+
+.janela__legenda a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 1.75rem;
+  color: var(--marca);
+  text-decoration: underline;
+  text-decoration-color: var(--fio-forte);
+  text-underline-offset: 0.2em;
+}
+
+.janela__legenda a:hover {
+  text-decoration-color: currentColor;
+}
+
+.janela__nome {
+  font-family: var(--serifa);
+  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.25rem);
+  line-height: 1.2;
+}
+
+.janela__cargo {
+  font-size: var(--t-mini);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--texto-2);
+}
+
+/* As três especialidades ------------------------------------------------------ */
+.pilares {
+  padding-block: var(--secao);
+}
+
+.pilares__cab {
+  max-inline-size: 46rem;
+}
+
+.pilares__titulo {
+  font-size: var(--t-h2);
+}
+
+.pilares__intro {
+  margin-block-start: var(--e-3);
+  max-inline-size: 40rem;
+  color: var(--texto-2);
+}
+
+.pilares__lista {
+  list-style: none;
+  padding: 0;
+  margin-block-start: var(--e-6);
+  border-block-start: 1px solid var(--marca);
+}
+
+.pilar {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: var(--e-1);
+  padding-block: var(--e-4);
+  border-block-end: 1px solid var(--fio-forte);
+}
+
+.pilar__num {
+  font-size: var(--t-mini);
+  font-weight: 500;
+  letter-spacing: var(--versal);
+  color: var(--texto-2);
+}
+
+.pilar__nome {
+  font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
+}
+
+/* O card inteiro é clicável, mas o link é só o nome: o leitor de tela ouve
+   "Saúde capilar", e não o parágrafo todo. */
+.pilar__nome a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.pilar__nome a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.pilar__nome a:focus-visible {
+  outline: 2px solid var(--marca);
+  outline-offset: 4px;
+}
+
+.pilar__chamada {
+  font-family: var(--serifa);
+  font-style: italic;
+  font-size: var(--t-h4);
+  color: var(--marca);
+}
+
+.pilar__txt {
+  margin-block-start: var(--e-1);
+  color: var(--texto-2);
+}
+
+.pilar__seta {
+  margin-block-start: var(--e-2);
+  color: var(--marca);
+  transition: translate var(--medio) var(--curva);
+}
+
+.pilar__seta .icon {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+}
+
+.pilar:hover .pilar__seta,
+.pilar:focus-within .pilar__seta {
+  translate: 0.375rem 0;
+}
+
+.pilar:hover .pilar__nome {
+  color: var(--marca);
+}
+
+@media (min-width: 64rem) {
+  .pilares__lista {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .pilar {
+    padding: var(--e-4) var(--e-4) var(--e-2);
+    border-block-end: 0;
+    border-inline-start: 1px solid var(--fio-forte);
+  }
+
+  .pilar:first-child {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+  }
+
+  .pilar:last-child {
+    padding-inline-end: 0;
+  }
+}
+
+/* Queixas capilares ----------------------------------------------------------- */
+.queixas {
+  padding-block: var(--secao) var(--e-5);
+  background-color: var(--creme);
+}
+
+.queixas__grade {
+  display: grid;
+  gap: var(--e-5);
+}
+
+.queixas__titulo {
+  font-size: var(--t-h2);
+}
+
+.queixas__lead {
+  margin-block-start: var(--e-3);
+  max-inline-size: 36rem;
+  color: var(--texto-2);
+}
+
+.queixas__lista {
+  border-block-start: 1px solid var(--marca);
+}
+
+.queixa {
+  display: grid;
+  gap: 0.25rem var(--e-4);
+  padding-block: var(--e-3);
+  border-block-end: 1px solid var(--fio-forte);
+}
+
+.queixa__nome {
+  font-family: var(--serifa);
+  font-size: var(--t-h4);
+  line-height: 1.25;
+}
+
+.queixa__txt {
+  margin: 0;
+  color: var(--texto-2);
+}
+
+/* Na home e na página, a seção dos três tempos continua no mesmo fundo. */
+.queixas + .capilar {
+  padding-block-start: var(--e-5);
+}
+
+@media (min-width: 48rem) {
+  .queixa {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    align-items: baseline;
+  }
+}
+
+@media (min-width: 64rem) {
+  .queixas__grade {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--e-7);
+    align-items: start;
+  }
+
+  .queixas__cab {
+    position: sticky;
+    inset-block-start: calc(var(--altura-cab) + var(--e-4));
+  }
+}
+
+/* Quem atende ----------------------------------------------------------------- */
+.rejane {
+  padding-block: var(--secao);
+}
+
+.rejane__grade {
+  display: grid;
+  gap: var(--e-5);
+  align-items: start;
+}
+
+.rejane__foto {
+  max-inline-size: 30rem;
+}
+
+.rejane__titulo {
+  font-size: var(--t-h2);
+  margin-block-end: var(--e-3);
+}
+
+.rejane__texto > p:not(.rotulo) {
+  max-inline-size: 36rem;
+  color: var(--texto-2);
+}
+
+.rejane__texto > p:not(.rotulo) + p {
+  margin-block-start: var(--e-2);
+}
+
+.rejane__texto > .rejane__lead {
+  font-size: var(--t-lead);
+  color: var(--cafe);
+}
+
+.rejane__ficha {
+  margin-block-start: var(--e-4);
+  max-inline-size: 36rem;
+  border-block-start: 1px solid var(--fio-forte);
+}
+
+.rejane__ficha > div {
+  display: grid;
+  gap: 0.25rem;
+  padding-block: 0.75rem;
+  border-block-end: 1px solid var(--fio);
+}
+
+.rejane__ficha dt {
+  font-size: var(--t-mini);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--texto-2);
+}
+
+.rejane__ficha dd {
+  margin: 0;
+  font-size: var(--t-pequeno);
+}
+
+.avaliacao {
+  margin-block-start: var(--e-6);
+  padding-block-start: var(--e-5);
+  border-block-start: 1px solid var(--fio-forte);
+}
+
+.avaliacao__titulo {
+  max-inline-size: 36rem;
+  font-size: var(--t-h3);
+}
+
+.avaliacao__passos {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--e-4);
+  margin-block-start: var(--e-4);
+}
+
+.avaliacao__num {
+  display: grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: 1px solid var(--marca);
+  border-radius: 50%;
+  outline: 1px solid var(--marca);
+  outline-offset: 3px;
+  font-family: var(--serifa);
+  color: var(--marca);
+}
+
+.avaliacao__nome {
+  margin-block-start: var(--e-2);
+  font-size: var(--t-h4);
+}
+
+.avaliacao__passo p {
+  margin-block-start: 0.25rem;
+  font-size: var(--t-pequeno);
+  color: var(--texto-2);
+}
+
+@media (min-width: 30rem) {
+  .rejane__ficha > div {
+    grid-template-columns: 8.5rem minmax(0, 1fr);
+    gap: var(--e-2);
+    align-items: baseline;
+  }
+}
+
+@media (min-width: 48rem) {
+  .avaliacao__passos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64rem) {
+  .rejane__grade {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--e-7);
+  }
+
+  .rejane__foto {
+    position: sticky;
+    inset-block-start: calc(var(--altura-cab) + var(--e-4));
+  }
+
+  .avaliacao__passos {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Antes e depois -------------------------------------------------------------- */
+.casos {
+  padding-block: var(--secao);
+  background-color: var(--linho);
+}
+
+.casos__cab {
+  max-inline-size: 46rem;
+}
+
+.casos__titulo {
+  font-size: var(--t-h2);
+}
+
+.casos__intro {
+  margin-block-start: var(--e-3);
+  color: var(--texto-2);
+}
+
+.casos__bloco {
+  margin-block-start: var(--e-5);
+}
+
+.casos__sub {
+  font-size: var(--t-h3);
+  font-style: italic;
+  color: var(--marca);
+  padding-block-end: var(--e-1);
+  border-block-end: 1px solid var(--fio-forte);
+}
+
+.casos__sub-intro {
+  margin-block-start: var(--e-2);
+  max-inline-size: 40rem;
+  font-size: var(--t-pequeno);
+  color: var(--texto-2);
+}
+
+.casos__grade {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--e-4) var(--e-3);
+  margin-block-start: var(--e-3);
+}
+
+.casos__grade--capilar > li:first-child {
+  max-inline-size: 22rem;
+}
+
+.casos__grade--facial {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.caso {
+  margin: 0;
+}
+
+.caso__abrir {
+  position: relative;
+  display: block;
+  inline-size: 100%;
+  padding: 0;
+  border: 1px solid var(--fio-forte);
+  background-color: var(--creme);
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+.caso__abrir img {
+  inline-size: 100%;
+  transition: scale var(--lento) var(--curva);
+}
+
+.caso__abrir:hover img {
+  scale: 1.025;
+}
+
+.caso__marca {
+  position: absolute;
+  inset-inline-end: 0.5rem;
+  padding: 0.1875rem 0.5rem;
+  border-radius: var(--raio-pilula);
+  background-color: var(--papel);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--cafe);
+}
+
+.caso__marca--antes {
+  inset-block-start: 0.5rem;
+}
+
+.caso__marca--depois {
+  inset-block-start: calc(50% + 0.5rem);
+}
+
+.caso__legenda {
+  display: grid;
+  gap: 0.125rem;
+  margin-block-start: 0.75rem;
+}
+
+.caso__titulo {
+  font-family: var(--serifa);
+  font-size: 1.125rem;
+  line-height: 1.3;
+}
+
+.caso__detalhe {
+  font-size: var(--t-pequeno);
+  line-height: 1.5;
+  color: var(--texto-2);
+}
+
+.casos__pe {
+  display: grid;
+  gap: 0.25rem;
+  max-inline-size: 46rem;
+  margin-block-start: var(--e-5);
+  padding-inline-start: var(--e-2);
+  border-inline-start: 1px solid var(--mel);
+  font-size: var(--t-pequeno);
+}
+
+.casos__credito {
+  font-weight: 600;
+}
+
+.casos__ressalva {
+  color: var(--texto-2);
+}
+
+@media (min-width: 40rem) {
+  /* As duas fotos capilares lado a lado e com a mesma altura: as colunas
+     seguem a proporção de cada imagem (9:16 e 900:683). */
+  .casos__grade--capilar {
+    grid-template-columns: minmax(0, 0.5625fr) minmax(0, 1.3177fr);
+    align-items: start;
+  }
+
+  .casos__grade--capilar > li:first-child {
+    max-inline-size: none;
+  }
+
+  .casos__grade--facial {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64rem) {
+  .casos__grade--capilar {
+    max-inline-size: 60rem;
+  }
+
+  .casos__grade--facial {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caso__abrir img {
+    transition: none;
+  }
+}
+
+/* Depoimentos ----------------------------------------------------------------- */
+.vozes__cab {
+  max-inline-size: 46rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.vozes__lead {
+  margin-block-start: var(--e-3);
+  color: var(--texto-2);
+}
+
+.vozes__grade {
+  display: grid;
+  gap: var(--e-6);
+  margin-block-start: var(--e-6);
+  align-items: start;
+}
+
+.depo {
+  margin: 0;
+}
+
+.depo--video {
+  display: grid;
+  gap: var(--e-4);
+}
+
+.depo__tela {
+  inline-size: 100%;
+  max-inline-size: 17rem;
+  margin-inline: auto;
+}
+
+.depo__video {
+  display: block;
+  position: relative;
+  inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: 464 / 832;
+  background-color: var(--cafe);
+}
+
+.depo__trecho p {
+  font-family: var(--serifa);
+  font-style: italic;
+  font-size: var(--t-h3);
+  line-height: 1.3;
+  color: var(--marca);
+}
+
+.depo__trecho p::before {
+  content: '“';
+}
+
+.depo__trecho p::after {
+  content: '”';
+}
+
+.depo__autor {
+  margin-block-start: var(--e-2);
+  font-size: var(--t-pequeno);
+  font-weight: 600;
+}
+
+.depo__contexto {
+  display: block;
+  font-weight: 400;
+  color: var(--texto-2);
+}
+
+.depo__transcricao {
+  margin-block-start: var(--e-3);
+  border-block-start: 1px solid var(--fio-forte);
+}
+
+.depo__transcricao summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-block-size: 2.75rem;
+  font-size: var(--t-pequeno);
+  font-weight: 600;
+  color: var(--marca);
+  cursor: pointer;
+}
+
+.depo__transcricao summary::-webkit-details-marker {
+  display: none;
+}
+
+.depo__transcricao summary::after {
+  content: '+';
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.depo__transcricao[open] summary::after {
+  content: '−';
+}
+
+.depo__transcricao p {
+  padding-block-end: var(--e-2);
+  font-size: var(--t-pequeno);
+  color: var(--texto-2);
+}
+
+.depo--texto {
+  padding: var(--e-4) var(--e-3);
+  border-block-start: 2px solid var(--marca);
+  background-color: var(--creme);
+}
+
+.depo__citacao p {
+  font-family: var(--serifa);
+  font-size: var(--t-h4);
+  line-height: 1.5;
+}
+
+.depo__citacao p + p {
+  margin-block-start: var(--e-2);
+}
+
+.depo--texto .depo__autor {
+  margin-block-start: var(--e-3);
+}
+
+.vozes__temas-bloco {
+  margin-block-start: var(--e-7);
+  padding-block-start: var(--e-6);
+  border-block-start: 1px solid var(--fio);
+  text-align: center;
+}
+
+.vozes__sub {
+  font-size: var(--t-h3);
+}
+
+@media (min-width: 48rem) {
+  .depo--video {
+    grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+    align-items: end;
+    gap: var(--e-4);
+  }
+
+  .depo__tela {
+    margin-inline: 0;
+  }
+
+  .depo--texto {
+    padding: var(--e-5);
+  }
+}
+
+@media (min-width: 64rem) {
+  .vozes__grade {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--e-6);
+    align-items: center;
+  }
+}
+
+/* Emagrecimento --------------------------------------------------------------- */
+.emagrecer {
+  padding-block: var(--secao);
+  border-block-start: 1px solid var(--fio);
+}
+
+.emagrecer__grade {
+  display: grid;
+  gap: var(--e-5);
+}
+
+.emagrecer__titulo {
+  font-size: var(--t-h2);
+  margin-block-end: var(--e-3);
+}
+
+.emagrecer__texto > p:not(.rotulo) {
+  max-inline-size: 36rem;
+  color: var(--texto-2);
+}
+
+.emagrecer__texto > p:not(.rotulo) + p {
+  margin-block-start: var(--e-2);
+}
+
+.emagrecer__texto > .emagrecer__aviso {
+  margin-block-start: var(--e-3);
+  padding-inline-start: var(--e-2);
+  border-inline-start: 1px solid var(--mel);
+  font-size: var(--t-pequeno);
+}
+
+.emagrecer__etapas {
+  list-style: none;
+  padding: 0;
+  border-block-start: 1px solid var(--marca);
+}
+
+.emagrecer__etapa {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  column-gap: var(--e-3);
+  padding-block: var(--e-3);
+  border-block-end: 1px solid var(--fio-forte);
+}
+
+.emagrecer__num {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: 1px solid var(--marca);
+  border-radius: 50%;
+  outline: 1px solid var(--marca);
+  outline-offset: 3px;
+  font-family: var(--serifa);
+  color: var(--marca);
+}
+
+.emagrecer__nome {
+  font-size: var(--t-h4);
+}
+
+.emagrecer__etapa p {
+  margin-block-start: 0.25rem;
+  font-size: var(--t-pequeno);
+  color: var(--texto-2);
+}
+
+.emagrecer__itens {
+  margin-block-start: var(--e-4);
+  font-family: var(--serifa);
+  font-style: italic;
+  font-size: var(--t-h4);
+  line-height: 1.5;
+  color: var(--marca);
+}
+
+@media (min-width: 64rem) {
+  .emagrecer__grade {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    gap: var(--e-7);
+    align-items: start;
+  }
+}
+
+/* Galeria: crédito dos casos ------------------------------------------------- */
+.galeria__credito {
+  display: block;
+  margin-block-start: 0.25rem;
+  font-size: var(--t-mini);
+  color: var(--texto-2);
+}
+
+.galeria__ressalva {
+  max-inline-size: 46rem;
+  margin-block-start: var(--e-5);
+  padding-inline-start: var(--e-2);
+  border-inline-start: 1px solid var(--mel);
+  font-size: var(--t-pequeno);
+  color: var(--texto-2);
+}

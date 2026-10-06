@@ -16,6 +16,7 @@ function safeJson(value) {
 export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ 'src/assets/fonts': 'assets/fonts' });
   eleventyConfig.addPassthroughCopy({ 'src/assets/img': 'assets/img' });
+  eleventyConfig.addPassthroughCopy({ 'src/assets/video': 'assets/video' });
   eleventyConfig.addPassthroughCopy({ 'src/static': '.' });
 
   eleventyConfig.addWatchTarget('./src/assets/css/');
@@ -50,6 +51,18 @@ export default function (eleventyConfig) {
     return `${Number(h)}h${m === '00' ? '' : m}`;
   });
 
+  /**
+   * Título com a segunda parte em itálico — o gesto tipográfico da casa.
+   * `parte` precisa estar escrita igual dentro de `texto`; o resto é escapado.
+   */
+  eleventyConfig.addFilter('enfase', (texto, parte) => {
+    const esc = (v) =>
+      String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const i = parte ? String(texto).lastIndexOf(parte) : -1;
+    if (i < 0) return esc(texto);
+    return `${esc(texto.slice(0, i))}<em>${esc(parte)}</em>${esc(texto.slice(i + parte.length))}`;
+  });
+
   /** Dois dígitos: 1 → "01". Numeração editorial das listas. */
   eleventyConfig.addFilter('dois', (n) => String(n).padStart(2, '0'));
 
@@ -59,6 +72,35 @@ export default function (eleventyConfig) {
     if (!achada) throw new Error(`Categoria de serviço desconhecida: ${id}`);
     return achada;
   });
+
+  /** Número da categoria na ordem de servicos.js ("01", "02"...): numera as seções da home. */
+  eleventyConfig.addFilter('numeroDe', (servicos, id) => {
+    const i = servicos.findIndex((c) => c.id === id);
+    if (i < 0) throw new Error(`Categoria de serviço desconhecida: ${id}`);
+    return String(i + 1).padStart(2, '0');
+  });
+
+  /** Casos de antes e depois de uma área ('capilar' ou 'facial'). */
+  eleventyConfig.addFilter('casosDe', (itens, area) => itens.filter((c) => c.area === area));
+
+  /**
+   * VideoObject do depoimento em vídeo. `uploadDate` é a data em que o vídeo
+   * entrou no site (fixa em depoimentos.js), não a data do build.
+   */
+  eleventyConfig.addFilter('videoLd', (item, base) => ({
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    name: 'Depoimento de paciente sobre o tratamento capilar na Casa EME',
+    description: item.trecho,
+    thumbnailUrl: `${base}/assets/img/${item.video.capa.pasta}/${item.video.capa.arquivo}-${item.video.capa.largura}.webp`,
+    contentUrl: `${base}${item.video.mp4}`,
+    /* O Google pede data com fuso; a data sozinha vira meia-noite de Brasília. */
+    uploadDate: /T/.test(item.video.publicadoEm) ? item.video.publicadoEm : `${item.video.publicadoEm}T00:00:00-03:00`,
+    duration: item.video.duracao,
+    inLanguage: 'pt-BR',
+    transcript: item.transcricao,
+    publisher: { '@id': `${base}/#casa-eme` },
+  }));
 
   /** Todas as perguntas do FAQ, achatadas a partir dos grupos. */
   eleventyConfig.addFilter('achatarFaq', (grupos) => grupos.flatMap((grupo) => grupo.perguntas));

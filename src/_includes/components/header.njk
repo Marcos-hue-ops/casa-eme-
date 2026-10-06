@@ -36,6 +36,9 @@
       {%- for item in nav.principal %}
       <li><a class="painel__link" href="{{ item.href }}" {{ 'aria-current="page"' | safe if page.url == item.href }}><span class="painel__num" aria-hidden="true">{{ loop.index | dois }}</span>{{ item.label }}</a></li>
       {%- endfor %}
+      {%- for item in nav.extra %}
+      <li><a class="painel__link" href="{{ item.href }}" {{ 'aria-current="page"' | safe if page.url == item.href }}><span class="painel__num" aria-hidden="true">{{ ((nav.principal | length) + loop.index) | dois }}</span>{{ item.label }}</a></li>
+      {%- endfor %}
     </ol>
   </nav>
   <div class="painel__pe">

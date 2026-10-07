@@ -62,13 +62,14 @@
           </div>
           <figcaption class="janela__legenda">
             <a href="#quem-atende"><span class="janela__nome">{{ rejane.nome }}</span></a>
-            <span class="janela__cargo">{{ rejane.funcao }} · Saúde capilar</span>
+            <span class="janela__cargo">{{ rejane.funcao }}<br>{{ rejane.registro.formatado }}</span>
           </figcaption>
         </figure>
       </div>
     </div>
 
-    {#- Credenciais: fatos, não adjetivos — quem atende, como avalia, o que já fez. -#}
+    {#- Credenciais: fatos, não adjetivos — como avalia, o que já fez. Quem
+        atende (nome e registro) fica uma vez só, na legenda do retrato. -#}
     <ul class="credenciais" aria-label="Sobre o atendimento">
       {%- for c in d.credenciais %}
       <li class="credencial">

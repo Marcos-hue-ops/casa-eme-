@@ -26,10 +26,10 @@ export default {
     fecho: '',
     /**
      * Linha de credenciais abaixo dos botões. Só fatos que a casa informou;
-     * `href` é opcional (leva à seção correspondente na home).
+     * `href` é opcional (leva à seção correspondente na home). A Dra. Rejane
+     * não entra aqui: nome e registro já estão na legenda do retrato dela.
      */
     credenciais: [
-      { rotulo: 'Saúde capilar', valor: 'Dra. Rejane Rabelo', detalhe: 'Biomédica esteta · CRBM 13690', href: '#quem-atende' },
       { rotulo: 'Avaliação capilar', valor: 'Quatro etapas', detalhe: 'Anamnese, exame, fotos, protocolo' },
       { rotulo: 'Antes e depois', valor: 'Casos da casa', detalhe: 'Capilar e facial', href: '#antes-e-depois' },
     ],

@@ -62,11 +62,12 @@
   Caso de antes e depois (casos.js). A foto inteira é um botão que abre a
   ampliação. "Antes" e "Depois" são escritos sobre cada metade das montagens
   empilhadas; o texto alternativo já descreve as duas partes, por isso as
-  marcas ficam escondidas do leitor de tela.
+  marcas ficam escondidas do leitor de tela. `aviso` (a frase do conselho)
+  entra na legenda da foto ampliada.
 -#}
-{% macro caso(item, sizes='(min-width: 64rem) 15rem, (min-width: 40rem) 30vw, 46vw') -%}
+{% macro caso(item, sizes='(min-width: 64rem) 15rem, (min-width: 40rem) 30vw, 46vw', aviso='') -%}
 <figure class="caso caso--{{ item.layout }}">
-  <button type="button" class="caso__abrir" data-lupa="{{ item.imagem | src }}" data-lupa-legenda="{{ item.titulo }}. {{ item.detalhe }}">
+  <button type="button" class="caso__abrir" data-lupa="{{ item.imagem | src }}" data-lupa-legenda="{{ item.titulo }}. {{ item.detalhe }}{% if aviso %} {{ aviso }}{% endif %}">
     {{ foto(item.imagem, item.alt, sizes) }}
     {%- if item.layout == 'empilhado' %}
     <span class="caso__marca caso__marca--antes" aria-hidden="true">Antes</span>

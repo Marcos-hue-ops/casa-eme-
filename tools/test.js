@@ -25,6 +25,7 @@ import depoimentos from '../src/_data/depoimentos.js';
 import outubroRosa from '../src/_data/outubroRosa.js';
 import casos from '../src/_data/casos.js';
 import equipe from '../src/_data/equipe.js';
+import destaques from '../src/_data/destaques.js';
 
 const DIST = fileURLToPath(new URL('../dist/', import.meta.url));
 
@@ -281,7 +282,9 @@ console.log('\nConteúdo');
  * aparece antes de ir ao ar.
  */
 const proibidos = [
-  [/resultados? garantidos?|garantia de resultado|garantimos/i, 'promessa de resultado'],
+  /* A frase do conselho ("…não representa, em hipótese alguma, garantia de
+     resultado") é ressalva, não promessa: fica de fora do padrão. */
+  [/resultados? garantidos?|(?<!n[aã]o representa, em hip[oó]tese alguma, )garantia de resultado|garantimos/i, 'promessa de resultado'],
   [/elimina(r)? definitivamente|sem riscos?|resultado imediato/i, 'promessa médica'],
   [/eleve sua beleza|sua beleza,? nossa paix[aã]o|transforme sua autoestima|descubra o poder|uma experi[eê]ncia [úu]nica|seu momento de autocuidado/i, 'clichê do briefing'],
   [/\b(o|a) melhor (sal[aã]o|cl[ií]nica|espa[cç]o|de moema|de s[aã]o paulo)|n[úu]mero 1|refer[eê]ncia em/i, 'superlativo não comprovável'],
@@ -353,12 +356,22 @@ for (const [nome, conteudo] of Object.entries(html)) {
   for (const tel of telefones) ok(tel === business.whatsapp.display, `${nome}: só o telefone da casa`, tel);
 }
 
-/* Antes e depois: crédito com registro e ressalva onde houver caso. */
+/* Antes e depois: aviso do conselho onde houver caso; crédito com registro
+   onde houver caso atendido pela Dra. Rejane; nenhum crédito inventado. */
 for (const [nome, conteudo] of Object.entries(html)) {
-  if (!conteudo.includes('class="caso ') && !conteudo.includes('galeria__credito')) continue;
+  const presentes = casos.itens.filter((c) => conteudo.includes(`/casos/${c.imagem.arquivo}-`));
+  if (!presentes.length) continue;
   const texto = textoDe(conteudo);
-  ok(texto.includes(equipe.rejane.registro.formatado), `${nome}: antes e depois com o registro de quem atende`);
-  ok(texto.includes(casos.ressalva), `${nome}: antes e depois com a ressalva`);
+  ok(texto.includes(casos.aviso), `${nome}: antes e depois com o aviso do conselho`);
+  if (presentes.some((c) => c.creditado)) {
+    ok(texto.includes(casos.credito), `${nome}: antes e depois com o crédito e o registro de quem atendeu`);
+  } else {
+    ok(!texto.includes(casos.credito), `${nome}: sem crédito em caso que ninguém assinou`);
+  }
+  for (const c of presentes) {
+    const legenda = conteudo.match(new RegExp(`data-lupa="[^"]*/casos/${c.imagem.arquivo}-[^"]*"[^>]*data-lupa-legenda="([^"]*)"`))?.[1] ?? '';
+    ok(legenda.includes(casos.aviso), `${nome}: foto ampliada de ${c.imagem.arquivo} leva o aviso`);
+  }
 }
 for (const caso of casos.itens) {
   ok(html['index.html'].includes(`${caso.imagem.arquivo}-`), `home: caso ${caso.imagem.arquivo}`);
@@ -396,6 +409,11 @@ if (video) {
   }
   const legendas = await readFile(path.join(DIST, video.video.legendas.replace(/^\//, '')), 'utf8');
   ok(legendas.startsWith('WEBVTT'), 'legendas em WebVTT');
+}
+
+/* Depoimentos: relato não é promessa. */
+for (const pagina of ['index.html', 'saude-capilar/index.html']) {
+  ok(textoDe(html[pagina]).includes(destaques.depoimentos.ressalva), `${pagina}: ressalva dos depoimentos`);
 }
 
 /* Emagrecimento: aviso de que não substitui o acompanhamento médico. */

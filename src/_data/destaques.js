@@ -34,7 +34,7 @@ export default {
       'saude-capilar':
         'Alopecias, dermatite e outras inflamações do couro cabeludo, queda, afinamento dos fios e falta de crescimento. Quem atende é a Dra. Rejane Rabelo, que examina o couro cabeludo, faz o registro fotográfico e só então estrutura o tratamento.',
       emagrecimento:
-        'Protocolos corporais para gordura localizada, flacidez e contorno, com atenção também à saúde metabólica. O plano sai da avaliação individual e vai sendo ajustado conforme a evolução.',
+        'Protocolos corporais para gordura localizada, flacidez, celulite e contorno. O plano sai da avaliação individual e vai sendo ajustado conforme a evolução.',
       'estetica-avancada':
         'No rosto, toxina botulínica, preenchimento, bioestimuladores, skinbooster e microagulhamento. No corpo, celulite, flacidez e drenagem, com indicação definida na avaliação.',
     },
@@ -46,10 +46,10 @@ export default {
     enfase: 'Dra. Rejane Rabelo',
     paragrafos: [
       'A Dra. Rejane Rabelo é biomédica esteta, com registro no CRBM 13690. Biomédica patologista de formação, fez pós-graduação em estética avançada.',
-      'A pós-graduação foi pelo IOA, o Instituto Orofacial das Américas. Os cursos que vieram depois giram quase todos em torno do cabelo e do metabolismo, e é assim que ela apresenta o próprio trabalho: saúde capilar e metabólica.',
-      'Na Casa EME, é ela quem atende na saúde capilar e na estética avançada. Um paciente que tratou a queda de cabelo com ela conta que, depois do procedimento, ela seguiu acompanhando de perto como ia a recuperação.',
+      'Ela apresenta o próprio trabalho como saúde capilar e metabólica. Entre os cursos de aperfeiçoamento que lista estão tricologia e metabolismo capilar, voltados ao cabelo e ao couro cabeludo.',
+      'Na Casa EME, é ela quem atende na saúde capilar. Um paciente que tratou a queda de cabelo com ela conta que, depois do procedimento, ela seguiu acompanhando de perto como ia a recuperação.',
     ],
-    fraseAvaliacao: 'Antes de qualquer protocolo, a avaliação com ela passa por quatro etapas:',
+    fraseAvaliacao: 'A avaliação com ela passa por quatro etapas:',
   },
 
   capilar: {
@@ -77,7 +77,7 @@ export default {
       },
       {
         nome: 'Falta de crescimento',
-        texto: 'Quando o cabelo parece parado no mesmo comprimento, a avaliação ajuda a separar o fio que quebra do crescimento que está mais lento.',
+        texto: 'O cabelo parece parado no mesmo comprimento, mesmo passando meses sem cortar.',
       },
     ],
   },
@@ -88,23 +88,24 @@ export default {
     intro:
       'Fotos de pacientes atendidos aqui na Casa EME, no tratamento capilar e no rosto. Nos casos capilares, a própria imagem traz as datas dos registros ou o número de sessões.',
     tituloFacial: 'No rosto',
-    introFacial: 'Casos de estética avançada facial. A legenda diz a região; o procedimento de cada caso é definido na avaliação.',
+    introFacial: 'Casos de estética avançada facial. A legenda indica a região do rosto.',
   },
 
   emagrecimento: {
-    titulo: 'Emagrecimento com avaliação e acompanhamento de perto',
-    enfase: 'com avaliação e acompanhamento de perto',
+    titulo: 'Um plano para o seu corpo, depois da avaliação',
+    enfase: 'depois da avaliação',
     paragrafos: [
       'Na Casa EME, o cuidado com o emagrecimento começa por uma avaliação individual, com uma conversa sobre a sua rotina, o seu histórico e o que mais incomoda no corpo. A partir dela entram os protocolos corporais da casa para gordura localizada, flacidez, celulite e contorno, com drenagem quando fizer sentido para o caso.',
-      'A Dra. Rejane Rabelo, que apresenta o próprio trabalho como saúde capilar e metabólica, tem cursos de suplementação injetável e de exames laboratoriais. Quais técnicas entram no plano e quantas sessões ele terá, a avaliação é que define, e o plano pode ser revisto ao longo do acompanhamento.',
+      'Quais técnicas entram no plano e quantas sessões ele terá, a avaliação é que define, e o plano pode ser revisto ao longo do acompanhamento.',
     ],
-    aviso: 'Os protocolos da casa não substituem o acompanhamento médico e nutricional.',
+    aviso:
+      'Os protocolos trabalham gordura localizada, flacidez, celulite e contorno. Perder peso depende também de alimentação e atividade física, e os protocolos não substituem o acompanhamento médico e nutricional.',
     lead:
-      'Cada plano começa por uma avaliação individual e reúne protocolos corporais para gordura localizada, flacidez e contorno, com atenção também à saúde metabólica. Tudo aqui na Casa EME, na Rua Pintassilgo, em Moema.',
+      'Cada plano começa por uma avaliação individual e reúne protocolos corporais para gordura localizada, flacidez, celulite e contorno. Tudo aqui na Casa EME, na Rua Pintassilgo, em Moema.',
     etapas: [
       { nome: 'Avaliação individual', texto: 'Conversa sobre a sua rotina, o seu histórico e o que mais incomoda no corpo.' },
       { nome: 'Plano para o seu caso', texto: 'As técnicas e o número de sessões saem da avaliação, e não de um pacote pronto.' },
-      { nome: 'Acompanhamento', texto: 'O plano pode ser revisto ao longo do caminho, conforme a evolução.' },
+      { nome: 'Acompanhamento', texto: 'Ao longo das sessões, o plano pode ser ajustado conforme a evolução.' },
     ],
   },
 
@@ -112,6 +113,9 @@ export default {
     titulo: 'Quem tratou a queda de cabelo aqui conta como foi',
     enfase: 'conta como foi',
     intro:
-      'Um paciente gravou o depoimento em vídeo e Aron Menczer escreveu o dele em inglês, aqui traduzido; os dois procuraram a Dra. Rejane Rabelo por causa da queda de cabelo.',
+      'Um paciente gravou o depoimento em vídeo; Aron Menczer escreveu o dele em inglês, publicado com tradução. Os dois procuraram a Dra. Rejane Rabelo por causa da queda de cabelo.',
+    /** Vai logo depois dos depoimentos: relato não é promessa. */
+    ressalva:
+      'Relatos de pacientes, contados por eles. A experiência de cada pessoa é individual e não é promessa de resultado: o tratamento e o número de sessões dependem da avaliação.',
   },
 };

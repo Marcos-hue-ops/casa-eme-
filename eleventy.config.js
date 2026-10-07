@@ -90,7 +90,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter('videoLd', (item, base) => ({
     '@context': 'https://schema.org',
     '@type': 'VideoObject',
-    name: 'Depoimento de paciente sobre o tratamento capilar na Casa EME',
+    name: 'Depoimento de paciente sobre o tratamento capilar com a Dra. Rejane Rabelo, na Casa EME',
     description: item.trecho,
     thumbnailUrl: `${base}/assets/img/${item.video.capa.pasta}/${item.video.capa.arquivo}-${item.video.capa.largura}.webp`,
     contentUrl: `${base}${item.video.mp4}`,

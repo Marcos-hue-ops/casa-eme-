@@ -35,7 +35,7 @@ trilha:
       {%- for foto in galeria.fotos %}
       <li class="galeria__item" data-categoria="{{ foto.categoria }}">
         <figure>
-          <button type="button" class="galeria__abrir" data-lupa="{{ foto.imagem | src }}" data-lupa-legenda="{{ foto.legenda }}">
+          <button type="button" class="galeria__abrir" data-lupa="{{ foto.imagem | src }}" data-lupa-legenda="{{ foto.legenda }}{% if foto.aviso %}. {{ foto.aviso }}{% endif %}">
             {{ m.foto(foto.imagem, foto.alt, '(min-width: 64rem) 25rem, (min-width: 40rem) 46vw, 92vw', loop.first) }}
             <span class="so-leitor">Ampliar foto</span>
           </button>
@@ -45,7 +45,7 @@ trilha:
       {%- endfor %}
     </ul>
 
-    <p class="galeria__ressalva">{{ casos.ressalva }}</p>
+    <p class="galeria__ressalva">Antes e depois: {{ casos.ressalva | lower }} {{ casos.aviso }}</p>
 
     <p class="galeria__mais">Mais trabalhos no Instagram da casa.
       <a class="link-seta" href="{{ business.instagram.url }}" target="_blank" rel="noopener noreferrer"><span>Seguir {{ business.instagram.handle }}</span>{% icon "externo" %}</a>

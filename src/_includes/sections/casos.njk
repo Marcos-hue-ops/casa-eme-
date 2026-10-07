@@ -4,8 +4,9 @@
   capilar, depois o rosto. `areaCasos` ('capilar' ou 'facial') mostra só uma
   delas, nas páginas de cada especialidade; `nivelCasos` ajusta o título.
 
-  Toda foto vai junto com quem atendeu (crédito com o registro profissional)
-  e com a ressalva de que resultado não se repete igual.
+  Toda foto vai junto com o aviso do conselho (resultado não é garantia) e,
+  nos casos em que a casa informou quem atendeu, com o crédito e o registro
+  profissional (casos.js → creditado).
 -#}
 {%- set t = destaques.casos -%}
 {%- set n = nivelCasos or 2 -%}
@@ -33,7 +34,7 @@
         {%- if not areaCasos %}<h{{ n + 1 }} class="casos__sub">No couro cabeludo</h{{ n + 1 }}>{% endif %}
         <ul class="casos__grade casos__grade--capilar">
           {%- for c in capilares %}
-          <li>{{ m.caso(c, '(min-width: 64rem) 26rem, (min-width: 40rem) 46vw, 92vw') }}</li>
+          <li>{{ m.caso(c, '(min-width: 64rem) 26rem, (min-width: 40rem) 46vw, 92vw', casos.aviso) }}</li>
           {%- endfor %}
         </ul>
       </div>
@@ -47,7 +48,7 @@
         {%- endif %}
         <ul class="casos__grade casos__grade--facial">
           {%- for c in faciais %}
-          <li>{{ m.caso(c) }}</li>
+          <li>{{ m.caso(c, aviso=casos.aviso) }}</li>
           {%- endfor %}
         </ul>
       </div>
@@ -55,8 +56,10 @@
     </div>
 
     <div class="casos__pe">
+      {%- if areaCasos != 'facial' %}
       <p class="casos__credito">{{ casos.credito }}</p>
-      <p class="casos__ressalva">{{ casos.ressalva }}</p>
+      {%- endif %}
+      <p class="casos__ressalva">{{ casos.ressalva }} {{ casos.aviso }}</p>
     </div>
   </div>
 </section>

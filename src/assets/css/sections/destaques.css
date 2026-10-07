@@ -687,6 +687,15 @@
   margin-block-start: var(--e-3);
 }
 
+.vozes__ressalva {
+  max-inline-size: 46rem;
+  margin: var(--e-5) auto 0;
+  padding-inline-start: var(--e-2);
+  border-inline-start: 1px solid var(--mel);
+  font-size: var(--t-pequeno);
+  color: var(--texto-2);
+}
+
 .vozes__temas-bloco {
   margin-block-start: var(--e-7);
   padding-block-start: var(--e-6);

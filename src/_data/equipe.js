@@ -23,24 +23,26 @@ export default {
       url: 'https://www.instagram.com/dra_rejane_rabelo/',
     },
 
-    /** Formação, como ela lista. */
-    formacao: [
-      'Biomédica patologista',
-      'Pós-graduação em estética avançada pelo IOA, Instituto Orofacial das Américas',
-    ],
+    /**
+     * Formação e cursos, como ela lista e na mesma ordem. A arte traz a
+     * pós em estética avançada (sem instituição) separada da pós pelo IOA
+     * (sem área): não junte as duas sem confirmação dela.
+     */
+    formacao: ['Biomédica patologista', 'Pós-graduação em estética avançada'],
     cursos: [
+      'Pós-graduação pelo IOA, Instituto Orofacial das Américas',
+      'Suplementação injetável e exames laboratoriais',
+      'PRP',
       'Tricologia',
       'Metabolismo capilar',
-      'PRP',
-      'Suplementação injetável e exames laboratoriais',
     ],
 
     /** As quatro etapas da avaliação, na ordem em que ela as apresenta. */
     avaliacao: [
       { nome: 'Consulta e anamnese', texto: 'Conversa sobre a queixa, o histórico, a rotina e o que já foi tentado.' },
-      { nome: 'Exame físico', texto: 'Exame do couro cabeludo e dos fios, que pode incluir a tricoscopia.' },
+      { nome: 'Exame físico', texto: 'Exame do couro cabeludo e dos fios.' },
       { nome: 'Registro fotográfico', texto: 'Fotos do ponto de partida, para comparar a evolução ao longo do tratamento.' },
-      { nome: 'Protocolo de tratamento', texto: 'Com essas informações em mãos, o tratamento é montado para o caso.' },
+      { nome: 'Estruturação do protocolo', texto: 'Com essas informações em mãos, o tratamento é montado para o caso.' },
     ],
 
     /** Queixas capilares que ela atende, como ela as nomeia. */

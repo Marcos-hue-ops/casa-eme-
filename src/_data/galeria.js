@@ -16,7 +16,8 @@
  * recortados de prints (sem a interface do aplicativo — ver tools/images.js).
  *
  * Os casos de antes e depois (casos.js) entram no fim da lista sozinhos, nas
- * categorias "Saúde capilar" e "Estética", com o crédito de quem atendeu.
+ * categorias "Saúde capilar" e "Estética", com o aviso do conselho e, quando
+ * informado, o crédito de quem atendeu.
  * Para mudar um deles, edite casos.js — não este arquivo.
  *
  * `confirmar: true` marca foto cuja autoria precisa ser confirmada com a casa
@@ -67,7 +68,8 @@ export default {
       categoria: caso.area === 'capilar' ? 'saude-capilar' : 'estetica',
       alt: caso.alt,
       legenda: `${caso.titulo} — antes e depois`,
-      credito: casos.credito,
+      credito: caso.creditado ? casos.credito : '',
+      aviso: casos.aviso,
       imagem: caso.imagem,
     })),
   ],

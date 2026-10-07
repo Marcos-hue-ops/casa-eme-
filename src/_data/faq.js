@@ -59,15 +59,15 @@ export default [
     perguntas: [
       {
         id: 'quem-faz-os-tratamentos',
-        p: 'Quem faz os tratamentos de saúde capilar e estética avançada?',
-        r: 'A Dra. Rejane Rabelo, biomédica esteta (CRBM 13690). É ela quem faz a avaliação, monta o protocolo e acompanha a evolução de cada paciente.',
-        em: ['home', 'capilar', 'estetica', 'contato'],
+        p: 'Quem faz os tratamentos de saúde capilar?',
+        r: 'A Dra. Rejane Rabelo, biomédica esteta (CRBM 13690). Ela conduz a avaliação, em quatro etapas, e estrutura o protocolo de cada paciente.',
+        em: ['home', 'capilar', 'contato'],
       },
       {
         id: 'formacao-dra-rejane',
         p: 'Qual é a formação da Dra. Rejane Rabelo?',
-        r: 'Ela é biomédica esteta (CRBM 13690) e biomédica patologista, com pós-graduação em estética avançada pelo IOA, Instituto Orofacial das Américas. Entre os cursos de aperfeiçoamento que ela lista estão tricologia, metabolismo capilar, PRP e suplementação injetável e exames laboratoriais.',
-        em: ['capilar', 'estetica', 'emagrecimento'],
+        r: 'Ela é biomédica esteta (CRBM 13690) e biomédica patologista, com pós-graduação em estética avançada. Entre os cursos de aperfeiçoamento que ela lista estão uma pós-graduação pelo IOA, Instituto Orofacial das Américas, e cursos de suplementação injetável e exames laboratoriais, PRP, tricologia e metabolismo capilar.',
+        em: ['capilar'],
       },
     ],
   },
@@ -174,19 +174,19 @@ export default [
       {
         id: 'avaliacao-capilar',
         p: 'Como é a avaliação capilar?',
-        r: 'É feita pela Dra. Rejane Rabelo, em quatro etapas: a consulta, com anamnese (a conversa sobre histórico, hábitos e queixas); o exame físico do couro cabeludo e dos fios, que pode incluir a tricoscopia; o registro fotográfico; e, por último, a estruturação do protocolo de tratamento. Saiba mais em <a href="/saude-capilar/">Saúde capilar</a>.',
+        r: 'É feita pela Dra. Rejane Rabelo, em quatro etapas: a consulta, com anamnese (a conversa sobre histórico, hábitos e queixas); o exame físico do couro cabeludo e dos fios; o registro fotográfico; e, por último, a estruturação do protocolo de tratamento. Saiba mais em <a href="/saude-capilar/">Saúde capilar</a>.',
         em: ['capilar', 'home'],
       },
       {
         id: 'tratamentos-capilares',
         p: 'Quais tratamentos capilares estão disponíveis?',
-        r: 'Tratamentos para alopecias, dermatite e inflamações do couro cabeludo, queda de cabelo, afinamento dos fios e falta de crescimento, com recursos como microagulhamento capilar, terapias capilares e protocolos injetáveis, entre eles o Protocolo Capilaris. Há ainda recuperação da fibra capilar, cuidados de pré e pós-procedimento e acompanhamento da evolução.',
+        r: 'Tratamentos para alopecias, dermatite e inflamações do couro cabeludo, queda de cabelo, afinamento dos fios e falta de crescimento, com recursos como microagulhamento capilar, terapias capilares, protocolos injetáveis e o Protocolo Capilaris. Há ainda recuperação da fibra capilar, cuidados de pré e pós-procedimento e acompanhamento da evolução.',
         em: ['capilar'],
       },
       {
         id: 'dermatite-couro-cabeludo',
-        p: 'Vocês tratam dermatite no couro cabeludo?',
-        r: 'Sim. Dermatite e outras inflamações do couro cabeludo estão entre os tratamentos capilares da Dra. Rejane Rabelo, e o primeiro passo é a avaliação, com exame do couro cabeludo. Esse cuidado não substitui o acompanhamento com dermatologista.',
+        p: 'A Dra. Rejane atende dermatite no couro cabeludo?',
+        r: 'Dermatite e outras inflamações do couro cabeludo estão entre as queixas capilares que a Dra. Rejane Rabelo atende, sempre a partir da avaliação, com exame do couro cabeludo. Diagnóstico de doença e receita de remédio são com o médico: esse cuidado não substitui o acompanhamento com dermatologista.',
         em: ['capilar', 'home'],
       },
       {
@@ -216,7 +216,7 @@ export default [
       {
         id: 'tratamento-emagrecimento',
         p: 'A Casa EME tem tratamento para emagrecimento?',
-        r: 'Tem. O atendimento começa por uma avaliação individual e pode incluir protocolos corporais para gordura localizada, flacidez, celulite e contorno, com atenção também à saúde metabólica. Saiba mais em <a href="/emagrecimento/">Emagrecimento</a>.',
+        r: 'Tem. O atendimento começa por uma avaliação individual e pode incluir protocolos corporais para gordura localizada, flacidez, celulite e contorno. Saiba mais em <a href="/emagrecimento/">Emagrecimento</a>.',
         em: ['home', 'emagrecimento'],
       },
       {

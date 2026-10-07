@@ -12,46 +12,63 @@
  * foto, ou qualquer promessa. A legenda descreve a região e o que se vê.
  *
  * Antes de publicar, confira com a casa que cada paciente autorizou o uso da
- * imagem por escrito (termo de autorização de uso de imagem) — ver README.
+ * imagem por escrito (termo de consentimento) — ver README → Pendências.
+ *
+ * Os textos alternativos descrevem o que se vê, inclusive quando as duas
+ * fotos têm ângulo, luz ou lugar diferentes. Não transforme o alt em
+ * promessa ("pele perfeita", "cabelo recuperado").
+ *
+ * `creditado: true` marca os casos atendidos pela Dra. Rejane Rabelo. Os
+ * capilares estão marcados (são a área dela, nas artes que ela publica); os
+ * faciais não, porque ninguém informou quem os atendeu.
  *
  * Campos:
  *  area     'capilar' ou 'facial' (separa as seções e o filtro da galeria)
  *  titulo   legenda curta
  *  detalhe  uma linha sobre o que a foto mostra
+ *  creditado true quando quem atendeu foi a Dra. Rejane (ver `credito`)
  *  layout   'empilhado' (antes em cima, depois embaixo: o site escreve
  *           "Antes" e "Depois" sobre cada metade) ou 'montagem' (a foto já
  *           traz as próprias marcações e não recebe rótulo)
  *  imagem   linha gerada por `npm run images`
  */
 export default {
-  /** Quem assina os atendimentos — aparece junto das fotos. */
-  credito: 'Atendimento: Dra. Rejane Rabelo, biomédica esteta · CRBM 13690',
-  ressalva:
-    'Fotos de pacientes atendidos na casa. Cada organismo responde de um jeito: o resultado de um caso não se repete igual em outro.',
+  /** Quem atendeu os casos marcados com `creditado` — aparece junto deles. */
+  credito: 'Casos capilares: atendimento da Dra. Rejane Rabelo, biomédica esteta · CRBM 13690',
+  /**
+   * `aviso` é a frase que o Código de Ética do Biomédico (Res. CFBM
+   * 330/2020) pede junto de imagem de resultado. Vai, sem mudar uma
+   * palavra, no pé da seção e na legenda de cada foto ampliada.
+   */
+  aviso:
+    'Esta imagem não representa, em hipótese alguma, garantia de resultado. Cada ser humano tem características anatômicas e fisiológicas únicas.',
+  ressalva: 'Fotos de pacientes atendidos na casa.',
 
   itens: [
     {
       area: 'capilar',
       titulo: 'Topo da cabeça, de abril a julho',
-      detalhe: 'Mesma vista do couro cabeludo em 13 de abril e em 27 de julho.',
+      detalhe: 'Registros de 13 de abril e de 27 de julho.',
       layout: 'empilhado',
-      alt: 'Antes e depois capilar, vista do topo da cabeça: em cima, em 13 de abril, cabelo escuro com o couro cabeludo aparente no alto da cabeça; embaixo, em 27 de julho, a mesma região mais coberta e com fios mais densos.',
+      creditado: true,
+      alt: 'Antes e depois capilar, vista do topo da cabeça: em cima, em 13 de abril, numa sala de atendimento, cabelo escuro com o couro cabeludo aparente no alto da cabeça; embaixo, em 27 de julho, em outro ambiente e com outra luz, a mesma região aparece mais coberta pelos fios.',
       imagem: { pasta: 'casos', arquivo: 'capilar-topo-abril-julho', larguras: [480, 900], largura: 900, altura: 1600 },
     },
     {
       area: 'capilar',
       titulo: 'Protocolo Capilaris',
-      detalhe: 'Registros de 10 e de 20 sessões, na montagem feita pela casa.',
+      detalhe: 'Registros marcados com 10 e com 20 sessões.',
       layout: 'montagem',
-      alt: 'Montagem do Protocolo Capilaris com quatro fotos do topo da cabeça. À esquerda, duas fotos lado a lado, marcadas com 10 sessões: na primeira o couro cabeludo aparece mais, na segunda há mais fios. À direita, duas fotos uma sobre a outra, marcadas com 20 sessões: em cima o topo mais ralo, embaixo mais coberto.',
+      creditado: true,
+      alt: 'Montagem do Protocolo Capilaris com quatro fotos do alto da cabeça. À esquerda, duas fotos lado a lado, a primeira com a etiqueta "10 sessões": na primeira aparecem a testa e o couro cabeludo entre fios ralos, na segunda há mais fios. À direita, duas fotos uma sobre a outra, a de baixo com a etiqueta "20 sessões": em cima o topo mais ralo, embaixo mais coberto.',
       imagem: { pasta: 'casos', arquivo: 'capilar-protocolo-capilaris', larguras: [480, 900], largura: 900, altura: 683 },
     },
     {
       area: 'facial',
       titulo: 'Glabela',
-      detalhe: 'Linhas entre as sobrancelhas ao franzir a testa.',
+      detalhe: 'Região entre as sobrancelhas.',
       layout: 'empilhado',
-      alt: 'Antes e depois da região entre as sobrancelhas, de frente: em cima, o rosto franzido com rugas marcadas na glabela e ao redor dos olhos; embaixo, a testa e a glabela lisas, com a expressão relaxada.',
+      alt: 'Antes e depois da região entre as sobrancelhas, de frente: em cima, o rosto franzido, com rugas marcadas na glabela, no alto do nariz e ao redor dos olhos; embaixo, a testa e a glabela sem essas rugas, com os olhos abertos.',
       imagem: { pasta: 'casos', arquivo: 'facial-glabela', larguras: [480, 900], largura: 900, altura: 1600 },
     },
     {
@@ -59,7 +76,7 @@ export default {
       titulo: 'Contorno dos olhos',
       detalhe: 'Linhas ao lado dos olhos ao sorrir.',
       layout: 'empilhado',
-      alt: 'Antes e depois do contorno dos olhos, mulher sorrindo de perfil, virada para a esquerda: em cima, linhas marcadas ao lado do olho e na bochecha; embaixo, a mesma região com as linhas mais suaves.',
+      alt: 'Antes e depois do contorno dos olhos, mulher sorrindo de perfil, virada para a esquerda: em cima, sorriso aberto, com linhas marcadas ao lado do olho e na bochecha; embaixo, sorriso mais contido, a região com linhas mais suaves e marcas avermelhadas na pele.',
       imagem: { pasta: 'casos', arquivo: 'facial-olhos-perfil-esquerdo', larguras: [480, 900], largura: 900, altura: 1600 },
     },
     {
@@ -67,7 +84,7 @@ export default {
       titulo: 'Contorno dos olhos, outro lado',
       detalhe: 'A mesma paciente, do outro lado do rosto.',
       layout: 'empilhado',
-      alt: 'Antes e depois do contorno dos olhos da mesma mulher, de perfil, virada para a direita: em cima, linhas profundas ao lado do olho ao sorrir; embaixo, a região mais lisa, com a pele ainda levemente avermelhada.',
+      alt: 'Antes e depois do contorno dos olhos da mesma mulher, de perfil, virada para a direita: em cima, linhas profundas ao lado do olho ao sorrir; embaixo, a região mais lisa, com pontos avermelhados e a pele brilhante perto do olho.',
       imagem: { pasta: 'casos', arquivo: 'facial-olhos-perfil-direito', larguras: [480, 900], largura: 900, altura: 1600 },
     },
     {
@@ -80,10 +97,10 @@ export default {
     },
     {
       area: 'facial',
-      titulo: 'Textura e manchas da pele',
-      detalhe: 'Bochecha e têmpora, de perfil.',
+      titulo: 'Pele da bochecha',
+      detalhe: 'Bochecha e têmpora.',
       layout: 'empilhado',
-      alt: 'Antes e depois da pele do rosto de um homem, de perfil: em cima, poros aparentes e manchas escuras na bochecha; embaixo, a pele com textura mais uniforme e menos manchas.',
+      alt: 'Antes e depois da pele do rosto de um homem: em cima, de três quartos e com a barba por fazer, poros aparentes e manchas na bochecha; embaixo, de perfil, barbeado e com outra luz, a pele da bochecha com aspecto mais uniforme.',
       imagem: { pasta: 'casos', arquivo: 'facial-textura-pele', larguras: [480, 900], largura: 900, altura: 1600 },
     },
   ],

@@ -33,9 +33,9 @@ export default [
   {
     id: 'saude-capilar',
     nome: 'Saúde capilar',
-    chamada: 'Diagnóstico, tratamento e acompanhamento',
+    chamada: 'Avaliação, tratamento e acompanhamento',
     texto:
-      'Queda acima do normal, fios cada vez mais finos ou um couro cabeludo que coça e descama podem ter causas bem diferentes. Por isso o atendimento começa pela consulta e pelo exame do couro cabeludo, com a Dra. Rejane Rabelo, e só depois vem o protocolo.',
+      'Queda acima do normal, fios cada vez mais finos ou um couro cabeludo que coça e descama podem ter causas bem diferentes. Por isso o atendimento começa pela consulta e pelo exame do couro cabeludo, com a Dra. Rejane Rabelo, biomédica esteta, e só depois vem o protocolo.',
     pagina: '/saude-capilar/',
     wa: 'capilar',
     cta: 'Agendar avaliação capilar',
@@ -43,7 +43,7 @@ export default [
     grupos: [
       {
         id: 'diagnostico',
-        nome: 'Diagnóstico',
+        nome: 'Avaliação',
         etapa: 'Entender',
         texto: 'O primeiro passo é olhar com atenção para o couro cabeludo e para os fios.',
         itens: [
@@ -66,7 +66,7 @@ export default [
           { nome: 'Afinamento dos fios' },
           { nome: 'Falta de crescimento' },
           { nome: 'Saúde do couro cabeludo' },
-          { nome: 'Protocolo Capilaris', desc: 'O protocolo capilar da casa, ajustado a cada caso na avaliação.' },
+          { nome: 'Protocolo Capilaris' },
           { nome: 'Microagulhamento capilar' },
           { nome: 'Terapias capilares' },
           { nome: 'Protocolos injetáveis' },
@@ -89,13 +89,13 @@ export default [
   {
     id: 'emagrecimento',
     nome: 'Emagrecimento',
-    chamada: 'Corpo e saúde metabólica',
+    chamada: 'Gordura localizada, flacidez e contorno',
     texto:
-      'Protocolos corporais para gordura localizada, flacidez, celulite e contorno, com atenção também à saúde metabólica. O plano sai da avaliação individual e vai sendo ajustado conforme a evolução.',
+      'Protocolos corporais para gordura localizada, flacidez, celulite e contorno. O plano sai da avaliação individual e vai sendo ajustado conforme a evolução.',
     pagina: '/emagrecimento/',
     wa: 'emagrecimento',
     cta: 'Agendar avaliação de emagrecimento',
-    destaques: ['Gordura localizada', 'Contorno corporal', 'Flacidez', 'Celulite', 'Drenagem', 'Acompanhamento da evolução'],
+    destaques: ['Gordura localizada', 'Contorno corporal', 'Flacidez', 'Celulite', 'Drenagem'],
     grupos: [
       {
         id: 'emagrecimento-plano',
@@ -107,8 +107,7 @@ export default [
           { nome: 'Flacidez' },
           { nome: 'Celulite' },
           { nome: 'Drenagem', desc: 'Técnica manual de movimentos leves e ritmados, quando fizer sentido para o caso.' },
-          { nome: 'Protocolos de emagrecimento', desc: 'Combinação de técnicas montada para cada caso e revista ao longo do acompanhamento.' },
-          { nome: 'Acompanhamento da evolução' },
+          { nome: 'Protocolos personalizados', desc: 'Combinação de técnicas montada para cada caso.' },
         ],
       },
     ],

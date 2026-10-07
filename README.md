@@ -195,8 +195,11 @@ Os originais ficam em `fotos/casos/`. Para incluir um caso: salve a montagem
 crie um item em `src/_data/casos.js` com `area` (`capilar` ou `facial`),
 `titulo`, `detalhe`, `alt` e a linha `imagem:`. O site escreve "Antes" e
 "Depois" sobre cada metade (`layout: 'empilhado'`); montagem com marcações
-próprias usa `layout: 'montagem'`. **Só publique com a autorização de uso de
-imagem do paciente por escrito** (ver pendências).
+próprias usa `layout: 'montagem'`. Marque `creditado: true` só quando a casa
+informar que a Dra. Rejane atendeu o caso — aí o crédito com o registro no
+CRBM aparece junto. A frase do conselho ("Esta imagem não representa…") sai
+sozinha no pé das fotos e na foto ampliada. **Só publique com o termo de
+consentimento do paciente assinado** (pendência 2).
 
 ### Vídeo do depoimento
 
@@ -435,8 +438,11 @@ Medição feita com 4G lento simulado e CPU 4× mais lenta (celular): LCP
 
 ## 12. Pendências e decisões
 
-Itens que dependem da Casa EME — nenhum deles impede publicar, mas todos
-melhoram o site:
+Itens que dependem da Casa EME. Os marcados **(antes de publicar)** tratam
+de autorização, de regra de publicidade em saúde ou de fato que o site
+afirma — respondê-los antes de o site ir ao ar evita problema com conselho
+profissional, com paciente ou com o Código de Defesa do Consumidor. Os
+outros melhoram o site, mas não impedem a publicação.
 
 1. **Horários — divergência.** A bio do Instagram diz "Ter a Sáb, 9h às
    19h"; os horários detalhados informados dizem terça a quinta até 18h e
@@ -444,42 +450,103 @@ melhoram o site:
    nota "Os horários de cada serviço são confirmados no agendamento". Confirme
    com a casa, ajuste `src/_data/hours.js` se for o caso e alinhe a bio do
    Instagram e a ficha do Google.
-2. **Foto marcada como IA — fora do site.** O story "Unhas" (esmalte
+2. **Antes e depois — autorização e condições (antes de publicar).**
+   - Termo de consentimento assinado por **cada paciente** das 7 fotos de
+     `fotos/casos/`, autorizando o uso no site. Foto de saúde é dado pessoal
+     sensível (LGPD, art. 11). Pelo Código de Ética do Biomédico (Res. CFBM
+     330/2020), o termo também deve ser encaminhado ao conselho; a frase
+     obrigatória ("Esta imagem não representa, em hipótese alguma, garantia
+     de resultado…") já está no site, junto das fotos e na foto ampliada.
+   - Quem atendeu cada caso. O site credita à Dra. Rejane só os dois casos
+     capilares (`creditado: true` em `casos.js`); os faciais estão sem
+     crédito porque ninguém informou quem os fez.
+   - Condições das fotos: na **glabela**, o "depois" foi tirado tentando
+     franzir ou em repouso? Nos dois **contornos dos olhos**, o "depois" tem
+     pele avermelhada e brilhante — se foi tirado logo após o procedimento,
+     o par não deve ir ao site como resultado. No **topo da cabeça**, as
+     fotos são de lugares e luz diferentes. No **Protocolo Capilaris**,
+     qual foto é o ponto de partida em cada par, e se é o mesmo paciente.
+     Os textos alternativos descrevem essas diferenças em vez de prometer
+     melhora.
+3. **Procedimentos injetáveis — quem pode fazer e anunciar (antes de
+   publicar).** A revisão encontrou notícias (março e maio de 2026) de que o
+   TRF-1 manteve a anulação da Res. CFBM 241/2014, que autorizava biomédicos
+   a aplicar toxina botulínica, preenchimentos e outros injetáveis, com
+   recurso anunciado pelo CFBM. As fontes oficiais não puderam ser abertas
+   daqui, então trate isto como alerta, não como parecer. A lista de estética
+   avançada (que veio do briefing) e os "protocolos injetáveis" do capilar
+   continuam no site; confirme com advogado ou com o CRBM quem faz esses
+   procedimentos na casa. Se for médico(a), o site pode citar nome e CRM
+   informados pela casa.
+4. **Depoimentos (antes de publicar).**
+   - **Vídeo:** autorização de uso de imagem e voz do paciente. Confirmar a
+     transcrição — o reconhecimento de voz ouviu "Regiane" (corrigido para
+     "Rejane") e vale conferir "Um mês atrás, mais ou menos" junto de "10
+     sessões". Se mudar, mude a legenda (`.vtt`) e `depoimentos.js` juntos.
+   - **Aron Menczer:** de onde veio o depoimento (link ou print) e a
+     autorização dele para o nome aparecer. O original em inglês escreve
+     "Rejeni" e vem com um retrato que parece de banco de imagens (não usado
+     no site). Sem confirmação, tire o item de `depoimentos.js`, o nome do
+     texto de abertura e a última frase do 3º parágrafo sobre a Dra. Rejane
+     em `destaques.js`.
+   - O Código do CONAR (Anexo G) restringe depoimento de leigo em
+     publicidade de tratamento clínico. O site mostra os relatos com a
+     ressalva de que não são promessa; mantê-los é decisão da casa.
+5. **Dra. Rejane Rabelo — dados para conferir.** Região do registro (ex.:
+   CRBM-1 13690) e habilitações registradas; se a pós em estética avançada
+   é a mesma do IOA (a arte traz as duas separadas, e o site também); se ela
+   atende estética avançada e emagrecimento na casa (hoje o site a apresenta
+   só na saúde capilar); se pode entrar o link para o Instagram dela (tirado
+   porque as artes de lá trazem o telefone pessoal, e o agendamento do site
+   é um só). As artes dela dizem "Atendimento: Moema/Morumbi"; o site diz
+   que ela atende na Casa EME.
+6. **Saúde capilar — textos para a Dra. Rejane revisar.** As explicações
+   curtas de cada queixa (alopecias, dermatite, queda, afinamento, falta de
+   crescimento) foram escritas para o site (`destaques.js → capilar`). E o
+   que é o **Protocolo Capilaris** — protocolo dela, da casa ou nome
+   comercial de terceiro?
+7. **Emagrecimento.** Nenhuma fonte descreveu o serviço; o site o monta com
+   os protocolos corporais que já estavam no briefing (gordura localizada,
+   flacidez, celulite, contorno, drenagem) e um passo a passo genérico
+   (avaliação, plano, acompanhamento). Confirme o que entra e quem atende.
+   Medicamento, suplemento ou injetável não vão ao site.
+8. **Foto da primeira dobra.** A modelo da arte "Cuidado que vai além da
+   beleza" é uma imagem de campanha (a mesma aparece na arte das
+   assinaturas). Confirme que a licença dessa imagem cobre o uso no site.
+9. **Foto marcada como IA — fora do site.** O story "Unhas" (esmalte
    perolado com vidros Impala) aparece no Instagram com o selo **"Conteúdo de
    IA"**. Como o briefing proíbe imagem artificial apresentada como real, ela
    ficou em `fotos/nao-publicar/` e o teste impede que seja publicada.
-3. **Autoria das fotos de unhas.** As fotos "francesinha" e "preto e
-   tartaruga" estão no feed da casa, mas têm cara de foto de referência.
-   Estão no site marcadas com `confirmar: true` em `galeria.js`. Se não forem
-   trabalhos da Casa EME, troque por fotos próprias.
-4. **Fotos do ambiente, da equipe e de estética/saúde capilar.** Não há
-   nenhuma ainda. A galeria e a página Sobre já estão preparadas para recebê-las
-   (seção 4). Fotos reais do espaço são o que mais falta para a primeira
-   impressão — e para o Perfil da Empresa no Google.
-5. **Depoimentos.** O briefing citou os pontos que mais se repetem nas
-   avaliações, mas nenhum texto de avaliação. O site mostra esses pontos como
-   temas, sem aspas e sem nomes. Para mostrar citações, transcreva avaliações
-   reais (com o nome como aparece no Google) em `src/_data/depoimentos.js`.
-6. **Equipe.** Nenhuma profissional foi apresentada; a página Sobre não cita
-   nomes nem formações. Se a casa quiser, dá para incluir uma seção com fotos
-   e funções (sem certificações que não possam ser comprovadas).
-7. **Assinaturas.** Valores e condições transcritos do story da casa. Revise
-   sempre que a tabela mudar (`src/_data/assinaturas.js`).
-8. **Outubro Rosa.** Seção ligada (`src/_data/outubroRosa.js`). Desligue em
-   novembro e, no próximo outubro, atualize o link do INCA para a campanha do
-   ano.
-9. **Domínio.** Sem domínio próprio, o site funciona no endereço
-   `.vercel.app`, fora do Google. Conectar o domínio libera a indexação
-   (seções 6 e 7).
-10. **Logo vetorial.** O selo foi redesenhado a partir do print do perfil;
+10. **Autoria das fotos de unhas.** As fotos "francesinha" e "preto e
+    tartaruga" estão no feed da casa, mas têm cara de foto de referência.
+    Estão no site marcadas com `confirmar: true` em `galeria.js`. Se não
+    forem trabalhos da Casa EME, troque por fotos próprias.
+11. **Fotos do ambiente.** Ainda não há fotos do espaço (fachada, recepção,
+    salas). A galeria e a página Sobre já estão preparadas para recebê-las
+    (seção 4) — é o que mais falta para a primeira impressão e para o Perfil
+    da Empresa no Google.
+12. **Assinaturas.** Valores e condições transcritos do story da casa.
+    Revise sempre que a tabela mudar (`src/_data/assinaturas.js`).
+13. **Outubro Rosa.** Seção ligada (`src/_data/outubroRosa.js`). Desligue em
+    novembro e, no próximo outubro, atualize o link do INCA para a campanha
+    do ano.
+14. **Domínio.** Sem domínio próprio, o site funciona no endereço
+    `.vercel.app`, fora do Google. Conectar o domínio libera a indexação
+    (seções 6 e 7).
+15. **Logo vetorial.** O selo foi redesenhado a partir do print do perfil;
     se houver o arquivo original, ele substitui o redesenho (seção 4).
 
 ---
 
 ## 13. Antes de publicar — checklist
 
+- [ ] Termos de consentimento dos 7 casos e autorização do vídeo conferidos (pendências 2 e 4)
+- [ ] Quem faz e quem pode anunciar os injetáveis confirmado (pendência 3)
+- [ ] Depoimento do Aron Menczer confirmado ou retirado (pendência 4)
+- [ ] Dados da Dra. Rejane conferidos com ela (pendência 5)
+- [ ] Licença da foto da primeira dobra confirmada (pendência 8)
 - [ ] Horários confirmados com a casa (pendência 1)
-- [ ] Autoria das fotos de unhas confirmada (pendência 3)
+- [ ] Autoria das fotos de unhas confirmada (pendência 10)
 - [ ] Valores das assinaturas conferidos
 - [ ] `npm run build && npm run test && npm run qa` sem falhas
 - [ ] Branch do site juntada na branch padrão (ou Production Branch ajustada na Vercel)

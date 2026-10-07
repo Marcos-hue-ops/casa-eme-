@@ -5,6 +5,10 @@
 
   `rejaneCompleta` mostra também as quatro etapas da avaliação (página Sobre
   e página de saúde capilar). `nivelRejane` ajusta o nível do título.
+
+  Sem link para o Instagram pessoal dela: as artes de lá trazem o telefone
+  pessoal, e o agendamento é um só, pelo WhatsApp da casa. Para voltar com o
+  link, confirme com a casa (README → Pendências).
 -#}
 {%- set r = equipe.rejane -%}
 {%- set t = destaques.rejane -%}
@@ -33,7 +37,7 @@
           <dd>{% for f in r.formacao %}{{ f }}{% if not loop.last %}<br>{% endif %}{% endfor %}</dd>
         </div>
         <div>
-          <dt>Cursos</dt>
+          <dt>Aperfeiçoamento</dt>
           <dd>{{ r.cursos | join(' · ') }}</dd>
         </div>
         <div>
@@ -44,7 +48,6 @@
 
       <div class="acoes">
         {{ m.wa(business, 'rejane', 'Agendar avaliação com a ' + r.nomeCurto, 'btn btn--wa') }}
-        <a class="link-seta" href="{{ r.instagram.url }}" target="_blank" rel="noopener noreferrer"><span>{{ r.instagram.handle }}</span>{% icon "externo" %}</a>
       </div>
     </div>
   </div>

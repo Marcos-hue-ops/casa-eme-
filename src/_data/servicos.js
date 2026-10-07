@@ -58,7 +58,7 @@ export default [
         id: 'tratamentos',
         nome: 'Tratamentos',
         etapa: 'Tratar',
-        texto: 'Microagulhamento, terapias capilares e protocolos injetáveis, conforme o seu caso.',
+        texto: 'Protocolos intradérmicos e metabolismo capilar.',
         itens: [
           { nome: 'Alopecias' },
           { nome: 'Dermatite e inflamações do couro cabeludo' },

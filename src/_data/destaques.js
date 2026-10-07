@@ -21,125 +21,120 @@ export default {
     lema: 'Cuidado que vai além da beleza.',
     /** Parte do lema que sai em itálico (precisa estar escrita igual no lema). */
     enfase: 'além da beleza.',
-    texto:
-      'Na Casa EME, acreditamos que cuidar de você é olhar para o todo. Unimos beleza, estética avançada, terapia capilar e saúde em uma experiência completa, personalizada e pensada para o seu bem-estar.',
-    fecho: 'Porque quando você se cuida por inteiro, a beleza acontece de dentro para fora.',
+    texto: 'Cuidar de você é olhar para o todo. Aqui, cada protocolo é pensado para o seu caso e acompanhado de perto.',
+    /** Frase de fecho opcional, embaixo do texto (vazia: não aparece). */
+    fecho: '',
     /**
      * Linha de credenciais abaixo dos botões. Só fatos que a casa informou;
      * `href` é opcional (leva à seção correspondente na home).
      */
     credenciais: [
       { rotulo: 'Saúde capilar', valor: 'Dra. Rejane Rabelo', detalhe: 'Biomédica esteta · CRBM 13690', href: '#quem-atende' },
-      { rotulo: 'Avaliação', valor: 'Em quatro etapas', detalhe: 'Anamnese, exame, fotos e protocolo' },
-      { rotulo: 'Antes e depois', valor: 'Casos da casa', detalhe: 'Couro cabeludo e rosto', href: '#antes-e-depois' },
+      { rotulo: 'Avaliação capilar', valor: 'Quatro etapas', detalhe: 'Anamnese, exame, fotos, protocolo' },
+      { rotulo: 'Antes e depois', valor: 'Casos da casa', detalhe: 'Capilar e facial', href: '#antes-e-depois' },
     ],
   },
 
   /** Índice dos serviços, logo depois da primeira dobra. */
   indice: {
-    titulo: 'Seis frentes de cuidado, num só endereço',
-    enfase: 'num só endereço',
-    lead: 'Saúde capilar, emagrecimento e estética avançada são as especialidades; o salão de beleza, as massagens, as sobrancelhas e os cílios seguem no dia a dia da casa.',
+    titulo: 'Seis frentes, uma só casa',
+    enfase: 'uma só casa',
+    lead: 'Três especialidades e um salão de beleza completo. Cabelo, unhas, sobrancelhas, cílios e massagens têm a mesma atenção.',
     /** Selo nas três primeiras categorias de servicos.js. */
     selo: 'Especialidade',
   },
 
   /** Faixa escura de estética avançada, na home. */
   estetica: {
-    titulo: 'Tudo começa por uma avaliação individual',
-    enfase: 'uma avaliação individual',
-    nota: 'Procedimentos estéticos têm indicações, contraindicações e cuidados próprios, e a resposta varia de pessoa para pessoa. Por isso nenhum protocolo é definido sem avaliação.',
+    titulo: 'Rosto e corpo, com critério',
+    enfase: 'com critério',
+    nota: 'Cada procedimento tem indicações, contraindicações e cuidados próprios, e a resposta é individual.',
   },
 
   /** Seção de beleza (salão), na home. */
   beleza: {
-    titulo: 'Cabelo, mãos e pés: o cuidado de todo dia',
-    enfase: 'o cuidado de todo dia',
-    nota: 'Na esmaltação em gel, a durabilidade é, em média, de 15 a 20 dias.',
+    titulo: 'Cabelo, unhas e olhar, em dia',
+    enfase: 'em dia',
+    nota: 'Esmaltação em gel dura em média 15 a 20 dias.',
   },
 
   /** Frase sob "Por que Casa EME?" (o manifesto em si é da casa: manifesto.js). */
   manifesto: {
     intro:
-      'A Casa EME está sob nova gestão, e o que muda é a experiência. A ideia está no próprio nome — uma casa: intimista, acolhedora, onde beleza, estética, saúde capilar e bem-estar são cuidados no mesmo lugar.',
+      'Uma casa intimista e acolhedora, para cuidar de você por inteiro.',
   },
 
   rejane: {
     /* Espaço inseparável entre "a" e "Dra.": o artigo não fica sozinho no fim da linha. */
-    titulo: 'Quem te atende é a\u00a0Dra. Rejane Rabelo',
+    titulo: 'A saúde capilar é com a\u00a0Dra. Rejane Rabelo',
     enfase: 'Dra. Rejane Rabelo',
     paragrafos: [
-      'A Dra. Rejane Rabelo é biomédica esteta, com registro no CRBM 13690. Biomédica patologista de formação, fez pós-graduação em estética avançada.',
-      'Ela apresenta o próprio trabalho como saúde capilar e metabólica. Entre os cursos de aperfeiçoamento que lista estão tricologia e metabolismo capilar, voltados ao cabelo e ao couro cabeludo.',
-      'Na Casa EME, é ela quem atende na saúde capilar. Um paciente que tratou a queda de cabelo com ela conta que, depois do procedimento, ela seguiu acompanhando de perto como ia a recuperação.',
+      'Na Casa EME, é ela quem conduz cada caso de saúde capilar, da primeira consulta ao fim do tratamento.',
+      'Biomédica patologista de formação, ela se aperfeiçoou em tricologia e metabolismo capilar.',
     ],
-    fraseAvaliacao: 'A avaliação com ela passa por quatro etapas:',
+    fraseAvaliacao: 'A avaliação com ela, em quatro etapas',
   },
 
   capilar: {
-    titulo: 'Quando o cabelo cai, afina ou para de crescer',
-    enfase: 'ou para de crescer',
+    titulo: 'Cabelo que cai, afina ou não cresce',
+    enfase: 'ou não cresce',
     intro:
-      'Queda acima do normal, fios cada vez mais finos ou um couro cabeludo que coça e descama podem ter causas bem diferentes. Por isso a Dra. Rejane Rabelo começa pela consulta, examina o couro cabeludo e faz o registro fotográfico antes de montar o seu protocolo.',
+      'As causas variam. A Dra. Rejane Rabelo começa pela consulta, examina o couro cabeludo e faz o registro fotográfico.',
     aviso: 'Esse cuidado não substitui o acompanhamento com dermatologista.',
     condicoes: [
       {
         nome: 'Alopecias',
-        texto: 'Nome dado às perdas de cabelo que deixam áreas mais ralas ou com falhas; há vários tipos, com causas diferentes.',
+        texto: 'Falhas ou áreas mais ralas. Há vários tipos.',
       },
       {
         nome: 'Dermatite e inflamações do couro cabeludo',
-        texto: 'Coceira, descamação, vermelhidão ou oleosidade fora do comum podem indicar inflamação no couro cabeludo e pedem avaliação.',
+        texto: 'Coceira, descamação, vermelhidão ou oleosidade excessiva pedem avaliação.',
       },
       {
         nome: 'Queda de cabelo',
-        texto: 'Perder alguns fios por dia é normal; quando a quantidade aumenta ou se arrasta por semanas, vale investigar a causa.',
+        texto: 'Se a queda aumenta ou dura semanas, vale investigar.',
       },
       {
         nome: 'Afinamento dos fios',
-        texto: 'Os fios ficam mais finos e o volume diminui aos poucos, o que às vezes se nota primeiro no rabo de cavalo ou na repartição.',
+        texto: 'Aos poucos, o rabo de cavalo fica mais fino.',
       },
       {
         nome: 'Falta de crescimento',
-        texto: 'O cabelo parece parado no mesmo comprimento, mesmo passando meses sem cortar.',
+        texto: 'Meses sem cortar, e o comprimento continua igual.',
       },
     ],
   },
 
   casos: {
-    titulo: 'Antes e depois de quem tratou aqui',
-    enfase: 'de quem tratou aqui',
     intro:
-      'Fotos de pacientes atendidos aqui na Casa EME, no tratamento capilar e no rosto. Nos casos capilares, a própria imagem traz as datas dos registros ou o número de sessões.',
-    tituloFacial: 'No rosto',
-    introFacial: 'Casos de estética avançada facial. A legenda indica a região do rosto.',
+      'Casos atendidos aqui. A própria imagem traz as datas dos registros ou o número de sessões.',
+    introFacial: 'Cinco casos de estética facial.',
   },
 
   emagrecimento: {
-    titulo: 'Um plano para o seu corpo, depois da avaliação',
-    enfase: 'depois da avaliação',
+    titulo: 'Um plano para o seu corpo',
+    enfase: 'para o seu corpo',
     paragrafos: [
-      'Na Casa EME, o cuidado com o emagrecimento começa por uma avaliação individual, com uma conversa sobre a sua rotina, o seu histórico e o que mais incomoda no corpo. A partir dela entram os protocolos corporais da casa para gordura localizada, flacidez, celulite e contorno, com drenagem quando fizer sentido para o caso.',
-      'Quais técnicas entram no plano e quantas sessões ele terá, a avaliação é que define, e o plano pode ser revisto ao longo do acompanhamento.',
+      'Primeiro vem a avaliação. Dela sai o plano: protocolos corporais para gordura localizada, flacidez, celulite e contorno, com drenagem quando fizer sentido.',
     ],
     aviso:
-      'Os protocolos trabalham gordura localizada, flacidez, celulite e contorno. Perder peso depende também de alimentação e atividade física, e os protocolos não substituem o acompanhamento médico e nutricional.',
+      'Perder peso depende também de alimentação e atividade física. Os protocolos não substituem o acompanhamento médico e nutricional.',
     lead:
-      'Cada plano começa por uma avaliação individual e reúne protocolos corporais para gordura localizada, flacidez, celulite e contorno. Tudo aqui na Casa EME, na Rua Pintassilgo, em Moema.',
+      'Protocolos corporais montados a partir da sua avaliação, aqui na Casa EME, na Rua Pintassilgo, 457.',
     etapas: [
-      { nome: 'Avaliação individual', texto: 'Conversa sobre a sua rotina, o seu histórico e o que mais incomoda no corpo.' },
-      { nome: 'Plano para o seu caso', texto: 'As técnicas e o número de sessões saem da avaliação, e não de um pacote pronto.' },
-      { nome: 'Acompanhamento', texto: 'Ao longo das sessões, o plano pode ser ajustado conforme a evolução.' },
+      { nome: 'Avaliação individual', texto: 'Conversa sobre rotina, histórico e o que incomoda.' },
+      { nome: 'Plano para o seu caso', texto: 'Técnicas e sessões sob medida, sem pacote pronto.' },
+      { nome: 'Acompanhamento', texto: 'O plano se ajusta conforme a evolução.' },
     ],
   },
 
   depoimentos: {
-    titulo: 'Quem tratou a queda de cabelo aqui conta como foi',
+    titulo: 'Quem tratou a queda conta como foi',
     enfase: 'conta como foi',
     intro:
-      'Um paciente gravou o depoimento em vídeo; Aron Menczer escreveu o dele em inglês, publicado com tradução. Os dois procuraram a Dra. Rejane Rabelo por causa da queda de cabelo.',
+      'Dois pacientes da Dra. Rejane Rabelo: um gravou em vídeo, o outro escreveu.',
     /** Vai logo depois dos depoimentos: relato não é promessa. */
     ressalva:
-      'Relatos de pacientes, contados por eles. A experiência de cada pessoa é individual e não é promessa de resultado: o tratamento e o número de sessões dependem da avaliação.',
+      'Relatos individuais, não promessa de resultado. O tratamento e o número de sessões dependem da avaliação.',
   },
 };

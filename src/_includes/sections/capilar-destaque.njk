@@ -38,7 +38,7 @@
       <h3 class="queixas__sub">Antes e depois</h3>
       <ul class="casos__grade casos__grade--capilar">
         {%- for c in casos.itens | casosDe('capilar') %}
-        <li>{{ m.caso(c, '(min-width: 64rem) 22rem, (min-width: 40rem) 40vw, 92vw', casos.aviso) }}</li>
+        <li>{{ m.caso(c, ('(min-width: 64rem) 14rem, (min-width: 40rem) 27vw, 22rem' if c.layout == 'empilhado' else '(min-width: 64rem) 31rem, (min-width: 40rem) 63vw, 92vw'), casos.aviso) }}</li>
         {%- endfor %}
       </ul>
       <p class="queixas__credito"><strong>{{ casos.credito }}</strong> {{ casos.ressalva }} {{ casos.aviso }}</p>

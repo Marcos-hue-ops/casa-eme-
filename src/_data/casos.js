@@ -35,6 +35,8 @@
 export default {
   /** Quem atendeu os casos marcados com `creditado` — aparece junto deles. */
   credito: 'Casos capilares: atendimento da Dra. Rejane Rabelo, biomédica esteta · CRBM 13690',
+  /** O mesmo crédito, no singular, para a legenda de uma foto só (galeria). */
+  creditoFoto: 'Atendimento da Dra. Rejane Rabelo, biomédica esteta · CRBM 13690',
   /**
    * `aviso` é a frase que o Código de Ética do Biomédico (Res. CFBM
    * 330/2020) pede junto de imagem de resultado. Vai, sem mudar uma
@@ -90,15 +92,15 @@ export default {
     {
       area: 'facial',
       titulo: 'Sorriso gengival',
-      detalhe: 'Quanto da gengiva aparece no sorriso.',
+      detalhe: 'A faixa de gengiva que aparece ao sorrir.',
       layout: 'empilhado',
       alt: 'Antes e depois do sorriso, de frente: em cima, o sorriso mostra uma faixa larga de gengiva acima dos dentes; embaixo, o mesmo sorriso mostra pouca gengiva.',
       imagem: { pasta: 'casos', arquivo: 'facial-sorriso-gengival', larguras: [480, 900], largura: 900, altura: 1600 },
     },
     {
       area: 'facial',
-      titulo: 'Pele da bochecha',
-      detalhe: 'Bochecha e têmpora.',
+      titulo: 'Bochecha e têmpora',
+      detalhe: 'Textura da pele.',
       layout: 'empilhado',
       alt: 'Antes e depois da pele do rosto de um homem: em cima, de três quartos e com a barba por fazer, poros aparentes e manchas na bochecha; embaixo, de perfil, barbeado e com outra luz, a pele da bochecha com aspecto mais uniforme.',
       imagem: { pasta: 'casos', arquivo: 'facial-textura-pele', larguras: [480, 900], largura: 900, altura: 1600 },

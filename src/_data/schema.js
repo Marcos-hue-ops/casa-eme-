@@ -112,10 +112,9 @@ const pessoa = {
     value: rejane.registro.numero,
   },
   alumniOf: { '@type': 'EducationalOrganization', name: 'IOA — Instituto Orofacial das Américas' },
-  knowsAbout: ['Saúde capilar', 'Tricologia', 'Metabolismo capilar', 'Estética avançada', ...rejane.tratamentosCapilares],
+  knowsAbout: ['Saúde capilar', 'Tricologia', 'Metabolismo capilar', ...rejane.tratamentosCapilares],
   image: `${site.url}/assets/img/${rejane.fotos.principal.imagem.pasta}/${rejane.fotos.principal.imagem.arquivo}-${rejane.fotos.principal.imagem.largura}.webp`,
   worksFor: { '@id': idNegocio },
-  sameAs: [rejane.instagram.url],
   url: `${site.url}/sobre/#quem-atende`,
 };
 

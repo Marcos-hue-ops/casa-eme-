@@ -363,10 +363,11 @@ for (const [nome, conteudo] of Object.entries(html)) {
   if (!presentes.length) continue;
   const texto = textoDe(conteudo);
   ok(texto.includes(casos.aviso), `${nome}: antes e depois com o aviso do conselho`);
+  const creditoDaPagina = nome === 'galeria/index.html' ? casos.creditoFoto : casos.credito;
   if (presentes.some((c) => c.creditado)) {
-    ok(texto.includes(casos.credito), `${nome}: antes e depois com o crédito e o registro de quem atendeu`);
+    ok(texto.includes(creditoDaPagina), `${nome}: antes e depois com o crédito e o registro de quem atendeu`);
   } else {
-    ok(!texto.includes(casos.credito), `${nome}: sem crédito em caso que ninguém assinou`);
+    ok(!texto.includes(creditoDaPagina), `${nome}: sem crédito em caso que ninguém assinou`);
   }
   for (const c of presentes) {
     const legenda = conteudo.match(new RegExp(`data-lupa="[^"]*/casos/${c.imagem.arquivo}-[^"]*"[^>]*data-lupa-legenda="([^"]*)"`))?.[1] ?? '';

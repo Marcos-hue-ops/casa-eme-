@@ -1,8 +1,8 @@
 {%- import "components/macros.njk" as m -%}
 {#-
-  Antes e depois (casos.js). Na home entram as duas áreas: primeiro o
-  capilar, depois o rosto. `areaCasos` ('capilar' ou 'facial') mostra só uma
-  delas, nas páginas de cada especialidade; `nivelCasos` ajusta o título.
+  Antes e depois (casos.js) nas páginas de cada especialidade: `areaCasos`
+  ('capilar' ou 'facial') escolhe a área; `nivelCasos` ajusta o título. Na
+  home, os casos entram dentro das seções de saúde capilar e de estética.
 
   Toda foto vai junto com o aviso do conselho (resultado não é garantia) e,
   nos casos em que a casa informou quem atendeu, com o crédito e o registro
@@ -17,13 +17,10 @@
     <div class="casos__cab">
       <p class="rotulo">Antes e depois</p>
       {%- if areaCasos == 'facial' %}
-      <h{{ n }} class="casos__titulo" id="casos-titulo">{{ t.tituloFacial }}: <em>antes e depois</em></h{{ n }}>
+      <h{{ n }} class="casos__titulo" id="casos-titulo">No rosto: <em>antes e depois</em></h{{ n }}>
       <p class="casos__intro">{{ t.introFacial }}</p>
-      {%- elif areaCasos == 'capilar' %}
-      <h{{ n }} class="casos__titulo" id="casos-titulo">Tratamento capilar: <em>antes e depois</em></h{{ n }}>
-      <p class="casos__intro">Fotos do couro cabeludo de pacientes atendidos aqui. A própria imagem traz as datas dos registros ou o número de sessões.</p>
       {%- else %}
-      <h{{ n }} class="casos__titulo" id="casos-titulo">{{ t.titulo | enfase(t.enfase) | safe }}</h{{ n }}>
+      <h{{ n }} class="casos__titulo" id="casos-titulo">Tratamento capilar: <em>antes e depois</em></h{{ n }}>
       <p class="casos__intro">{{ t.intro }}</p>
       {%- endif %}
     </div>
@@ -31,10 +28,9 @@
     <div data-lupa-grupo>
       {%- if areaCasos != 'facial' %}
       <div class="casos__bloco">
-        {%- if not areaCasos %}<h{{ n + 1 }} class="casos__sub">No couro cabeludo</h{{ n + 1 }}>{% endif %}
         <ul class="casos__grade casos__grade--capilar">
           {%- for c in capilares %}
-          <li>{{ m.caso(c, '(min-width: 64rem) 26rem, (min-width: 40rem) 46vw, 92vw', casos.aviso) }}</li>
+          <li>{{ m.caso(c, ('(min-width: 64rem) 18rem, (min-width: 40rem) 27vw, 22rem' if c.layout == 'empilhado' else '(min-width: 64rem) 42rem, (min-width: 40rem) 63vw, 92vw'), casos.aviso) }}</li>
           {%- endfor %}
         </ul>
       </div>
@@ -42,10 +38,6 @@
 
       {%- if areaCasos != 'capilar' %}
       <div class="casos__bloco">
-        {%- if not areaCasos %}
-        <h{{ n + 1 }} class="casos__sub">{{ t.tituloFacial }}</h{{ n + 1 }}>
-        <p class="casos__sub-intro">{{ t.introFacial }}</p>
-        {%- endif %}
         <ul class="casos__grade casos__grade--facial">
           {%- for c in faciais %}
           <li>{{ m.caso(c, aviso=casos.aviso) }}</li>

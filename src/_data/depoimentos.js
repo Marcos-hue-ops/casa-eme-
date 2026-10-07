@@ -44,7 +44,7 @@ export default {
       autor: 'Aron Menczer',
       /* O original, em inglês, saiu numa arte da Dra. Rejane Rabelo, com a
          tradução abaixo. A foto que acompanhava o texto na arte não é usada. */
-      contexto: 'Avaliação escrita em inglês; tradução publicada pela Dra. Rejane Rabelo',
+      contexto: 'Depoimento escrito em inglês, com tradução publicada pela Dra. Rejane Rabelo',
       paragrafos: [
         'Sofri com a queda de cabelo por muito tempo e tentei diversas coisas sem realmente ver os resultados que esperava. Depois de apenas alguns tratamentos com a Rejane, comecei a notar uma diferença real, e a queda do meu cabelo diminuiu visivelmente. Só isso já fez uma diferença enorme para mim.',
         'O que realmente se destaca na Rejane é o quanto ela se importa de verdade com seus clientes. Ela se empenha muito para garantir que o procedimento ocorra da forma mais tranquila e indolor possível, e está sempre presente depois, acompanhando e certificando-se de que a recuperação esteja indo bem.',

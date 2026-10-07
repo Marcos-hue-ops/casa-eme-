@@ -312,21 +312,6 @@
   margin-block-start: var(--e-5);
 }
 
-.casos__sub {
-  font-size: var(--t-h3);
-  font-style: italic;
-  color: var(--marca);
-  padding-block-end: var(--e-1);
-  border-block-end: 1px solid var(--fio-forte);
-}
-
-.casos__sub-intro {
-  margin-block-start: var(--e-2);
-  max-inline-size: 40rem;
-  font-size: var(--t-pequeno);
-  color: var(--texto-2);
-}
-
 .casos__grade {
   list-style: none;
   padding: 0;
@@ -551,6 +536,7 @@
 
 .depo__transcricao summary::after {
   content: '+';
+  content: '+' / '';
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1;
@@ -558,6 +544,7 @@
 
 .depo__transcricao[open] summary::after {
   content: '−';
+  content: '−' / '';
 }
 
 .depo__transcricao p {
@@ -1054,6 +1041,7 @@
 
 .depo__mais summary::after {
   content: '+';
+  content: '+' / '';
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1;
@@ -1061,9 +1049,9 @@
 
 .depo__mais[open] summary::after {
   content: '−';
+  content: '−' / '';
 }
 
-.depo__mais p + p,
-.depo__mais summary + p {
-  margin-block-start: var(--e-2);
+.depo__mais .depo__citacao {
+  margin-block-start: var(--e-1);
 }

@@ -20,7 +20,7 @@ export default {
   titulo: 'Assinaturas',
   chamada: 'Mais praticidade no dia a dia',
   texto:
-    'Para quem mantém unhas e escova em dia, a Casa EME tem planos mensais: os serviços do mês reunidos numa assinatura só.',
+    'Unhas, escova e retoque de raiz em planos mensais, numa assinatura só.',
   planos: [
     {
       nome: 'Manicure + Pedicure',

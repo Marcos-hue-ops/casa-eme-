@@ -66,7 +66,7 @@ export default [
       {
         id: 'formacao-dra-rejane',
         p: 'Qual é a formação da Dra. Rejane Rabelo?',
-        r: 'Ela é biomédica esteta (CRBM 13690) e biomédica patologista, com pós-graduação em estética avançada. Entre os cursos de aperfeiçoamento que ela lista estão uma pós-graduação pelo IOA, Instituto Orofacial das Américas, e cursos de suplementação injetável e exames laboratoriais, PRP, tricologia e metabolismo capilar.',
+        r: 'Ela é biomédica esteta (CRBM 13690), biomédica patologista de formação e pós-graduada em estética avançada. Também fez pós-graduação pelo IOA, Instituto Orofacial das Américas, e cursos de suplementação injetável e exames laboratoriais, PRP, tricologia e metabolismo capilar.',
         em: ['capilar'],
       },
     ],
@@ -174,7 +174,7 @@ export default [
       {
         id: 'avaliacao-capilar',
         p: 'Como é a avaliação capilar?',
-        r: 'É feita pela Dra. Rejane Rabelo, em quatro etapas: a consulta, com anamnese (a conversa sobre histórico, hábitos e queixas); o exame físico do couro cabeludo e dos fios; o registro fotográfico; e, por último, a estruturação do protocolo de tratamento. Saiba mais em <a href="/saude-capilar/">Saúde capilar</a>.',
+        r: 'É feita pela Dra. Rejane Rabelo, em quatro etapas: a consulta, com anamnese (a conversa sobre histórico, hábitos e queixas); o exame físico do couro cabeludo e dos fios; o registro fotográfico; e, por último, a estruturação do protocolo de tratamento. Saiba mais em <a href="/saude-capilar/#quem-atende">Saúde capilar</a>.',
         em: ['capilar', 'home'],
       },
       {
@@ -216,7 +216,7 @@ export default [
       {
         id: 'tratamento-emagrecimento',
         p: 'A Casa EME tem tratamento para emagrecimento?',
-        r: 'Tem. O atendimento começa por uma avaliação individual e pode incluir protocolos corporais para gordura localizada, flacidez, celulite e contorno. Saiba mais em <a href="/emagrecimento/">Emagrecimento</a>.',
+        r: 'Tem. O atendimento começa por uma avaliação individual e pode incluir protocolos corporais para gordura localizada, flacidez, celulite e contorno. Saiba mais em <a href="/emagrecimento/#o-que-entra-no-plano">Emagrecimento</a>.',
         em: ['home', 'emagrecimento'],
       },
       {

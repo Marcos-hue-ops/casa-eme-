@@ -67,8 +67,8 @@ export default {
     ...casos.itens.map((caso) => ({
       categoria: caso.area === 'capilar' ? 'saude-capilar' : 'estetica',
       alt: caso.alt,
-      legenda: `${caso.titulo} — antes e depois`,
-      credito: caso.creditado ? casos.credito : '',
+      legenda: caso.layout === 'empilhado' ? `${caso.titulo} — antes (em cima) e depois (embaixo)` : `${caso.titulo} — antes e depois`,
+      credito: caso.creditado ? casos.creditoFoto : '',
       aviso: casos.aviso,
       imagem: caso.imagem,
     })),
@@ -88,9 +88,10 @@ export default {
       sizes: '(min-width: 64rem) 26rem, (min-width: 30rem) 20rem, 16rem',
       imagem: { pasta: 'janela', arquivo: 'mulher-sorrindo', larguras: [360, 650], largura: 650, altura: 650 },
     },
-    /* Retrato da Dra. Rejane Rabelo, quem atende na saúde capilar e na estética. */
+    /* Retrato da Dra. Rejane Rabelo, quem atende na saúde capilar. O nome
+       vem escrito logo ao lado (legenda da janela), por isso o alt não o repete. */
     secundaria: {
-      alt: 'Retrato da Dra. Rejane Rabelo sorrindo.',
+      alt: 'Retrato de rosto, sorriso leve, cabelo escuro e longo, brinco dourado e blazer branco.',
       imagem: { pasta: 'janela', arquivo: 'dra-rejane', larguras: [360, 460], largura: 460, altura: 460 },
     },
     /* As janelas anteriores (ondas e francesinha) continuam geradas por

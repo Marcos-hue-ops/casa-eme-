@@ -19,8 +19,7 @@
         <a class="indice__link" href="{{ cat.pagina }}">
           <span class="indice__num" aria-hidden="true">{{ loop.index | dois }}</span>
           <span class="indice__nome">
-            {%- if loop.index <= 3 %}<span class="indice__selo">{{ t.selo }}</span>{% endif %}
-            {{- cat.nome -}}
+            {%- if loop.index <= 3 %}<span class="indice__selo">{{ t.selo }}</span> {% endif %}{{ cat.nome -}}
           </span>
           <span class="indice__desc">
             <span class="indice__chamada">{{ cat.chamada }}</span>

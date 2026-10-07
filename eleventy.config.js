@@ -91,7 +91,7 @@ export default function (eleventyConfig) {
     '@context': 'https://schema.org',
     '@type': 'VideoObject',
     name: 'Depoimento de paciente sobre o tratamento capilar com a Dra. Rejane Rabelo, na Casa EME',
-    description: item.trecho,
+    description: `Depoimento em vídeo, com legendas em português, de um paciente que procurou a Dra. Rejane Rabelo, biomédica esteta, por causa da queda de cabelo. Trecho: "${item.trecho}"`,
     thumbnailUrl: `${base}/assets/img/${item.video.capa.pasta}/${item.video.capa.arquivo}-${item.video.capa.largura}.webp`,
     contentUrl: `${base}${item.video.mp4}`,
     /* O Google pede data com fuso; a data sozinha vira meia-noite de Brasília. */

@@ -35,7 +35,7 @@ export default [
     nome: 'Saúde capilar',
     chamada: 'Avaliação, tratamento e acompanhamento',
     texto:
-      'Queda acima do normal, fios cada vez mais finos ou um couro cabeludo que coça e descama podem ter causas bem diferentes. Por isso o atendimento começa pela consulta e pelo exame do couro cabeludo, com a Dra. Rejane Rabelo, biomédica esteta, e só depois vem o protocolo.',
+      'Queda, afinamento e couro cabeludo irritado podem ter causas diferentes. A Dra. Rejane Rabelo, biomédica esteta, avalia antes de tratar.',
     pagina: '/saude-capilar/',
     wa: 'capilar',
     cta: 'Agendar avaliação capilar',
@@ -45,7 +45,7 @@ export default [
         id: 'diagnostico',
         nome: 'Avaliação',
         etapa: 'Entender',
-        texto: 'O primeiro passo é olhar com atenção para o couro cabeludo e para os fios.',
+        texto: 'Antes de tratar: consulta, exame do couro cabeludo e tricoscopia.',
         itens: [
           { nome: 'Consulta capilar' },
           { nome: 'Avaliação do couro cabeludo' },
@@ -58,7 +58,7 @@ export default [
         id: 'tratamentos',
         nome: 'Tratamentos',
         etapa: 'Tratar',
-        texto: 'Com o plano definido, os recursos são escolhidos para a queixa de cada pessoa.',
+        texto: 'Microagulhamento, terapias capilares e protocolos injetáveis, conforme o seu caso.',
         itens: [
           { nome: 'Alopecias' },
           { nome: 'Dermatite e inflamações do couro cabeludo' },
@@ -76,7 +76,7 @@ export default [
         id: 'cuidado-e-recuperacao',
         nome: 'Cuidado e recuperação',
         etapa: 'Acompanhar',
-        texto: 'O cuidado continua depois da sessão: recuperação da fibra, pré e pós-procedimento e acompanhamento da evolução.',
+        texto: 'Pré e pós-procedimento, recuperação da fibra e acompanhamento da evolução.',
         itens: [
           { nome: 'Recuperação da fibra capilar' },
           { nome: 'Pré e pós-procedimento' },
@@ -91,7 +91,7 @@ export default [
     nome: 'Emagrecimento',
     chamada: 'Gordura localizada, flacidez e contorno',
     texto:
-      'Protocolos corporais para gordura localizada, flacidez, celulite e contorno. O plano sai da avaliação individual e vai sendo ajustado conforme a evolução.',
+      'Protocolos corporais para gordura localizada, flacidez, celulite e contorno. O plano sai da avaliação e acompanha a evolução.',
     pagina: '/emagrecimento/',
     wa: 'emagrecimento',
     cta: 'Agendar avaliação de emagrecimento',
@@ -118,7 +118,7 @@ export default [
     nome: 'Estética avançada',
     chamada: 'Facial e corporal',
     texto:
-      'Procedimentos faciais e corporais definidos a partir de uma avaliação individual. O que se indica — e se algo se indica — depende de cada pessoa, da pele, do corpo e do que ela procura.',
+      'Nenhum procedimento sem indicação. Quem decide é a avaliação da sua pele e do seu corpo.',
     pagina: '/estetica-avancada/',
     wa: 'estetica',
     cta: 'Agendar avaliação de estética',
@@ -157,7 +157,7 @@ export default [
     nome: 'Beleza',
     chamada: 'Cabelo, manicure e pedicure',
     texto:
-      'Do corte à finalização, da coloração às mechas: o cabelo é cuidado por inteiro, com hidratação e reconstrução quando o fio pede. Nas mãos e nos pés, esmaltação tradicional ou em gel, blindagem, alongamento e os spas de mãos e pés.',
+      'Do corte às mechas, com hidratação e reconstrução quando o fio pede. Nas mãos e nos pés, do gel ao spa.',
     pagina: '/servicos/#beleza',
     wa: 'beleza',
     cta: 'Agendar serviço de beleza',
@@ -213,7 +213,7 @@ export default [
     nome: 'Relax & Spa',
     chamada: 'Massagens e drenagem',
     texto:
-      'Técnicas manuais para desacelerar e cuidar do corpo, feitas no mesmo ambiente intimista dos outros atendimentos da casa.',
+      'Técnicas manuais para desacelerar e cuidar do corpo, no ambiente intimista da casa.',
     pagina: '/servicos/#relax-spa',
     wa: 'relax',
     cta: 'Agendar massagem ou drenagem',
@@ -240,7 +240,7 @@ export default [
     nome: 'Sobrancelhas e cílios',
     chamada: 'Beleza e cuidado',
     texto:
-      'O desenho da sobrancelha pensado para o rosto de cada pessoa, com ou sem tintura, e a extensão de cílios.',
+      'Design de sobrancelhas pensado para o seu rosto, com ou sem tintura, e extensão de cílios.',
     pagina: '/servicos/#sobrancelhas-e-cilios',
     wa: 'sobrancelhas',
     cta: 'Agendar sobrancelhas ou cílios',

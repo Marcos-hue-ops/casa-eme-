@@ -11,13 +11,7 @@
 <section class="capilar" aria-labelledby="capilar-titulo">
   <div class="env">
     <div class="capilar__cab">
-      {%- if not semCabecalhoCapilar %}
-      <p class="rotulo">{{ servicos | numeroDe('saude-capilar') }} · {{ cap.nome }}</p>
-      <h{{ n }} class="capilar__titulo" id="capilar-titulo">Primeiro entender o fio. <em>Depois tratar.</em></h{{ n }}>
-      <p class="capilar__lead">{{ cap.texto }}</p>
-      {%- else %}
       <h{{ n }} class="capilar__titulo capilar__titulo--menor" id="capilar-titulo">Como funciona, em três tempos</h{{ n }}>
-      {%- endif %}
     </div>
 
     <ol class="etapas reveal">

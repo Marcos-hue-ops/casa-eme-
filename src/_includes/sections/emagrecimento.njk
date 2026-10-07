@@ -36,7 +36,9 @@
         </li>
         {%- endfor %}
       </ol>
+      {%- if not semLinkEmagrecimento %}
       <p class="emagrecer__itens"><span class="so-leitor">O que pode entrar no plano: </span>{{ em_.destaques | join(' · ') }}</p>
+      {%- endif %}
     </div>
   </div>
 </section>

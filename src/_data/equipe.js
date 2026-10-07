@@ -18,6 +18,7 @@ export default {
     funcao: 'Biomédica esteta',
     registro: { conselho: 'CRBM', numero: '13690', formatado: 'CRBM 13690' },
     assinatura: 'Saúde capilar e metabólica',
+    /* Não publicar: as artes desse perfil trazem o telefone pessoal (README → Pendências). */
     instagram: {
       handle: '@dra_rejane_rabelo',
       url: 'https://www.instagram.com/dra_rejane_rabelo/',
@@ -42,7 +43,7 @@ export default {
       { nome: 'Consulta e anamnese', texto: 'Conversa sobre a queixa, o histórico, a rotina e o que já foi tentado.' },
       { nome: 'Exame físico', texto: 'Exame do couro cabeludo e dos fios.' },
       { nome: 'Registro fotográfico', texto: 'Fotos do ponto de partida, para comparar a evolução ao longo do tratamento.' },
-      { nome: 'Estruturação do protocolo', texto: 'Com essas informações em mãos, o tratamento é montado para o caso.' },
+      { nome: 'Estruturação do protocolo', texto: 'Com o que viu nas etapas anteriores, ela monta o tratamento de cada paciente.' },
     ],
 
     /** Queixas capilares que ela atende, como ela as nomeia. */
@@ -57,6 +58,7 @@ export default {
         alt: 'Dra. Rejane Rabelo de blazer branco e blusa preta, braços cruzados, diante de uma parede clara com relevo geométrico.',
         imagem: { pasta: 'equipe', arquivo: 'dra-rejane-rabelo-formacao', larguras: [480, 956], largura: 956, altura: 900 },
       },
+      /* reserva: não usado nas páginas hoje */
       blazer: {
         alt: 'Dra. Rejane Rabelo sorrindo, de blazer branco, ao lado de um vaso com capim seco, em frente a uma parede clara com relevo.',
         imagem: { pasta: 'equipe', arquivo: 'dra-rejane-rabelo-blazer', larguras: [480, 960], largura: 960, altura: 837 },
@@ -65,6 +67,7 @@ export default {
         alt: 'Dra. Rejane Rabelo de pé, de blazer branco, na sala de atendimento, com um vaso de capim seco ao lado.',
         imagem: { pasta: 'equipe', arquivo: 'dra-rejane-rabelo-avaliacao', larguras: [480, 720], largura: 720, altura: 743 },
       },
+      /* reserva: não usado nas páginas hoje */
       rosto: {
         alt: 'Retrato da Dra. Rejane Rabelo sorrindo.',
         imagem: { pasta: 'janela', arquivo: 'dra-rejane', larguras: [360, 460], largura: 460, altura: 460 },

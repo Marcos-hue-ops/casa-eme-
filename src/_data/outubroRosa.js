@@ -12,8 +12,8 @@ export default {
   ativo: true,
   titulo: 'Outubro Rosa: um convite ao cuidado',
   paragrafos: [
-    'O cuidado com a beleza também pode caminhar ao lado do cuidado com a saúde. Durante o Outubro Rosa, a Casa EME reforça a importância da informação, da prevenção e do acompanhamento profissional.',
-    'Conhecer o próprio corpo, manter as consultas em dia e conversar com seu médico sobre os exames indicados para você são gestos de cuidado tão importantes quanto qualquer outro.',
+    'Beleza e saúde caminham juntas. No Outubro Rosa, a Casa EME reforça a importância da informação e da prevenção.',
+    'Conhecer o corpo, manter as consultas em dia e falar com seu médico sobre os exames também é cuidado.',
   ],
   aviso: 'A Casa EME não realiza diagnóstico nem substitui o acompanhamento médico.',
   link: {

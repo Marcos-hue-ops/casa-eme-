@@ -498,11 +498,6 @@
   font-size: var(--t-h3);
 }
 
-.capilar__lead {
-  margin-block-start: var(--e-3);
-  color: var(--texto-2);
-}
-
 .etapas {
   position: relative;
   display: grid;

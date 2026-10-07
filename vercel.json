@@ -50,7 +50,7 @@
       ]
     },
     {
-      "source": "/assets/img/(.*)",
+      "source": "/assets/(img|video)/(.*)",
       "headers": [
         {
           "key": "Cache-Control",

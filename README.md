@@ -134,7 +134,8 @@ explicando os campos. Mude, rode `npm run build`, confira e publique.
 | **Endereço / CEP** | `src/_data/business.js` → `address` e `enderecoMaps` | o mesmo dado alimenta rodapé, contato, mapa e schema |
 | **Horários** | `src/_data/hours.js` | mude a `semana` **e** os `grupos`/resumos logo abaixo (ver pendência sobre a bio do Instagram) |
 | **Serviços** (incluir, tirar, renomear) | `src/_data/servicos.js` | alimenta home, serviços, estética, capilar, emagrecimento, FAQ e schema. A **ordem** das categorias é a ordem do índice e da numeração da home: as três primeiras são os destaques |
-| **Textos das especialidades** (primeira dobra, saúde capilar, emagrecimento, estética, antes e depois, quem atende, depoimentos) | `src/_data/destaques.js` | `enfase` é o trecho do título que sai em itálico |
+| **Textos da home e das especialidades** (primeira dobra e credenciais, índice de serviços, saúde capilar, quem atende, depoimentos, emagrecimento, estética, beleza, frase do manifesto) | `src/_data/destaques.js` | `enfase` é o trecho do título que sai em itálico. Os textos foram enxutos de propósito: frases curtas, uma ideia por frase |
+| **Credenciais da primeira dobra** | `src/_data/destaques.js → hero.credenciais` | só fatos informados (registro, método, casos); `href` leva à seção da home |
 | **Dra. Rejane Rabelo** (formação, cursos, registro, fotos, etapas da avaliação) | `src/_data/equipe.js` | só o que está nas artes dela; nunca "médica" |
 | **Antes e depois** | `src/_data/casos.js` | crédito e ressalva aparecem junto das fotos; os casos entram sozinhos na galeria |
 | **Assinaturas** (planos, valores, condições) | `src/_data/assinaturas.js` | `mostrarPrecos: false` esconde os valores |

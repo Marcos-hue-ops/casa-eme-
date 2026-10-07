@@ -44,17 +44,17 @@
       </figure>
       {%- else %}
       <figure class="depo depo--texto">
-        <blockquote class="depo__citacao">
-          <p>{{ d.paragrafos[0] }}</p>
-          {%- if d.paragrafos.length > 1 %}
-          <details class="depo__mais">
-            <summary>Ler o depoimento inteiro</summary>
+        <blockquote class="depo__citacao"><p>{{ d.paragrafos[0] }}</p></blockquote>
+        {%- if d.paragrafos.length > 1 %}
+        <details class="depo__mais">
+          <summary>Ler o depoimento inteiro</summary>
+          <blockquote class="depo__citacao">
             {%- for p in d.paragrafos.slice(1) %}
             <p>{{ p }}</p>
             {%- endfor %}
-          </details>
-          {%- endif %}
-        </blockquote>
+          </blockquote>
+        </details>
+        {%- endif %}
         <figcaption class="depo__autor">{{ d.autor }}<span class="depo__contexto">{{ d.contexto }}</span></figcaption>
       </figure>
       {%- endif %}
@@ -64,8 +64,8 @@
     <p class="vozes__ressalva">{{ t.ressalva }}</p>
 
     <div class="vozes__temas-bloco">
-      <h3 class="vozes__sub">Nas avaliações da casa</h3>
-      <p class="vozes__intro">Nos comentários de quem já passou pela Casa EME, alguns pontos se repetem:</p>
+      <h3 class="vozes__sub">O que mais aparece nos comentários</h3>
+      <p class="vozes__intro">Quem já passou pela Casa EME costuma citar:</p>
       <ul class="vozes__temas">
         {%- for tema in depoimentos.destaques %}
         <li>{{ tema }}</li>

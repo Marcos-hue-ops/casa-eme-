@@ -67,13 +67,13 @@
 -#}
 {% macro caso(item, sizes='(min-width: 64rem) 15rem, (min-width: 40rem) 30vw, 46vw', aviso='') -%}
 <figure class="caso caso--{{ item.layout }}">
-  <button type="button" class="caso__abrir" data-lupa="{{ item.imagem | src }}" data-lupa-legenda="{{ item.titulo }}. {{ item.detalhe }}{% if aviso %} {{ aviso }}{% endif %}">
+  <button type="button" class="caso__abrir" data-lupa="{{ item.imagem | src }}" data-lupa-legenda="{{ item.titulo }}. {% if item.layout == 'empilhado' %}Em cima, antes; embaixo, depois. {% endif %}{{ item.detalhe }}{% if aviso %} {{ aviso }}{% endif %}">
+    <span class="so-leitor">Ampliar foto: {{ item.titulo }}.</span>
     {{ foto(item.imagem, item.alt, sizes) }}
     {%- if item.layout == 'empilhado' %}
     <span class="caso__marca caso__marca--antes" aria-hidden="true">Antes</span>
     <span class="caso__marca caso__marca--depois" aria-hidden="true">Depois</span>
     {%- endif %}
-    <span class="so-leitor">Ampliar foto: {{ item.titulo }}</span>
   </button>
   <figcaption class="caso__legenda">
     <span class="caso__titulo">{{ item.titulo }}</span>

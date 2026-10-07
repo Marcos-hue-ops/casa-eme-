@@ -145,7 +145,7 @@ export default [
         id: 'procedimentos-estetica',
         p: 'Quais procedimentos de estética avançada são oferecidos?',
         r: 'No rosto: toxina botulínica, preenchimento, bioestimuladores, skinbooster, microagulhamento, rejuvenescimento e tratamentos para a qualidade da pele. No corpo: tratamentos para gordura localizada, flacidez, celulite e contorno corporal, drenagem e protocolos personalizados. Veja em <a href="/estetica-avancada/">Estética avançada</a>.',
-        em: ['estetica', 'home'],
+        em: ['estetica'],
       },
       {
         id: 'como-funciona-avaliacao',
@@ -187,7 +187,7 @@ export default [
         id: 'dermatite-couro-cabeludo',
         p: 'A Dra. Rejane atende dermatite no couro cabeludo?',
         r: 'Dermatite e outras inflamações do couro cabeludo estão entre as queixas capilares que a Dra. Rejane Rabelo atende, sempre a partir da avaliação, com exame do couro cabeludo. Diagnóstico de doença e receita de remédio são com o médico: esse cuidado não substitui o acompanhamento com dermatologista.',
-        em: ['capilar', 'home'],
+        em: ['capilar'],
       },
       {
         id: 'quantas-sessoes',

@@ -45,9 +45,15 @@
       {%- else %}
       <figure class="depo depo--texto">
         <blockquote class="depo__citacao">
-          {%- for p in d.paragrafos %}
-          <p>{{ p }}</p>
-          {%- endfor %}
+          <p>{{ d.paragrafos[0] }}</p>
+          {%- if d.paragrafos.length > 1 %}
+          <details class="depo__mais">
+            <summary>Ler o depoimento inteiro</summary>
+            {%- for p in d.paragrafos.slice(1) %}
+            <p>{{ p }}</p>
+            {%- endfor %}
+          </details>
+          {%- endif %}
         </blockquote>
         <figcaption class="depo__autor">{{ d.autor }}<span class="depo__contexto">{{ d.contexto }}</span></figcaption>
       </figure>

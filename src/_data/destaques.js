@@ -16,28 +16,52 @@ export default {
 
   /** Primeira dobra: o texto da arte "Cuidado que vai além da beleza", da própria casa. */
   hero: {
+    /** Sobretítulo em versal; ' · ' separa as partes. */
+    sobre: 'Nova gestão · Moema, São Paulo',
     lema: 'Cuidado que vai além da beleza.',
     /** Parte do lema que sai em itálico (precisa estar escrita igual no lema). */
     enfase: 'além da beleza.',
     texto:
       'Na Casa EME, acreditamos que cuidar de você é olhar para o todo. Unimos beleza, estética avançada, terapia capilar e saúde em uma experiência completa, personalizada e pensada para o seu bem-estar.',
     fecho: 'Porque quando você se cuida por inteiro, a beleza acontece de dentro para fora.',
+    /**
+     * Linha de credenciais abaixo dos botões. Só fatos que a casa informou;
+     * `href` é opcional (leva à seção correspondente na home).
+     */
+    credenciais: [
+      { rotulo: 'Saúde capilar', valor: 'Dra. Rejane Rabelo', detalhe: 'Biomédica esteta · CRBM 13690', href: '#quem-atende' },
+      { rotulo: 'Avaliação', valor: 'Em quatro etapas', detalhe: 'Anamnese, exame, fotos e protocolo' },
+      { rotulo: 'Antes e depois', valor: 'Casos da casa', detalhe: 'Couro cabeludo e rosto', href: '#antes-e-depois' },
+    ],
   },
 
-  pilares: {
-    titulo: 'Saúde capilar, emagrecimento e estética avançada',
-    enfase: 'e estética avançada',
+  /** Índice dos serviços, logo depois da primeira dobra. */
+  indice: {
+    titulo: 'Seis frentes de cuidado, num só endereço',
+    enfase: 'num só endereço',
+    lead: 'Saúde capilar, emagrecimento e estética avançada são as especialidades; o salão de beleza, as massagens, as sobrancelhas e os cílios seguem no dia a dia da casa.',
+    /** Selo nas três primeiras categorias de servicos.js. */
+    selo: 'Especialidade',
+  },
+
+  /** Faixa escura de estética avançada, na home. */
+  estetica: {
+    titulo: 'Tudo começa por uma avaliação individual',
+    enfase: 'uma avaliação individual',
+    nota: 'Procedimentos estéticos têm indicações, contraindicações e cuidados próprios, e a resposta varia de pessoa para pessoa. Por isso nenhum protocolo é definido sem avaliação.',
+  },
+
+  /** Seção de beleza (salão), na home. */
+  beleza: {
+    titulo: 'Cabelo, mãos e pés: o cuidado de todo dia',
+    enfase: 'o cuidado de todo dia',
+    nota: 'Na esmaltação em gel, a durabilidade é, em média, de 15 a 20 dias.',
+  },
+
+  /** Frase sob "Por que Casa EME?" (o manifesto em si é da casa: manifesto.js). */
+  manifesto: {
     intro:
-      'Cabelo, unhas, spa, sobrancelhas e cílios seguem na agenda da casa como sempre. Nestas três áreas, o atendimento começa por uma avaliação individual, e o protocolo é montado depois dela, para uma pessoa só.',
-    /** Um texto por categoria, pelo id de servicos.js. */
-    textos: {
-      'saude-capilar':
-        'Alopecias, dermatite e outras inflamações do couro cabeludo, queda, afinamento dos fios e falta de crescimento. Quem atende é a Dra. Rejane Rabelo, que examina o couro cabeludo, faz o registro fotográfico e só então estrutura o tratamento.',
-      emagrecimento:
-        'Protocolos corporais para gordura localizada, flacidez, celulite e contorno. O plano sai da avaliação individual e vai sendo ajustado conforme a evolução.',
-      'estetica-avancada':
-        'No rosto, toxina botulínica, preenchimento, bioestimuladores, skinbooster e microagulhamento. No corpo, celulite, flacidez e drenagem, com indicação definida na avaliação.',
-    },
+      'A Casa EME está sob nova gestão, e o que muda é a experiência. A ideia está no próprio nome — uma casa: intimista, acolhedora, onde beleza, estética, saúde capilar e bem-estar são cuidados no mesmo lugar.',
   },
 
   rejane: {

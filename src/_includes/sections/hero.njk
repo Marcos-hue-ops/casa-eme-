@@ -4,15 +4,17 @@
   saúde capilar), onde fica (Moema), que experiência oferece (uma casa — a
   nova gestão) e o que fazer (WhatsApp).
 
-  O nome e o slogan formam o h1, como na logo. O texto embaixo dele é o da
+  O nome e o slogan formam o h1, como na logo. O texto embaixo dele vem da
   arte "Cuidado que vai além da beleza", enviada pela casa (destaques.js →
   hero): escrito em HTML, e não deixado dentro da imagem, para ser lido por
-  leitor de tela e pelo Google.
+  leitor de tela e pelo Google. Abaixo dos botões, as credenciais: a
+  autoridade vem de fato verificável, não de adjetivo.
 
   As duas "janelas" redondas repetem o círculo do selo: na grande, a foto da
   arte; na pequena, a Dra. Rejane Rabelo, quem atende.
 -#}
 {%- set rejane = equipe.rejane -%}
+{%- set d = destaques.hero -%}
 <section class="hero" aria-labelledby="hero-titulo">
   <svg class="hero__fundo" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
     <circle cx="100" cy="100" r="98"/><circle cx="100" cy="100" r="90"/>
@@ -20,7 +22,9 @@
 
   <div class="env hero__grade">
     <div class="hero__texto">
-      <p class="hero__sobre"><span>Nova gestão</span> <span class="hero__ponto" aria-hidden="true"></span> <span>{{ business.lema | replace(".", "") }}</span></p>
+      <p class="hero__sobre">
+        {%- for parte in d.sobre.split(' · ') %}{% if not loop.first %} <span class="hero__ponto" aria-hidden="true"></span> {% endif %}<span>{{ parte }}</span>{% endfor -%}
+      </p>
 
       <h1 class="hero__marca" id="hero-titulo">
         <span class="hero__nome">Casa EME</span>
@@ -29,15 +33,18 @@
 
       <span class="hero__fio" aria-hidden="true"></span>
 
-      <p class="hero__lema">{{ destaques.hero.lema | enfase(destaques.hero.enfase) | safe }}</p>
+      <p class="hero__lema">{{ d.lema | enfase(d.enfase) | safe }}</p>
 
-      <p class="hero__lead">{{ destaques.hero.texto }}</p>
-      <p class="hero__fecho">{{ destaques.hero.fecho }}</p>
+      <p class="hero__lead">{{ d.texto }}</p>
+      {%- if d.fecho %}
+      <p class="hero__fecho">{{ d.fecho }}</p>
+      {%- endif %}
 
       <div class="hero__acoes">
         {{ m.wa(business, 'geral', 'Agendar pelo WhatsApp', 'btn btn--wa btn--grande', 'data-wa-gatilho') }}
         {{ m.seta('/servicos/', 'Conhecer serviços') }}
       </div>
+
     </div>
 
     <div class="hero__visual">
@@ -54,12 +61,25 @@
             {{ m.foto(galeria.janelas.secundaria.imagem, galeria.janelas.secundaria.alt, '(min-width: 64rem) 11rem, 8rem') }}
           </div>
           <figcaption class="janela__legenda">
-            <a href="/sobre/#quem-atende"><span class="janela__nome">{{ rejane.nome }}</span></a>
-            <span class="janela__cargo">{{ rejane.funcao }} · {{ rejane.registro.formatado }}</span>
+            <a href="#quem-atende"><span class="janela__nome">{{ rejane.nome }}</span></a>
+            <span class="janela__cargo">{{ rejane.funcao }} · Saúde capilar</span>
           </figcaption>
         </figure>
       </div>
     </div>
+
+    {#- Credenciais: fatos, não adjetivos — quem atende, como avalia, o que já fez. -#}
+    <ul class="credenciais" aria-label="Sobre o atendimento">
+      {%- for c in d.credenciais %}
+      <li class="credencial">
+        {%- if c.href %}<a class="credencial__link" href="{{ c.href }}">{% endif %}
+        <span class="credencial__rotulo">{{ c.rotulo }}</span>
+        <span class="credencial__valor">{{ c.valor }}</span>
+        <span class="credencial__detalhe">{{ c.detalhe }}</span>
+        {%- if c.href %}</a>{% endif %}
+      </li>
+      {%- endfor %}
+    </ul>
   </div>
 </section>
 

@@ -1,13 +1,15 @@
+{%- import "components/macros.njk" as m -%}
 {%- set cap = servicos | categoria('saude-capilar') -%}
 {%- set d = destaques.capilar -%}
 {#-
   Saúde capilar em destaque: as queixas que a casa trata, pelo nome com que
   as pessoas as procuram. Textos em destaques.js → capilar.
 
-  Na home, a seção "três tempos" (capilar.njk) vem logo em seguida, no mesmo
-  fundo, e fecha com o aviso e o botão. `semIntroCapilar` tira o parágrafo de
-  abertura quando a página já tem o seu (página de saúde capilar), e
-  `rotuloQueixas` troca o sobretítulo numerado da home.
+  `resumoCapilar` (home) acrescenta, no mesmo fundo, os antes e depois
+  capilares ao lado de "como funciona" em três tempos — foto e texto
+  intercalados, sem a lista completa de recursos (que fica na página de
+  saúde capilar). Na página, `semIntroCapilar` tira o parágrafo de abertura
+  e `rotuloQueixas` troca o sobretítulo numerado da home.
 -#}
 <section class="queixas" id="queixas-capilares" aria-labelledby="queixas-titulo">
   <div class="env queixas__grade">
@@ -28,4 +30,38 @@
       {%- endfor %}
     </dl>
   </div>
+
+  {%- if resumoCapilar %}
+  <div class="env">
+  <div class="queixas__resumo">
+    <div class="queixas__casos" id="antes-e-depois" data-lupa-grupo>
+      <h3 class="queixas__sub">Antes e depois</h3>
+      <ul class="casos__grade casos__grade--capilar">
+        {%- for c in casos.itens | casosDe('capilar') %}
+        <li>{{ m.caso(c, '(min-width: 64rem) 22rem, (min-width: 40rem) 40vw, 92vw', casos.aviso) }}</li>
+        {%- endfor %}
+      </ul>
+      <p class="queixas__credito"><strong>{{ casos.credito }}</strong> {{ casos.ressalva }} {{ casos.aviso }}</p>
+    </div>
+
+    <div class="queixas__como">
+      <h3 class="queixas__sub">Como funciona</h3>
+      <ol class="tempos">
+        {%- for g in cap.grupos %}
+        <li class="tempo">
+          <span class="tempo__num" aria-hidden="true">{{ loop.index | dois }}</span>
+          <p class="tempo__etapa">{{ g.etapa }} <strong>{{ g.nome }}</strong></p>
+          <p class="tempo__txt">{{ g.texto }}</p>
+        </li>
+        {%- endfor %}
+      </ol>
+      <p class="queixas__aviso">{{ d.aviso }}</p>
+      <div class="acoes">
+        {{ m.wa(business, 'capilar', cap.cta) }}
+        {{ m.seta(cap.pagina, 'Saúde capilar em detalhe') }}
+      </div>
+    </div>
+  </div>
+  </div>
+  {%- endif %}
 </section>

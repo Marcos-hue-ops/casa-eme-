@@ -40,10 +40,6 @@
           <dt>Aperfeiçoamento</dt>
           <dd>{{ r.cursos | join(' · ') }}</dd>
         </div>
-        <div>
-          <dt>Queixas capilares</dt>
-          <dd>{{ r.tratamentosCapilares | join(' · ') }}</dd>
-        </div>
       </dl>
 
       <div class="acoes">
@@ -55,6 +51,10 @@
   {%- if rejaneCompleta %}
   <div class="env">
     <div class="avaliacao">
+      <figure class="avaliacao__foto moldura">
+        {{ m.foto(r.fotos.avaliacao.imagem, r.fotos.avaliacao.alt, '(min-width: 64rem) 20rem, (min-width: 40rem) 50vw, 92vw') }}
+      </figure>
+      <div class="avaliacao__texto">
       <h{{ n + 1 }} class="avaliacao__titulo">{{ t.fraseAvaliacao }}</h{{ n + 1 }}>
       <ol class="avaliacao__passos">
         {%- for passo in r.avaliacao %}
@@ -65,6 +65,7 @@
         </li>
         {%- endfor %}
       </ol>
+      </div>
     </div>
   </div>
   {%- endif %}

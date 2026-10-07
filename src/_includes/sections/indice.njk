@@ -1,21 +1,27 @@
 {#-
   Índice de serviços — como o sumário de uma revista, e não uma grade de
-  cards. Cada linha leva à página ou à âncora da categoria.
+  cards. Vem logo depois da primeira dobra: em um olhar, quem chega vê tudo
+  o que a casa faz. As três primeiras categorias de servicos.js levam o selo
+  de especialidade; as outras seguem com o mesmo peso visual.
 -#}
-<section class="indice" aria-labelledby="indice-titulo">
+{%- set t = destaques.indice -%}
+<section class="indice{% if indiceTopo %} indice--topo{% endif %}" aria-labelledby="indice-titulo">
   <div class="env">
     <div class="indice__cab">
       <p class="rotulo">Serviços</p>
-      <h2 class="indice__titulo" id="indice-titulo">Seis frentes de cuidado, <em>num só endereço</em></h2>
-      <p class="indice__lead">Do couro cabeludo ao cabelo, da pele ao corpo, das mãos ao descanso: além das três especialidades, a Casa EME segue com o salão de beleza, as massagens, as sobrancelhas e os cílios, tudo na mesma casa em Moema.</p>
+      <h2 class="indice__titulo" id="indice-titulo">{{ t.titulo | enfase(t.enfase) | safe }}</h2>
+      <p class="indice__lead">{{ t.lead }}</p>
     </div>
 
     <ol class="indice__lista">
       {%- for cat in servicos %}
-      <li class="indice__item">
+      <li class="indice__item{% if loop.index <= 3 %} indice__item--destaque{% endif %}">
         <a class="indice__link" href="{{ cat.pagina }}">
           <span class="indice__num" aria-hidden="true">{{ loop.index | dois }}</span>
-          <span class="indice__nome">{{ cat.nome }}</span>
+          <span class="indice__nome">
+            {%- if loop.index <= 3 %}<span class="indice__selo">{{ t.selo }}</span>{% endif %}
+            {{- cat.nome -}}
+          </span>
           <span class="indice__desc">
             <span class="indice__chamada">{{ cat.chamada }}</span>
             <span class="indice__itens">{{ cat.destaques | join(' · ') }}</span>

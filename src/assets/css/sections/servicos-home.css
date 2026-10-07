@@ -155,17 +155,36 @@
 
 .beleza__listas {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--e-4) var(--e-3);
-  margin-block-start: var(--e-5);
+  margin-block-start: var(--e-4);
+  border-block-start: 1px solid var(--fio-forte);
 }
 
-.beleza__listas .lista-fina:first-child {
-  grid-column: 1 / -1;
+/* Lista corrida: os serviços numa linha só, separados por ponto — o salão
+   inteiro cabe numa olhada, sem uma coluna comprida de itens. */
+.lista-corrida {
+  padding-block: var(--e-2);
+  border-block-end: 1px solid var(--fio);
 }
 
-.beleza__listas .lista-fina:not(:first-child) ul {
-  columns: 1;
+.lista-corrida__titulo {
+  font-size: var(--t-h4);
+}
+
+.lista-corrida ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin-block-start: 0.25rem;
+  font-size: var(--t-pequeno);
+  line-height: 1.7;
+  color: var(--texto-2);
+}
+
+.lista-corrida li:not(:last-child)::after {
+  content: '·';
+  margin-inline: 0.5rem;
+  color: var(--mel);
 }
 
 .beleza__nota {

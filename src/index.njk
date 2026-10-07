@@ -8,30 +8,29 @@ videoSchema: true
 ---
 {#-
   Ordem da home — confiança → interesse → WhatsApp:
-  primeira dobra e ficha · as três especialidades · saúde capilar (queixas e
-  três tempos) · quem atende · antes e depois · depoimentos · emagrecimento ·
-  estética avançada · manifesto · índice de todos os serviços · beleza ·
-  assinaturas · relax · galeria · Outubro Rosa · dúvidas · como chegar ·
+  primeira dobra (com as credenciais) e ficha · índice de todos os serviços,
+  com as três especialidades marcadas · saúde capilar (queixas, antes e
+  depois, como funciona) · quem atende · depoimentos · emagrecimento ·
+  estética avançada (com os antes e depois do rosto) · beleza · assinaturas ·
+  relax · manifesto · galeria · Outubro Rosa · dúvidas · como chegar ·
   chamada final.
 
-  As três especialidades vêm primeiro porque são o foco da casa; os outros
-  serviços continuam todos aqui, a partir do índice.
+  Foto e texto se alternam: nenhuma seção longa de texto encosta em outra.
 -#}
 {% include "sections/hero.njk" %}
-{% include "sections/pilares.njk" %}
+{% set indiceTopo = true %}
+{% include "sections/indice.njk" %}
+{% set resumoCapilar = true %}
 {% include "sections/capilar-destaque.njk" %}
-{% set semCabecalhoCapilar = true %}
-{% include "sections/capilar.njk" %}
 {% include "sections/rejane.njk" %}
-{% include "sections/casos.njk" %}
 {% include "sections/depoimentos.njk" %}
 {% include "sections/emagrecimento.njk" %}
+{% set comCasosFaciais = true %}
 {% include "sections/estetica.njk" %}
-{% include "sections/manifesto.njk" %}
-{% include "sections/indice.njk" %}
 {% include "sections/beleza.njk" %}
 {% include "sections/assinaturas.njk" %}
 {% include "sections/relax.njk" %}
+{% include "sections/manifesto.njk" %}
 {% include "sections/galeria-resumo.njk" %}
 {% include "sections/outubro-rosa.njk" %}
 {% include "sections/faq-resumo.njk" %}

@@ -64,6 +64,12 @@ export default [
         em: ['home', 'capilar', 'contato'],
       },
       {
+        id: 'responsavel-pela-beleza',
+        p: 'Quem cuida dos serviços de beleza?',
+        r: 'O Gilberto, responsável pela beleza da Casa EME, com 30 anos de experiência. Formado pela Faculdade Senac, tem especialização em corte pela academia Toni&Guy e em clareamento e cor pela L’Oréal. Saiba mais em <a href="/sobre/#quem-cuida-da-beleza">Sobre</a>.',
+        em: ['home', 'servicos', 'contato'],
+      },
+      {
         id: 'formacao-dra-rejane',
         p: 'Qual é a formação da Dra. Rejane Rabelo?',
         r: 'Ela é biomédica esteta (CRBM 13690), biomédica patologista de formação e pós-graduada em estética avançada. Também fez pós-graduação pelo IOA, Instituto Orofacial das Américas, e cursos de suplementação injetável e exames laboratoriais, PRP, tricologia e metabolismo capilar.',

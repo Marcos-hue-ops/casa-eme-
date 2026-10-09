@@ -25,7 +25,15 @@ trilha:
 </section>
 
 {% set rejaneCompleta = true %}
-{% include "sections/rejane.njk" %}
+{% set pessoaId = 'rejane' %}
+{% include "sections/pessoa.njk" %}
+
+{% set pessoaId = 'gilberto' %}
+{% set pessoaInvertida = true %}
+{% set pessoaCreme = true %}
+{% include "sections/pessoa.njk" %}
+{% set pessoaInvertida = false %}
+{% set pessoaCreme = false %}
 
 {% set nivelManifesto = 2 %}
 {% include "sections/manifesto.njk" %}

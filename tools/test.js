@@ -271,6 +271,7 @@ if (!process.env.VERCEL) {
   ok(/script-src 'self' 'sha256-/.test(htaccess), '.htaccess tem hash de script em vez de unsafe-inline');
   ok(!/^\s*RewriteCond %\{HTTPS\} !=on/m.test(htaccess), '.htaccess não força HTTPS (isso fica para o hPanel, depois do SSL)');
   ok(/RewriteCond %\{HTTP_HOST\} \^www/.test(htaccess), '.htaccess leva o www para o domínio sem www');
+  ok(htaccess.includes('RewriteRule (^|/)\\.(?!well-known/) - [F,L]'), '.htaccess bloqueia arquivos ocultos (.git, .env)');
 }
 for (const [nome, conteudo] of Object.entries(html)) {
   ok(!conteudo.includes('upgrade-insecure-requests'), `${nome}: CSP sem upgrade-insecure-requests (quebraria o site em http)`);
@@ -313,8 +314,10 @@ const proibidos = [
   [/cura (a |da )?(calv[ií]cie|alopecia|queda)|fim da (calv[ií]cie|queda)|nascer cabelo em/i, 'promessa capilar'],
   [/Rejane( Rabelo)?,? (é |a )?(m[ée]dica|dermatologista)|(m[ée]dica|dermatologista) Rejane/i, 'Dra. Rejane apresentada como médica'],
 ];
+/* Tempo de carreira informado pela casa (equipe.js) não conta como invenção. */
+const informados = Object.values(equipe).map((p) => p.experiencia).filter(Boolean);
 for (const [nome, conteudo] of Object.entries(html)) {
-  const texto = textoDe(conteudo);
+  const texto = informados.reduce((t, fato) => t.replaceAll(fato, ''), textoDe(conteudo));
   for (const [padrao, rotulo] of proibidos) {
     const achado = texto.match(padrao);
     ok(!achado, `${nome}: sem ${rotulo}`, achado?.[0]);
@@ -400,7 +403,21 @@ for (const pagina of ['index.html', 'sobre/index.html', 'saude-capilar/index.htm
 }
 const pessoa = blocosDe(html['index.html'])[0]['@graph'].find((n) => n['@type'] === 'Person');
 ok(pessoa?.identifier?.propertyID === equipe.rejane.registro.conselho && pessoa?.identifier?.value === equipe.rejane.registro.numero, 'schema: Person com o registro da Dra. Rejane');
-ok(salao?.employee?.['@id'] === pessoa?.['@id'], 'schema: Dra. Rejane ligada à Casa EME');
+const funcionarios = [salao?.employee ?? []].flat().map((e) => e['@id']);
+ok(funcionarios.includes(pessoa?.['@id']), 'schema: Dra. Rejane ligada à Casa EME');
+
+/* Quem cuida da beleza: o Gilberto, com a foto, nas páginas certas. */
+const gilberto = equipe.gilberto;
+for (const pagina of ['index.html', 'sobre/index.html']) {
+  const texto = textoDe(html[pagina]);
+  ok(html[pagina].includes(`id="${gilberto.ancora}"`), `${pagina}: seção de quem cuida da beleza`);
+  ok(texto.includes(gilberto.funcao) && texto.includes(gilberto.experiencia), `${pagina}: função e experiência do Gilberto`);
+  ok(html[pagina].includes('/equipe/gilberto-'), `${pagina}: foto do Gilberto`);
+}
+ok(/categoria__responsavel[\s\S]{0,200}Gilberto/.test(html['servicos/index.html']), 'serviços: beleza com o Gilberto como responsável');
+const pessoaBeleza = blocosDe(html['index.html'])[0]['@graph'].find((n) => n['@type'] === 'Person' && n.name === gilberto.nome);
+ok(Boolean(pessoaBeleza), 'schema: Person do Gilberto');
+ok(funcionarios.includes(pessoaBeleza?.['@id']), 'schema: Gilberto ligado à Casa EME');
 
 /* Depoimento em vídeo: sem baixar antes do play, com legenda e transcrição. */
 const video = depoimentos.itens.find((d) => d.tipo === 'video');

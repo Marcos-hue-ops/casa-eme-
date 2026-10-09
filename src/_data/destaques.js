@@ -28,10 +28,12 @@ export default {
      * Linha de credenciais abaixo dos botões. Só fatos que a casa informou;
      * `href` é opcional (leva à seção correspondente na home). A Dra. Rejane
      * não entra aqui: nome e registro já estão na legenda do retrato dela.
+     * O Gilberto entra pela beleza (ele não aparece em outro ponto do hero).
      */
     credenciais: [
       { rotulo: 'Avaliação capilar', valor: 'Quatro etapas', detalhe: 'Anamnese, exame, fotos, protocolo' },
       { rotulo: 'Antes e depois', valor: 'Casos da casa', detalhe: 'Capilar e facial', href: '#antes-e-depois' },
+      { rotulo: 'Beleza', valor: '30 anos de experiência', detalhe: 'Gilberto, responsável pela beleza', href: '#quem-cuida-da-beleza' },
     ],
   },
 
@@ -65,6 +67,7 @@ export default {
   },
 
   rejane: {
+    rotulo: 'Quem atende',
     /* Espaço inseparável entre "a" e "Dra.": o artigo não fica sozinho no fim da linha. */
     titulo: 'A saúde capilar é com a\u00a0Dra. Rejane Rabelo',
     enfase: 'Dra. Rejane Rabelo',
@@ -73,6 +76,17 @@ export default {
       'Biomédica patologista de formação, ela se aperfeiçoou em tricologia e metabolismo capilar.',
     ],
     fraseAvaliacao: 'A avaliação com ela, em quatro etapas',
+  },
+
+  /** Seção do Gilberto, responsável pela beleza (dados em equipe.js). */
+  gilberto: {
+    rotulo: 'Quem cuida da beleza',
+    titulo: 'A beleza é com o Gilberto',
+    enfase: 'Gilberto',
+    paragrafos: [
+      'São 30 anos de experiência. Formado pela Faculdade Senac, o Gilberto se especializou em corte na academia Toni&Guy e em clareamento e cor com a L’Oréal.',
+      'Em Florianópolis, é dono da Ezatto Cabeleireiros. Na Casa EME, é o responsável pela beleza.',
+    ],
   },
 
   capilar: {

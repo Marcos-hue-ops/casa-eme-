@@ -126,6 +126,16 @@ const RECORTES = {
     width: 720,
     height: 743,
   },
+  /* Gilberto na Beauty Fair: meio corpo, centrado nele. O arquivo em
+     fotos/equipe/ é a versão tratada (2x, sem o roxo da luz do evento); o
+     original do WhatsApp está em fotos/nao-publicar/. */
+  'equipe/gilberto': {
+    origem: { width: 848, height: 1416 },
+    left: 10,
+    top: 110,
+    width: 580,
+    height: 760,
+  },
 };
 
 /**

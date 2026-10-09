@@ -33,6 +33,9 @@ trilha:
       <h2 class="categoria__titulo" id="cat-{{ cat.id }}">{{ cat.nome }}</h2>
       <p class="categoria__chamada">{{ cat.chamada }}</p>
       <p class="categoria__texto">{{ cat.texto }}</p>
+      {%- if cat.responsavel %}{% set resp = equipe[cat.responsavel] %}
+      <p class="categoria__responsavel"><span>Responsável</span> <a href="/sobre/#{{ resp.ancora }}">{{ resp.nome }}</a> · {{ resp.resumo }}</p>
+      {%- endif %}
       <div class="acoes">
         {{ m.wa(business, cat.wa, cat.cta, 'btn btn--linha') }}
         {%- if cat.pagina.startsWith('/') and not cat.pagina.startsWith('/servicos/') %}

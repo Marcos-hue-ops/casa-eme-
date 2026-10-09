@@ -1,7 +1,14 @@
 /**
- * Quem atende.
+ * Quem atende — uma entrada por profissional, cada uma com a sua seção
+ * (sections/pessoa.njk). Campos usados pela seção:
+ *  ancora   id da seção na página (links: /sobre/#ancora)
+ *  legenda  linha embaixo do retrato
+ *  resumo   o que vem depois do nome na linha "Responsável" (página de serviços)
+ *  ficha    linhas da ficha ao lado do texto ({ rotulo, valor } — `valor`
+ *           pode ser uma lista, que sai uma por linha)
+ *  wa, cta  chave da mensagem de WhatsApp (business.js) e texto do botão
  *
- * Dados da Dra. Rejane Rabelo tirados das três artes enviadas pela casa
+ * Dra. Rejane Rabelo: dados tirados das três artes enviadas pela casa
  * (originais em fotos/equipe/). Nada além do que está nelas: sem tempo de
  * profissão, número de pacientes ou títulos que não apareçam ali.
  *
@@ -38,6 +45,20 @@ export default {
       'Metabolismo capilar',
     ],
 
+    ancora: 'quem-atende',
+    legenda: 'Dra. Rejane Rabelo · Biomédica esteta · CRBM 13690',
+    resumo: 'Biomédica esteta · CRBM 13690',
+    ficha: [
+      { rotulo: 'Registro', valor: 'Biomédica esteta, CRBM 13690' },
+      { rotulo: 'Formação', valor: ['Biomédica patologista', 'Pós-graduação em estética avançada'] },
+      {
+        rotulo: 'Aperfeiçoamento',
+        valor: 'Pós-graduação pelo IOA, Instituto Orofacial das Américas · Suplementação injetável e exames laboratoriais · PRP · Tricologia · Metabolismo capilar',
+      },
+    ],
+    wa: 'rejane',
+    cta: 'Agendar avaliação com a Dra. Rejane',
+
     /** As quatro etapas da avaliação, na ordem em que ela as apresenta. */
     avaliacao: [
       { nome: 'Consulta e anamnese', texto: 'Conversa sobre a queixa, o histórico, a rotina e o que já foi tentado.' },
@@ -71,6 +92,51 @@ export default {
       rosto: {
         alt: 'Retrato da Dra. Rejane Rabelo sorrindo.',
         imagem: { pasta: 'janela', arquivo: 'dra-rejane', larguras: [360, 460], largura: 460, altura: 460 },
+      },
+    },
+  },
+
+  /**
+   * Gilberto, responsável pela beleza (cabelo, mãos e pés, sobrancelhas e
+   * cílios). Biografia enviada pela casa em 09/10/2026; foto em
+   * fotos/equipe/gilberto.jpg (na Beauty Fair Internacional).
+   *
+   * A confirmar com a casa (README → Pendências): o sobrenome; "Senac do RG"
+   * (o site diz só "Faculdade Senac"); a grafia "Llongueras" (a casa
+   * escreveu "longuera"); o nome da "Academia Lafi".
+   */
+  gilberto: {
+    nome: 'Gilberto',
+    nomeCurto: 'Gilberto',
+    funcao: 'Responsável pela beleza',
+    /** Informado pela casa. É o único tempo de profissão que o site cita. */
+    experiencia: '30 anos de experiência',
+    formacao: ['Faculdade Senac'],
+    cursos: [
+      'Especialização em corte pela academia Toni&Guy',
+      'Corte programado Llongueras',
+      'Clareamento e cor pela L’Oréal',
+      'Gestão e beleza pela Academia Lafi',
+    ],
+    salao: 'Ezatto Cabeleireiros, em Florianópolis',
+    ancora: 'quem-cuida-da-beleza',
+    legenda: 'Gilberto · Responsável pela beleza · 30 anos de experiência',
+    resumo: '30 anos de experiência',
+    ficha: [
+      { rotulo: 'Experiência', valor: '30 anos' },
+      { rotulo: 'Formação', valor: 'Faculdade Senac' },
+      {
+        rotulo: 'Especializações',
+        valor: ['Corte · Toni&Guy', 'Corte programado · Llongueras', 'Clareamento e cor · L’Oréal', 'Gestão e beleza · Academia Lafi'],
+      },
+      { rotulo: 'Salão próprio', valor: 'Ezatto Cabeleireiros, Florianópolis' },
+    ],
+    wa: 'gilberto',
+    cta: 'Agendar com o Gilberto',
+    fotos: {
+      principal: {
+        alt: 'Gilberto de blazer cinza e camisa azul-marinho, em pé diante do painel da Beauty Fair Internacional.',
+        imagem: { pasta: 'equipe', arquivo: 'gilberto', larguras: [480, 960], largura: 960, altura: 1258 },
       },
     },
   },

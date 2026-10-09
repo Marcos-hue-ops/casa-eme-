@@ -140,54 +140,54 @@
   }
 }
 
-/* Quem atende ----------------------------------------------------------------- */
-.rejane {
+/* Quem atende (sections/pessoa.njk) ---------------------------------------- */
+.pessoa {
   padding-block: var(--secao);
 }
 
-.rejane__grade {
+.pessoa__grade {
   display: grid;
   gap: var(--e-5);
   align-items: start;
 }
 
-.rejane__foto {
+.pessoa__foto {
   max-inline-size: 30rem;
 }
 
-.rejane__titulo {
+.pessoa__titulo {
   font-size: var(--t-h2);
   margin-block-end: var(--e-3);
 }
 
-.rejane__texto > p:not(.rotulo) {
+.pessoa__texto > p:not(.rotulo) {
   max-inline-size: 36rem;
   color: var(--texto-2);
 }
 
-.rejane__texto > p:not(.rotulo) + p {
+.pessoa__texto > p:not(.rotulo) + p {
   margin-block-start: var(--e-2);
 }
 
-.rejane__texto > .rejane__lead {
+.pessoa__texto > .pessoa__lead {
   font-size: var(--t-lead);
   color: var(--cafe);
 }
 
-.rejane__ficha {
+.pessoa__ficha {
   margin-block-start: var(--e-4);
   max-inline-size: 36rem;
   border-block-start: 1px solid var(--fio-forte);
 }
 
-.rejane__ficha > div {
+.pessoa__ficha > div {
   display: grid;
   gap: 0.25rem;
   padding-block: 0.75rem;
   border-block-end: 1px solid var(--fio);
 }
 
-.rejane__ficha dt {
+.pessoa__ficha dt {
   font-size: var(--t-mini);
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -195,7 +195,7 @@
   color: var(--texto-2);
 }
 
-.rejane__ficha dd {
+.pessoa__ficha dd {
   margin: 0;
   font-size: var(--t-pequeno);
 }
@@ -244,7 +244,7 @@
 }
 
 @media (min-width: 30rem) {
-  .rejane__ficha > div {
+  .pessoa__ficha > div {
     grid-template-columns: 8.5rem minmax(0, 1fr);
     gap: var(--e-2);
     align-items: baseline;
@@ -277,16 +277,39 @@
 }
 
 @media (min-width: 64rem) {
-  .rejane__grade {
+  .pessoa__grade {
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     gap: var(--e-7);
   }
 
-  .rejane__foto {
+  .pessoa__foto {
     position: sticky;
     inset-block-start: calc(var(--altura-cab) + var(--e-4));
   }
 
+}
+
+/* Segunda pessoa na mesma página: retrato à direita e fundo creme, para as
+   duas seções não parecerem uma só. */
+.pessoa--creme {
+  background-color: var(--creme);
+}
+
+@media (min-width: 64rem) {
+  .pessoa--invertida .pessoa__grade {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+
+  .pessoa--invertida .pessoa__foto {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  .pessoa--invertida .pessoa__texto {
+    grid-column: 1;
+    grid-row: 1;
+  }
 }
 
 /* Antes e depois -------------------------------------------------------------- */

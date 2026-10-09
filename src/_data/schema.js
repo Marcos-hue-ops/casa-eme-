@@ -25,6 +25,7 @@ import equipe from './equipe.js';
 const idNegocio = `${site.url}/#casa-eme`;
 const idSite = `${site.url}/#site`;
 const idRejane = `${site.url}/#dra-rejane-rabelo`;
+const idGilberto = `${site.url}/#gilberto`;
 const rejane = equipe.rejane;
 
 const horarios = hours.semana
@@ -83,7 +84,7 @@ const negocio = {
   currenciesAccepted: 'BRL',
   knowsLanguage: 'pt-BR',
   sameAs: [business.instagram.url],
-  employee: { '@id': idRejane },
+  employee: [{ '@id': idRejane }, { '@id': idGilberto }],
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'reservations',
@@ -118,11 +119,27 @@ const pessoa = {
   url: `${site.url}/sobre/#quem-atende`,
 };
 
+/** Responsável pela beleza. Só o que a casa informou na biografia dele. */
+const gilberto = equipe.gilberto;
+const pessoaBeleza = {
+  '@type': 'Person',
+  '@id': idGilberto,
+  name: gilberto.nome,
+  jobTitle: gilberto.funcao,
+  description: `${gilberto.funcao} na Casa EME, em Moema, com ${gilberto.experiencia}. ${gilberto.cursos.join('. ')}.`,
+  alumniOf: { '@type': 'EducationalOrganization', name: gilberto.formacao[0] },
+  knowsAbout: ['Corte', 'Coloração', 'Clareamento', 'Gestão de salão de beleza'],
+  image: `${site.url}/assets/img/${gilberto.fotos.principal.imagem.pasta}/${gilberto.fotos.principal.imagem.arquivo}-${gilberto.fotos.principal.imagem.largura}.webp`,
+  worksFor: { '@id': idNegocio },
+  url: `${site.url}/sobre/#${gilberto.ancora}`,
+};
+
 export default {
   '@context': 'https://schema.org',
   '@graph': [
     negocio,
     pessoa,
+    pessoaBeleza,
     {
       '@type': 'WebSite',
       '@id': idSite,

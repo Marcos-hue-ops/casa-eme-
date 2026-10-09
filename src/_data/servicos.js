@@ -24,6 +24,7 @@
  *  chamada   linha curta sob o título
  *  texto     parágrafo de apresentação
  *  pagina    para onde a categoria leva (página própria ou âncora)
+ *  responsavel  (opcional) chave de equipe.js de quem responde pela categoria
  *  wa        chave da mensagem de WhatsApp (business.js → whatsapp.messages)
  *  cta       texto do botão
  *  destaques itens mostrados no índice da home (nomes iguais aos de `itens`)
@@ -37,6 +38,7 @@ export default [
     texto:
       'Queda, afinamento e couro cabeludo irritado podem ter causas diferentes. A Dra. Rejane Rabelo, biomédica esteta, avalia antes de tratar.',
     pagina: '/saude-capilar/',
+    responsavel: 'rejane',
     wa: 'capilar',
     cta: 'Agendar avaliação capilar',
     destaques: ['Alopecias', 'Dermatite e inflamações do couro cabeludo', 'Queda de cabelo', 'Afinamento dos fios', 'Falta de crescimento', 'Tricoscopia'],
@@ -159,6 +161,8 @@ export default [
     texto:
       'Do corte às mechas, com hidratação e reconstrução quando o fio pede. Nas mãos e nos pés, do gel ao spa.',
     pagina: '/servicos/#beleza',
+    /** Quem responde pela categoria (chave de equipe.js). */
+    responsavel: 'gilberto',
     wa: 'beleza',
     cta: 'Agendar serviço de beleza',
     destaques: ['Corte', 'Coloração', 'Mechas', 'Escova', 'Esmaltação em gel', 'Alongamento', 'Spa dos pés'],

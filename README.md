@@ -74,7 +74,7 @@ máquina, aponte a variável `CHROMIUM` para o executável do Chrome/Chromium.
 ├── fotos/                     originais das fotos (não vão para o site direto)
 │   ├── hero/                  arte "Cuidado que vai além da beleza" (primeira dobra)
 │   ├── casos/                 antes e depois de pacientes (saúde capilar e rosto)
-│   ├── equipe/                as três artes da Dra. Rejane Rabelo
+│   ├── equipe/                artes da Dra. Rejane Rabelo e a foto do Gilberto
 │   ├── galeria/               fotos de trabalhos → viram WebP
 │   ├── referencias/           prints usados como referência (logo, manifesto, assinaturas, depoimento escrito)
 │   └── nao-publicar/          o que NÃO pode ir ao site (ver LEIAME.md)
@@ -136,7 +136,9 @@ explicando os campos. Mude, rode `npm run build`, confira e publique.
 | **Serviços** (incluir, tirar, renomear) | `src/_data/servicos.js` | alimenta home, serviços, estética, capilar, emagrecimento, FAQ e schema. A **ordem** das categorias é a ordem do índice e da numeração da home: as três primeiras são os destaques |
 | **Textos da home e das especialidades** (primeira dobra e credenciais, índice de serviços, saúde capilar, quem atende, depoimentos, emagrecimento, estética, beleza, frase do manifesto) | `src/_data/destaques.js` | `enfase` é o trecho do título que sai em itálico. Os textos foram enxutos de propósito: frases curtas, uma ideia por frase |
 | **Credenciais da primeira dobra** | `src/_data/destaques.js → hero.credenciais` | só fatos informados (registro, método, casos); `href` leva à seção da home |
-| **Dra. Rejane Rabelo** (formação, cursos, registro, fotos, etapas da avaliação) | `src/_data/equipe.js` | só o que está nas artes dela; nunca "médica" |
+| **Dra. Rejane Rabelo** (formação, cursos, registro, fotos, etapas da avaliação) | `src/_data/equipe.js` → `rejane` | só o que está nas artes dela; nunca "médica" |
+| **Gilberto** (beleza: experiência, formação, cursos, salão, foto) | `src/_data/equipe.js` → `gilberto`; textos da seção em `destaques.js → gilberto` | só o que a casa informou; a seção é a mesma da Dra. Rejane (`src/_includes/sections/pessoa.njk`), com o retrato à direita |
+| **Responsável por uma categoria** (linha "Responsável" na página de serviços) | `src/_data/servicos.js` → `responsavel` | chave de `equipe.js`: `'rejane'`, `'gilberto'` |
 | **Antes e depois** | `src/_data/casos.js` | crédito e ressalva aparecem junto das fotos; os casos entram sozinhos na galeria |
 | **Assinaturas** (planos, valores, condições) | `src/_data/assinaturas.js` | `mostrarPrecos: false` esconde os valores |
 | **Perguntas frequentes** | `src/_data/faq.js` | o campo `em` diz em que outras páginas a pergunta aparece |
@@ -326,8 +328,14 @@ erro 403, a página padrão da Hostinger ou uma lista de pastas.
 Por isso o repositório tem a branch **`hostinger`**, só com o site pronto
 (o `index.html` na raiz, as pastas das páginas, `assets/` e o `.htaccess`).
 Quem a mantém é a automação `.github/workflows/hostinger.yml`: a cada
-atualização da branch do site, o GitHub gera o site, roda os testes e
-regrava a branch `hostinger`. Ninguém precisa mexer nela à mão.
+atualização da branch do site, o GitHub gera o site, roda os testes e grava
+um commit novo na branch `hostinger`, em cima do anterior (o histórico fica,
+e o `git pull` da Hostinger sempre consegue avançar). Ninguém precisa mexer
+nela à mão.
+
+O Git do hPanel só existe em site do tipo **site vazio (PHP/HTML)**. Site
+criado pelo construtor da Hostinger (Website Builder) não tem essa opção:
+nesse caso, crie um site vazio para o domínio ou use o caminho 2.
 
 **Caminho 1 — Git do hPanel (atualiza sozinho)**
 
@@ -335,11 +343,15 @@ regrava a branch `hostinger`. Ninguém precisa mexer nela à mão.
    a Hostinger deixou lá (`default.php`, `index.php`). O Git do hPanel só
    implanta em pasta vazia.
 2. hPanel → **Sites → Gerenciar → Avançado → Git**.
-3. **Repositório:** `https://github.com/Marcos-hue-ops/casa-eme-.git`.
-   Se o repositório for **privado**, use `git@github.com:Marcos-hue-ops/casa-eme-.git`,
-   gere a chave SSH na mesma tela do hPanel e cole em GitHub → repositório →
-   **Settings → Deploy keys → Add deploy key** (só leitura basta).
-4. **Branch:** `hostinger` (não a branch do site). **Diretório:** deixe em
+3. **Repositório:** se aparecer **Conectar com o GitHub**, autorize e
+   escolha `casa-eme-`. Se aparecer um campo de endereço, use
+   `https://github.com/Marcos-hue-ops/casa-eme-.git` — o repositório é
+   público, então não precisa de chave SSH. (Se um dia ele virar
+   **privado**: `git@github.com:Marcos-hue-ops/casa-eme-.git`, com a chave
+   SSH do hPanel colada em GitHub → **Settings → Deploy keys**, só leitura.)
+4. **Branch:** `hostinger`. O hPanel costuma sugerir `main` ou `master`, que
+   **não existem** neste repositório; a branch do código
+   (`claude/brave-faraday-alroh1`) também não serve. **Diretório:** deixe em
    branco, para ir direto em `public_html`.
 5. **Criar** e depois **Implantar**. Para atualizar sozinho a cada mudança,
    ative a **Implantação automática**, copie a URL do webhook e cole em
@@ -349,9 +361,10 @@ regrava a branch `hostinger`. Ninguém precisa mexer nela à mão.
 
 1. Pegue o zip do site pronto: `casa-eme-hostinger.zip` (gerado com
    `cd dist && zip -qr ../casa-eme-hostinger.zip . -x csp.gerada.txt _headers`),
-   ou no GitHub, branch `hostinger` → **Code → Download ZIP**. O zip do
-   GitHub vem dentro de uma pasta (`casa-eme--hostinger/`): o que vai para
-   `public_html` é o **conteúdo** dela, não a pasta.
+   ou no GitHub, branch `hostinger` → **Code → Download ZIP**. Prefira o
+   primeiro: o zip do GitHub vem dentro de uma pasta
+   (`casa-eme--hostinger/`), e o que vai para `public_html` é o
+   **conteúdo** dela, não a pasta. Nunca baixe o zip da branch do código.
 2. hPanel → **Gerenciador de arquivos** → `public_html` → apague os
    arquivos padrão → **Enviar** o zip → botão direito → **Extrair** para
    `public_html`.
@@ -363,6 +376,15 @@ regrava a branch `hostinger`. Ninguém precisa mexer nela à mão.
 - **SSL:** hPanel → **Segurança → SSL**: confirme o certificado ativo e só
   então ligue **Forçar HTTPS**. (O `.htaccess` não força HTTPS por conta
   própria, para o site não ficar fora do ar enquanto o certificado sai.)
+- **www:** o `.htaccess` já leva o `www.` para o endereço sem www. **Não**
+  crie no hPanel o redirecionamento contrário (sem www → www): os dois juntos
+  fazem o navegador girar em círculo ("too many redirects").
+- **Erro 403 depois de publicar:** confira que `index.html` está direto em
+  `public_html` (e não numa subpasta). Se estiver, no Gerenciador de arquivos
+  use **Corrigir permissões** (pastas 755, arquivos 644).
+- **Teste de segurança:** abra `https://casaememoema.com.br/.git/config` e
+  `https://casaememoema.com.br/.htaccess`. Os dois têm de dar erro (403 ou
+  404): o `.htaccess` do build bloqueia qualquer arquivo que comece com ponto.
 - **Domínio e Google:** a branch `hostinger` já sai com o domínio
   **`https://casaememoema.com.br`** (sem www) no canonical, no sitemap e no
   cartão social, e com a indexação ligada. Quem digitar `www.` é levado para o
@@ -372,10 +394,17 @@ regrava a branch `hostinger`. Ninguém precisa mexer nela à mão.
   Hostinger → Run workflow**.
 - **DNS:** se o domínio foi registrado fora da Hostinger (Registro.br, por
   exemplo), aponte os servidores DNS (ou os registros `A` e `CNAME` do `www`)
-  para os que o hPanel mostrar em **Domínios**. Enquanto o DNS não propaga, o
-  domínio ainda abre o endereço antigo.
-- **Mudança não apareceu:** hPanel → **Desempenho → Cache** (e CDN, se
-  estiver ligado) → limpar; no navegador, Ctrl+Shift+R.
+  para os que o hPanel mostrar em **Domínios** (em geral
+  `ns1.dns-parking.com` e `ns2.dns-parking.com`). Enquanto o DNS não propaga
+  (de minutos a 48 horas), o domínio ainda abre o endereço antigo.
+  **Atenção ao e-mail:** se já existe e-mail com `@casaememoema.com.br`, trocar
+  os servidores DNS apaga os registros MX de onde ele está. Antes de trocar,
+  anote os MX atuais e recrie na zona DNS da Hostinger, ou aponte só os
+  registros `A`/`CNAME` do site e deixe os servidores DNS onde estão.
+- **Mudança não apareceu:** confira em GitHub → **Actions** que a "Site
+  para a Hostinger" terminou verde; depois hPanel → **Git → Implantar** (se a
+  implantação automática não estiver ligada) e **Desempenho → Cache** (e
+  **CDN**, se estiver ligado) → limpar; no navegador, Ctrl+Shift+R.
 - **Vercel e Hostinger ao mesmo tempo:** o domínio aponta para um só. Os dois
   podem continuar gerando o site, mas o Google e os clientes veem o que o
   domínio aponta.
@@ -601,6 +630,22 @@ outros melhoram o site, mas não impedem a publicação.
     (seções 6 e 7).
 15. **Logo vetorial.** O selo foi redesenhado a partir do print do perfil;
     se houver o arquivo original, ele substitui o redesenho (seção 4).
+16. **Gilberto — dados para conferir.** O site usa o que a casa mandou:
+    30 anos de experiência, formação pela Faculdade Senac, especialização em
+    corte pela Toni&Guy, corte programado Llongueras, clareamento e cor pela
+    L’Oréal, gestão e beleza pela Academia Lafi, dono da Ezatto Cabeleireiros
+    em Florianópolis. Confira: o sobrenome (o site usa só "Gilberto"); qual
+    Senac ("Senac do RG" ficou como "Faculdade Senac" — se for Rio Grande,
+    RS, dá para escrever); a grafia **Llongueras** (a mensagem dizia
+    "longuera"); o nome exato da **Academia Lafi**; se a Ezatto pode ser
+    citada; e a autorização dele para o uso da foto.
+17. **Foto do Gilberto — tratada.** A foto da Beauty Fair chegou pelo
+    WhatsApp (848×1416, com a luz roxa do evento). A do site foi ampliada
+    para o dobro, com a compressão limpa, mais nitidez e a cor corrigida só
+    nele (cabelo grisalho, pele, blazer). Nada foi redesenhado nem inventado.
+    O original está em `fotos/nao-publicar/`. Se houver a foto original da
+    câmera (sem passar pelo WhatsApp), ela fica ainda melhor: troque o
+    arquivo em `fotos/equipe/gilberto.jpg` e rode `npm run images`.
 
 ---
 
@@ -609,6 +654,7 @@ outros melhoram o site, mas não impedem a publicação.
 - [ ] Termos de consentimento dos 7 casos e autorização do vídeo conferidos (pendências 2 e 4)
 - [ ] Quem faz e quem pode anunciar os injetáveis confirmado (pendência 3)
 - [ ] Depoimento do Aron Menczer confirmado ou retirado (pendência 4)
+- [ ] Dados do Gilberto e autorização da foto confirmados (pendência 16)
 - [ ] Dados da Dra. Rejane conferidos com ela (pendência 5)
 - [ ] Licença da foto da primeira dobra confirmada (pendência 8)
 - [ ] Horários confirmados com a casa (pendência 1)

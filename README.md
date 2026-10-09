@@ -13,7 +13,7 @@ assunto da página.
 | CSS | arquivos nativos, empacotados e minificados pelo Lightning CSS |
 | JavaScript | módulos ES pequenos, empacotados pelo esbuild (~8 KB) |
 | Imagens | WebP gerado com `sharp` a partir de `fotos/` |
-| Hospedagem | Vercel (configurada) · Netlify/Cloudflare Pages · Apache/Nginx (exemplos em `deploy/`) |
+| Hospedagem | Vercel (configurada) · Hostinger (branch `hostinger`, com `.htaccess`) · Netlify/Cloudflare Pages · Apache/Nginx (exemplos em `deploy/`) |
 | Node | 20 ou mais novo (`.nvmrc` pede 22) |
 
 ---
@@ -25,7 +25,7 @@ assunto da página.
 3. [Onde mudar cada coisa](#3-onde-mudar-cada-coisa)
 4. [Fotos e imagens](#4-fotos-e-imagens)
 5. [SEO](#5-seo)
-6. [Publicar na Vercel](#6-publicar-na-vercel)
+6. [Publicar na Vercel (ou na Hostinger)](#6-publicar-na-vercel)
 7. [Conectar o domínio](#7-conectar-o-domínio)
 8. [Google Search Console e Perfil da Empresa](#8-google-search-console-e-perfil-da-empresa)
 9. [Analytics](#9-analytics)
@@ -314,6 +314,64 @@ calculados no build.
 domínio estiver pronto.
 **Servidor próprio:** veja `deploy/nginx.conf` e `deploy/apache.htaccess`;
 rode o build com `SITE_URL=https://seu.dominio SITE_PUBLICAVEL=true npm run build`.
+
+### Hostinger (hospedagem de sites)
+
+A hospedagem de sites da Hostinger **não gera o site**: ela não roda
+`npm run build`, só copia arquivos para a pasta `public_html`. Se ela
+receber o código-fonte (a branch `claude/brave-faraday-alroh1`), aparece
+erro 403, a página padrão da Hostinger ou uma lista de pastas.
+
+Por isso o repositório tem a branch **`hostinger`**, só com o site pronto
+(o `index.html` na raiz, as pastas das páginas, `assets/` e o `.htaccess`).
+Quem a mantém é a automação `.github/workflows/hostinger.yml`: a cada
+atualização da branch do site, o GitHub gera o site, roda os testes e
+regrava a branch `hostinger`. Ninguém precisa mexer nela à mão.
+
+**Caminho 1 — Git do hPanel (atualiza sozinho)**
+
+1. Antes: no **Gerenciador de arquivos**, abra `public_html` e apague o que
+   a Hostinger deixou lá (`default.php`, `index.php`). O Git do hPanel só
+   implanta em pasta vazia.
+2. hPanel → **Sites → Gerenciar → Avançado → Git**.
+3. **Repositório:** `https://github.com/Marcos-hue-ops/casa-eme-.git`.
+   Se o repositório for **privado**, use `git@github.com:Marcos-hue-ops/casa-eme-.git`,
+   gere a chave SSH na mesma tela do hPanel e cole em GitHub → repositório →
+   **Settings → Deploy keys → Add deploy key** (só leitura basta).
+4. **Branch:** `hostinger` (não a branch do site). **Diretório:** deixe em
+   branco, para ir direto em `public_html`.
+5. **Criar** e depois **Implantar**. Para atualizar sozinho a cada mudança,
+   ative a **Implantação automática**, copie a URL do webhook e cole em
+   GitHub → **Settings → Webhooks → Add webhook** (tipo `application/json`).
+
+**Caminho 2 — enviar o zip**
+
+1. Pegue o zip do site pronto: `casa-eme-hostinger.zip` (gerado com
+   `cd dist && zip -qr ../casa-eme-hostinger.zip . -x csp.gerada.txt _headers`),
+   ou no GitHub, branch `hostinger` → **Code → Download ZIP**. O zip do
+   GitHub vem dentro de uma pasta (`casa-eme--hostinger/`): o que vai para
+   `public_html` é o **conteúdo** dela, não a pasta.
+2. hPanel → **Gerenciador de arquivos** → `public_html` → apague os
+   arquivos padrão → **Enviar** o zip → botão direito → **Extrair** para
+   `public_html`.
+3. Confira que ficaram `public_html/index.html` e `public_html/.htaccess`
+   (o `.htaccess` começa com ponto: ligue "mostrar arquivos ocultos").
+
+**Depois de publicar**
+
+- **SSL:** hPanel → **Segurança → SSL**: confirme o certificado ativo e só
+  então ligue **Forçar HTTPS**. (O `.htaccess` não força HTTPS por conta
+  própria, para o site não ficar fora do ar enquanto o certificado sai.)
+- **Domínio e Google:** em GitHub → **Settings → Secrets and variables →
+  Actions → Variables**, crie `SITE_URL` (ex.: `https://www.seudominio.com.br`)
+  e `SITE_PUBLICAVEL` (`true`). Depois, em **Actions → Site para a Hostinger
+  → Run workflow**, gere a branch de novo e implante. Sem essas variáveis, o
+  site funciona, mas sai com o domínio de reserva e fora do Google.
+- **Mudança não apareceu:** hPanel → **Desempenho → Cache** (e CDN, se
+  estiver ligado) → limpar; no navegador, Ctrl+Shift+R.
+- **Vercel e Hostinger ao mesmo tempo:** o domínio aponta para um só. Os dois
+  podem continuar gerando o site, mas o Google e os clientes veem o que o
+  domínio aponta.
 
 ---
 

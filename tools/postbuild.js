@@ -84,7 +84,6 @@ const csp = [
   'frame-src https://www.google.com',
   "frame-ancestors 'none'",
   "manifest-src 'self'",
-  'upgrade-insecure-requests',
 ].join('; ');
 
 const cabecalhos = [
@@ -132,9 +131,70 @@ const netlify = [
   '',
 ].join('\n');
 
+/* Hostinger (hospedagem de sites) e qualquer Apache/LiteSpeed leem um
+   .htaccess na raiz publicada. Mesma política e mesmo cache do _headers. */
+const htaccess = [
+  '# Gerado no build (tools/postbuild.js). Não edite aqui: mude o script.',
+  '# Vale para a Hostinger (hospedagem de sites) e para qualquer Apache/LiteSpeed.',
+  '',
+  'Options -Indexes',
+  'DirectoryIndex index.html',
+  'AddDefaultCharset utf-8',
+  'AddType text/vtt .vtt',
+  'AddType application/manifest+json .webmanifest',
+  'AddType image/webp .webp',
+  'AddType font/woff2 .woff2',
+  'AddType video/mp4 .mp4',
+  '',
+  '<IfModule mod_headers.c>',
+  `  Header always set Content-Security-Policy "${csp}"`,
+  ...cabecalhos.map((linha) => {
+    const [nome, ...valor] = linha.split(': ');
+    return `  Header always set ${nome} "${valor.join(': ')}"`;
+  }),
+  '',
+  '  # CSS e JS levam o hash do conteúdo no nome; fontes não mudam.',
+  '  <FilesMatch "\\.(woff2|css|js)$">',
+  '    Header set Cache-Control "public, max-age=31536000, immutable"',
+  '  </FilesMatch>',
+  '  # Fotos e vídeo mantêm o nome quando trocados: um mês de cache.',
+  '  <FilesMatch "\\.(webp|jpg|png|svg|mp4|vtt)$">',
+  '    Header set Cache-Control "public, max-age=2592000, must-revalidate"',
+  '  </FilesMatch>',
+  '  <FilesMatch "\\.html$">',
+  '    Header set Cache-Control "public, max-age=0, must-revalidate"',
+  '  </FilesMatch>',
+  '  <FilesMatch "^(robots\\.txt|sitemap\\.xml)$">',
+  '    Header set Cache-Control "public, max-age=3600, must-revalidate"',
+  '  </FilesMatch>',
+  '</IfModule>',
+  '',
+  '<IfModule mod_deflate.c>',
+  '  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/xml text/vtt application/manifest+json',
+  '</IfModule>',
+  '',
+  '<IfModule mod_rewrite.c>',
+  '  RewriteEngine On',
+  '',
+  '  # HTTPS: ligue "Forçar HTTPS" no hPanel depois que o SSL estiver ativo.',
+  '  # Se preferir forçar por aqui, tire o # das duas linhas abaixo.',
+  '  # RewriteCond %{HTTPS} !=on',
+  '  # RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]',
+  '',
+  '  # Endereços de página terminam em barra e servem o index.html da pasta.',
+  '  RewriteCond %{REQUEST_FILENAME} -d',
+  '  RewriteCond %{REQUEST_URI} !/$',
+  '  RewriteRule ^(.*)$ /$1/ [R=301,L]',
+  '</IfModule>',
+  '',
+  'ErrorDocument 404 /404.html',
+  '',
+].join('\n');
+
 /* Na Vercel os cabeçalhos vêm do vercel.json (e a CSP, da meta tag de cada
-   página): os dois arquivos abaixo seriam só lixo público no site. */
+   página): os arquivos abaixo seriam só lixo público no site. */
 if (!process.env.VERCEL) {
+  await writeFile(path.join(DIST, '.htaccess'), htaccess, 'utf8');
   await writeFile(path.join(DIST, '_headers'), netlify, 'utf8');
   await writeFile(
     path.join(DIST, 'csp.gerada.txt'),

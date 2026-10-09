@@ -262,6 +262,19 @@ if (cabecalhos !== null) {
   ok(/script-src 'self' 'sha256-/.test(cabecalhos), '_headers tem hash de script em vez de unsafe-inline');
 }
 
+/* .htaccess (Hostinger e outros Apache/LiteSpeed): mesma política do _headers. */
+if (!process.env.VERCEL) {
+  const htaccess = await readFile(path.join(DIST, '.htaccess'), 'utf8');
+  for (const esperado of ['Content-Security-Policy', "frame-ancestors 'none'", 'X-Content-Type-Options', 'Options -Indexes', 'ErrorDocument 404 /404.html']) {
+    ok(htaccess.includes(esperado), `.htaccess inclui ${esperado}`);
+  }
+  ok(/script-src 'self' 'sha256-/.test(htaccess), '.htaccess tem hash de script em vez de unsafe-inline');
+  ok(!/^\s*RewriteRule \^\(\.\*\)\$ https/m.test(htaccess), '.htaccess não força HTTPS (isso fica para o hPanel, depois do SSL)');
+}
+for (const [nome, conteudo] of Object.entries(html)) {
+  ok(!conteudo.includes('upgrade-insecure-requests'), `${nome}: CSP sem upgrade-insecure-requests (quebraria o site em http)`);
+}
+
 const vercel = JSON.parse(await readFile(new URL('../vercel.json', import.meta.url), 'utf8'));
 const chavesVercel = vercel.headers.flatMap((h) => h.headers.map((x) => x.key));
 for (const chave of ['X-Content-Type-Options', 'Referrer-Policy', 'Permissions-Policy', 'X-Frame-Options', 'Strict-Transport-Security']) {

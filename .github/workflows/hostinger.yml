@@ -1,0 +1,53 @@
+# Publica o site pronto na branch `hostinger`, para a Hostinger puxar.
+#
+# A hospedagem de sites da Hostinger não roda `npm run build`: ela só copia
+# arquivos. Por isso esta automação gera o site (a pasta dist/, com o
+# .htaccess) a cada atualização da branch do site e grava o resultado,
+# sozinho, na branch `hostinger`. No hPanel, em Avançado → Git, aponte para
+# essa branch (README → "Publicar na Hostinger").
+#
+# Domínio e indexação: em GitHub → Settings → Secrets and variables →
+# Actions → Variables, crie SITE_URL (ex.: https://www.seudominio.com.br) e
+# SITE_PUBLICAVEL (true). Sem elas, o site sai com o domínio de reserva e
+# fora do Google.
+name: Site para a Hostinger
+
+on:
+  push:
+    branches: [claude/brave-faraday-alroh1]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hostinger
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: ${{ vars.SITE_URL }}
+      SITE_PUBLICAVEL: ${{ vars.SITE_PUBLICAVEL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+
+      - name: Grava o site pronto na branch hostinger
+        run: |
+          cd dist
+          git init -q -b hostinger
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Site pronto para a Hostinger (${GITHUB_SHA::7})"
+          git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" hostinger

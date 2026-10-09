@@ -269,7 +269,8 @@ if (!process.env.VERCEL) {
     ok(htaccess.includes(esperado), `.htaccess inclui ${esperado}`);
   }
   ok(/script-src 'self' 'sha256-/.test(htaccess), '.htaccess tem hash de script em vez de unsafe-inline');
-  ok(!/^\s*RewriteRule \^\(\.\*\)\$ https/m.test(htaccess), '.htaccess não força HTTPS (isso fica para o hPanel, depois do SSL)');
+  ok(!/^\s*RewriteCond %\{HTTPS\} !=on/m.test(htaccess), '.htaccess não força HTTPS (isso fica para o hPanel, depois do SSL)');
+  ok(/RewriteCond %\{HTTP_HOST\} \^www/.test(htaccess), '.htaccess leva o www para o domínio sem www');
 }
 for (const [nome, conteudo] of Object.entries(html)) {
   ok(!conteudo.includes('upgrade-insecure-requests'), `${nome}: CSP sem upgrade-insecure-requests (quebraria o site em http)`);

@@ -6,10 +6,10 @@
 # sozinho, na branch `hostinger`. No hPanel, em Avançado → Git, aponte para
 # essa branch (README → "Publicar na Hostinger").
 #
-# Domínio e indexação: em GitHub → Settings → Secrets and variables →
-# Actions → Variables, crie SITE_URL (ex.: https://www.seudominio.com.br) e
-# SITE_PUBLICAVEL (true). Sem elas, o site sai com o domínio de reserva e
-# fora do Google.
+# Domínio e indexação: por padrão, https://casaememoema.com.br, aberto ao
+# Google. Para mudar sem editar este arquivo, crie em GitHub → Settings →
+# Secrets and variables → Actions → Variables: SITE_URL e SITE_PUBLICAVEL
+# ("false" tira o site do Google).
 name: Site para a Hostinger
 
 on:
@@ -28,8 +28,8 @@ jobs:
   publicar:
     runs-on: ubuntu-latest
     env:
-      SITE_URL: ${{ vars.SITE_URL }}
-      SITE_PUBLICAVEL: ${{ vars.SITE_PUBLICAVEL }}
+      SITE_URL: ${{ vars.SITE_URL || 'https://casaememoema.com.br' }}
+      SITE_PUBLICAVEL: ${{ vars.SITE_PUBLICAVEL || 'true' }}
     steps:
       - uses: actions/checkout@v4
 

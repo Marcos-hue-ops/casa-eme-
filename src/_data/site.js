@@ -23,29 +23,31 @@
  *
  * Para mandar explicitamente, crie na Vercel (Settings → Environment
  * Variables) as variáveis:
- *   SITE_URL         ex.: https://www.casaeme.com.br  (o domínio principal)
+ *   SITE_URL         ex.: https://casaememoema.com.br  (o domínio principal)
  *   SITE_PUBLICAVEL  "true" ou "false"
  *
- * Fora da Vercel (build local, Netlify, servidor próprio), vale o que estiver
- * nessas variáveis, ou o domínio de reserva abaixo, sem indexação.
+ * Fora da Vercel (build local, Hostinger, Netlify, servidor próprio), vale o
+ * que estiver nessas variáveis, ou o domínio da casa abaixo, sem indexação.
+ * A automação da Hostinger (.github/workflows/hostinger.yml) já gera com o
+ * domínio da casa e com a indexação ligada.
  */
-const DOMINIO_RESERVA = 'https://www.casaememoema.com.br';
+const DOMINIO = 'https://casaememoema.com.br';
 
 const ambiente = process.env.VERCEL_ENV; // 'production' | 'preview' | 'development' | undefined
 const dominioVercel = process.env.VERCEL_PROJECT_PRODUCTION_URL; // sem https://
 
 const url = (
   process.env.SITE_URL ||
-  (dominioVercel ? `https://${dominioVercel}` : DOMINIO_RESERVA)
+  (dominioVercel ? `https://${dominioVercel}` : DOMINIO)
 ).replace(/\/+$/, '');
 
 if (!/^https:\/\/[a-z0-9.-]+\.[a-z]{2,}$/i.test(url)) {
   throw new Error(
-    `SITE_URL inválida: "${url}". Use só o domínio, com https:// e sem caminho — ex.: https://www.casaeme.com.br`
+    `SITE_URL inválida: "${url}". Use só o domínio, com https:// e sem caminho — ex.: https://casaememoema.com.br`
   );
 }
 
-const dominioProprio = !/\.vercel\.app$/i.test(new URL(url).hostname) && url !== DOMINIO_RESERVA;
+const dominioProprio = !/\.vercel\.app$/i.test(new URL(url).hostname);
 
 const publicavel =
   process.env.SITE_PUBLICAVEL !== undefined

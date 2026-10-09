@@ -289,7 +289,8 @@ branch ou pull request ganha um endereço de prévia.
 | Produção sem domínio próprio | `https://<projeto>.vercel.app` | fora (`noindex`) |
 | Produção com domínio próprio | o domínio | **indexa** |
 | Prévias (branches, PRs) | o endereço de produção | fora (`noindex`) |
-| Build local / outro provedor | `SITE_URL`, ou o domínio de reserva | fora, salvo `SITE_PUBLICAVEL=true` |
+| Build local / outro provedor | `SITE_URL`, ou `https://casaememoema.com.br` | fora, salvo `SITE_PUBLICAVEL=true` |
+| Hostinger (branch `hostinger`, gerada pela automação) | `https://casaememoema.com.br` | dentro |
 
 Ou seja: dá para publicar já, mandar o link pelo WhatsApp (o cartão com a
 foto aparece) e só entrar no Google quando o domínio estiver conectado. A
@@ -300,7 +301,7 @@ regra está em `src/_data/site.js`.
 
 | Variável | Para quê |
 |---|---|
-| `SITE_URL` | fixar o domínio principal, ex.: `https://www.casaeme.com.br`. Use quando o principal for o **www** (a Vercel, sozinha, escolhe o domínio mais curto, que é o sem www). |
+| `SITE_URL` | fixar o domínio principal, ex.: `https://casaememoema.com.br`. Use quando o principal for outro (a Vercel, sozinha, escolhe o domínio mais curto, que é o sem www). |
 | `SITE_PUBLICAVEL` | `false` segura o site fora do Google mesmo com domínio; `true` libera mesmo no `.vercel.app` (não recomendado). |
 
 O `vercel.json` também envia os cabeçalhos de segurança (HSTS, nosniff,
@@ -362,11 +363,17 @@ regrava a branch `hostinger`. Ninguém precisa mexer nela à mão.
 - **SSL:** hPanel → **Segurança → SSL**: confirme o certificado ativo e só
   então ligue **Forçar HTTPS**. (O `.htaccess` não força HTTPS por conta
   própria, para o site não ficar fora do ar enquanto o certificado sai.)
-- **Domínio e Google:** em GitHub → **Settings → Secrets and variables →
-  Actions → Variables**, crie `SITE_URL` (ex.: `https://www.seudominio.com.br`)
-  e `SITE_PUBLICAVEL` (`true`). Depois, em **Actions → Site para a Hostinger
-  → Run workflow**, gere a branch de novo e implante. Sem essas variáveis, o
-  site funciona, mas sai com o domínio de reserva e fora do Google.
+- **Domínio e Google:** a branch `hostinger` já sai com o domínio
+  **`https://casaememoema.com.br`** (sem www) no canonical, no sitemap e no
+  cartão social, e com a indexação ligada. Quem digitar `www.` é levado para o
+  endereço sem www pelo `.htaccess`. Para mudar, crie em GitHub → **Settings →
+  Secrets and variables → Actions → Variables** `SITE_URL` e/ou
+  `SITE_PUBLICAVEL` (`false` tira do Google) e rode **Actions → Site para a
+  Hostinger → Run workflow**.
+- **DNS:** se o domínio foi registrado fora da Hostinger (Registro.br, por
+  exemplo), aponte os servidores DNS (ou os registros `A` e `CNAME` do `www`)
+  para os que o hPanel mostrar em **Domínios**. Enquanto o DNS não propaga, o
+  domínio ainda abre o endereço antigo.
 - **Mudança não apareceu:** hPanel → **Desempenho → Cache** (e CDN, se
   estiver ligado) → limpar; no navegador, Ctrl+Shift+R.
 - **Vercel e Hostinger ao mesmo tempo:** o domínio aponta para um só. Os dois
@@ -378,7 +385,7 @@ regrava a branch `hostinger`. Ninguém precisa mexer nela à mão.
 ## 7. Conectar o domínio
 
 1. Na Vercel: **Project → Settings → Domains → Add** e digite o domínio
-   (ex.: `casaeme.com.br`). A Vercel oferece adicionar junto a versão com
+   (`casaememoema.com.br`). A Vercel oferece adicionar junto a versão com
    `www` e redirecionar uma para a outra — aceite.
 2. No registro do domínio (Registro.br, por exemplo), crie os registros DNS
    que a Vercel mostrar — normalmente um `A` do domínio raiz para o IP

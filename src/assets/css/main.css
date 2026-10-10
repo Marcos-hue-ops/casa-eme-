@@ -1,0 +1,35 @@
+/**
+ * Bundle único, montado pelo Lightning CSS (`npm run build:css`).
+ * Ordem: tokens → base → componentes → seções, do mais genérico ao mais
+ * específico, para que nenhuma regra precise de !important para vencer outra.
+ */
+
+/* Base */
+@import 'base/tokens.css';
+@import 'base/reset.css';
+@import 'base/fonts.css';
+@import 'base/typography.css';
+@import 'base/layout.css';
+@import 'base/a11y.css';
+
+/* Componentes */
+@import 'components/button.css';
+@import 'components/header.css';
+@import 'components/footer.css';
+@import 'components/wa-fixo.css';
+@import 'components/faq.css';
+@import 'components/lightbox.css';
+@import 'components/reveal.css';
+@import 'components/estado.css';
+@import 'components/abertura.css';
+
+/* Seções */
+@import 'sections/hero.css';
+@import 'sections/manifesto.css';
+@import 'sections/servicos-home.css';
+@import 'sections/destaques.css';
+@import 'sections/fechamento.css';
+@import 'sections/paginas.css';
+
+/* Impressão por último: ela sobrescreve tudo, de propósito. */
+@import 'base/print.css';

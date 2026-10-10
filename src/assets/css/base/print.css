@@ -1,0 +1,40 @@
+/** Impressão: endereço, horários e serviços legíveis no papel, sem a interface. */
+@media print {
+  .cab,
+  .painel,
+  .wa-fixo,
+  .lupa,
+  .mapa,
+  .atalhos,
+  .filtros,
+  .hero__visual,
+  .hero__fundo,
+  .monograma,
+  .btn {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 11pt;
+  }
+
+  .faixa-noite,
+  .rodape,
+  .final {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 9pt;
+    word-break: break-all;
+  }
+
+  section {
+    break-inside: avoid-page;
+    padding-block: 1rem !important;
+  }
+}

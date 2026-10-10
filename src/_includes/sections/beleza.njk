@@ -1,0 +1,52 @@
+{%- import "components/macros.njk" as m -%}
+{%- set beleza = servicos | categoria('beleza') -%}
+{%- set sob = servicos | categoria('sobrancelhas-e-cilios') -%}
+{%- set t = destaques.beleza -%}
+{%- set escova = galeria.fotos[2] -%}
+{%- set tartaruga = galeria.fotos[3] -%}
+{#-
+  Beleza: cabelo, mãos e pés, sobrancelhas e cílios. A foto de antes e
+  depois entra na moldura dupla dos posts da casa.
+-#}
+<section class="beleza" aria-labelledby="beleza-titulo">
+  <div class="env beleza__grade">
+    <figure class="beleza__foto moldura">
+      {{ m.foto(escova.imagem, escova.alt, '(min-width: 64rem) 34rem, 92vw') }}
+      <figcaption>{{ escova.legenda }}</figcaption>
+    </figure>
+
+    <div class="beleza__texto">
+      <p class="rotulo">{{ servicos | numeroDe('beleza') }} · {{ beleza.nome }}</p>
+      <h2 class="beleza__titulo" id="beleza-titulo">{{ t.titulo | enfase(t.enfase) | safe }}</h2>
+      <p>{{ beleza.texto }}</p>
+
+      <div class="beleza__listas">
+        {%- for g in beleza.grupos %}
+        <div class="lista-corrida">
+          <h3 class="lista-corrida__titulo">{{ g.nome }}</h3>
+          <ul>
+            {%- for i in g.itens %}<li>{{ i.nome }}</li>{% endfor %}
+          </ul>
+        </div>
+        {%- endfor %}
+        <div class="lista-corrida">
+          <h3 class="lista-corrida__titulo">{{ sob.nome }}</h3>
+          <ul>
+            {%- for i in sob.grupos[0].itens %}<li>{{ i.nome }}</li>{% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <p class="beleza__nota">{{ t.nota }}</p>
+
+      <div class="acoes">
+        {{ m.seta('/servicos/#beleza', 'Ver os serviços de beleza') }}
+        {{ m.wa(business, 'beleza', beleza.cta, 'btn btn--linha') }}
+      </div>
+    </div>
+
+    <figure class="beleza__detalhe">
+      {{ m.foto(tartaruga.imagem, tartaruga.alt, '(min-width: 64rem) 16rem, 60vw') }}
+    </figure>
+  </div>
+</section>

@@ -1,0 +1,46 @@
+---
+layout: layouts/base.njk
+title: "Saúde Capilar, Emagrecimento e Estética em Moema | Casa EME"
+description: "Saúde capilar com a biomédica Dra. Rejane Rabelo, emagrecimento e estética avançada, além de salão e spa, na Casa EME, em Moema (SP). Agende pelo WhatsApp."
+corpoClasse: pg-home
+preloadHero: true
+videoSchema: true
+---
+{#-
+  Ordem da home — confiança → interesse → WhatsApp:
+  primeira dobra (com as credenciais) e ficha · índice de todos os serviços,
+  com as três especialidades marcadas · saúde capilar (queixas, antes e
+  depois, como funciona) · quem atende · depoimentos · emagrecimento ·
+  estética avançada (com os antes e depois do rosto) · beleza · quem cuida
+  da beleza · assinaturas ·
+  relax · manifesto · galeria · Outubro Rosa · dúvidas · como chegar ·
+  chamada final.
+
+  Foto e texto se alternam: nenhuma seção longa de texto encosta em outra.
+-#}
+{% include "sections/hero.njk" %}
+{% set indiceTopo = true %}
+{% include "sections/indice.njk" %}
+{% set resumoCapilar = true %}
+{% include "sections/capilar-destaque.njk" %}
+{% set pessoaId = 'rejane' %}
+{% include "sections/pessoa.njk" %}
+{% include "sections/depoimentos.njk" %}
+{% include "sections/emagrecimento.njk" %}
+{% set comCasosFaciais = true %}
+{% include "sections/estetica.njk" %}
+{% include "sections/beleza.njk" %}
+{% set pessoaId = 'gilberto' %}
+{% set pessoaInvertida = true %}
+{% set pessoaCreme = true %}
+{% include "sections/pessoa.njk" %}
+{% set pessoaInvertida = false %}
+{% set pessoaCreme = false %}
+{% include "sections/assinaturas.njk" %}
+{% include "sections/relax.njk" %}
+{% include "sections/manifesto.njk" %}
+{% include "sections/galeria-resumo.njk" %}
+{% include "sections/outubro-rosa.njk" %}
+{% include "sections/faq-resumo.njk" %}
+{% include "sections/local.njk" %}
+{% include "sections/cta.njk" %}

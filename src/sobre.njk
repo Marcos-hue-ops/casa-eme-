@@ -1,0 +1,87 @@
+---
+layout: layouts/pagina.njk
+permalink: /sobre/
+title: "Sobre a Casa EME | Nova gestão em Moema, São Paulo"
+description: "A Casa EME está sob nova gestão em Moema. Conheça a proposta da casa e a Dra. Rejane Rabelo, biomédica esteta que atende na saúde capilar."
+tituloPagina: "Sobre a Casa EME"
+chamadaPagina: "Nova gestão. Uma nova experiência em Moema — e uma ideia que já está no nome: <em>uma casa para cuidar de mim.</em>"
+trilha:
+  - nome: Início
+    href: /
+  - nome: Sobre
+    href: /sobre/
+---
+{%- import "components/macros.njk" as m -%}
+
+<section class="texto-longo" aria-labelledby="capitulo-titulo">
+  <div class="env texto-longo__grade">
+    <p class="rotulo">Nova gestão</p>
+    <div>
+      <h2 class="texto-longo__titulo" id="capitulo-titulo">Um novo capítulo na Rua Pintassilgo</h2>
+      <p class="texto-longo__lead">Sob nova gestão, a Casa EME reúne em Moema salão de beleza, estética avançada, saúde capilar, emagrecimento e massagens.</p>
+      <p>EME é a letra M, e cada M virou um motivo no manifesto da casa.</p>
+    </div>
+  </div>
+</section>
+
+{% set rejaneCompleta = true %}
+{% set pessoaId = 'rejane' %}
+{% include "sections/pessoa.njk" %}
+
+{% set pessoaId = 'gilberto' %}
+{% set pessoaInvertida = true %}
+{% set pessoaCreme = true %}
+{% include "sections/pessoa.njk" %}
+{% set pessoaInvertida = false %}
+{% set pessoaCreme = false %}
+
+{% set nivelManifesto = 2 %}
+{% include "sections/manifesto.njk" %}
+
+<section class="diferenciais" aria-labelledby="diferenciais-titulo">
+  <div class="env">
+    <div class="diferenciais__cab">
+      <p class="rotulo">A experiência</p>
+      <h2 class="diferenciais__titulo" id="diferenciais-titulo">Como é estar na Casa EME</h2>
+      <p class="diferenciais__lead">O que segue foi escrito a partir do que a casa propõe e do que as clientes mais comentam nas avaliações.</p>
+    </div>
+    <ol class="diferenciais__lista">
+      {%- for d in diferenciais %}
+      <li class="diferencial">
+        <span class="diferencial__num" aria-hidden="true">{{ loop.index | dois }}</span>
+        <h3 class="diferencial__titulo">{{ d.titulo }}</h3>
+        <p>{{ d.texto }}</p>
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="ambiente" aria-labelledby="ambiente-titulo">
+  <div class="env ambiente__grade">
+    <div class="ambiente__texto">
+      <p class="rotulo">O ambiente</p>
+      <h2 class="ambiente__titulo" id="ambiente-titulo">Intimista, como uma casa</h2>
+      <p>O clima intimista é o que as clientes mais comentam, e a casa cuida para continuar assim.</p>
+      <p>O espaço e os trabalhos recentes estão no Instagram.</p>
+      <a class="link-seta" href="{{ business.instagram.url }}" target="_blank" rel="noopener noreferrer"><span>Ver {{ business.instagram.handle }}</span>{% icon "externo" %}</a>
+    </div>
+    {#- Fotos do ambiente: entram sozinhas quando houver itens com categoria 'ambiente' em galeria.js. -#}
+    {%- set fotosAmbiente = galeria.fotos | fotosDe('ambiente') %}
+    {%- if fotosAmbiente.length %}
+    <ul class="ambiente__fotos">
+      {%- for foto in fotosAmbiente | batch(3) | first %}
+      <li>{{ m.foto(foto.imagem, foto.alt, '(min-width: 64rem) 30vw, 92vw') }}</li>
+      {%- endfor %}
+    </ul>
+    {%- endif %}
+    <div class="ambiente__servicos">
+      <h3 class="ambiente__subtitulo">O que se faz aqui</h3>
+      <ul class="ambiente__lista">
+        {%- for cat in servicos %}
+        <li><a href="{{ cat.pagina }}"><span>{{ cat.nome }}</span><span class="ambiente__chamada">{{ cat.chamada }}</span></a></li>
+        {%- endfor %}
+      </ul>
+    </div>
+  </div>
+</section>

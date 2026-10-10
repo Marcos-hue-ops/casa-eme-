@@ -1,0 +1,49 @@
+{%- import "components/macros.njk" as m -%}
+<header class="cab" data-cab>
+  <div class="cab__env">
+    <a class="marca" href="/" {{ 'aria-current="page"' | safe if page.url == '/' }}>
+      <img class="marca__selo" src="/favicon.svg" width="40" height="40" alt="">
+      <span class="marca__txt">
+        <span class="marca__nome">Casa EME</span>
+        <span class="marca__lugar">Moema</span>
+      </span>
+      <span class="so-leitor"> — página inicial</span>
+    </a>
+
+    <nav class="nav" aria-label="Principal">
+      <ul class="nav__lista">
+        {%- for item in nav.principal %}
+        <li><a class="nav__link" href="{{ item.href }}" {{ 'aria-current="page"' | safe if page.url == item.href }}>{{ item.curto or item.label }}</a></li>
+        {%- endfor %}
+      </ul>
+    </nav>
+
+    <div class="cab__acoes">
+      {{ m.wa(business, waChave or 'geral', 'Agendar', 'btn btn--wa btn--cab') }}
+      <button type="button" class="menu-btn" data-menu aria-expanded="false" aria-controls="menu-painel">
+        <span class="menu-btn__linhas" aria-hidden="true"><span></span><span></span></span>
+        <span class="menu-btn__txt">Menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+{#- Menu do celular e do tablet. Fechado, fica `inert`: fora do foco e da leitura de tela. -#}
+<div class="painel" id="menu-painel" data-painel inert>
+  <nav class="painel__nav" aria-label="Menu">
+    <ol class="painel__lista">
+      <li><a class="painel__link" href="/" {{ 'aria-current="page"' | safe if page.url == '/' }}><span class="painel__num" aria-hidden="true">00</span>Início</a></li>
+      {%- for item in nav.principal %}
+      <li><a class="painel__link" href="{{ item.href }}" {{ 'aria-current="page"' | safe if page.url == item.href }}><span class="painel__num" aria-hidden="true">{{ loop.index | dois }}</span>{{ item.label }}</a></li>
+      {%- endfor %}
+      {%- for item in nav.extra %}
+      <li><a class="painel__link" href="{{ item.href }}" {{ 'aria-current="page"' | safe if page.url == item.href }}><span class="painel__num" aria-hidden="true">{{ ((nav.principal | length) + loop.index) | dois }}</span>{{ item.label }}</a></li>
+      {%- endfor %}
+    </ol>
+  </nav>
+  <div class="painel__pe">
+    <p class="painel__info">{{ business.address.street }} · {{ business.address.neighborhood }}<br>{{ hours.resumoCurto }}</p>
+    {{ m.wa(business, 'geral', 'Agendar pelo WhatsApp') }}
+    <a class="painel__insta" href="{{ business.instagram.url }}" target="_blank" rel="noopener noreferrer">{% icon "instagram" %}<span>{{ business.instagram.handle }}</span></a>
+  </div>
+</div>

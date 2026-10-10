@@ -1,0 +1,61 @@
+{%- import "components/macros.njk" as m -%}
+<footer class="rodape">
+  <div class="env">
+    <div class="rodape__topo">
+      <a class="rodape__marca" href="/">
+        <img src="/assets/img/marca/selo-casa-eme.svg" width="112" height="112" alt="" loading="lazy" decoding="async">
+        <span class="so-leitor">Casa EME — página inicial</span>
+      </a>
+      <div class="rodape__assina">
+        <p class="rodape__nome">Casa EME</p>
+        <p class="rodape__slogan">Beleza <span aria-hidden="true">•</span> Estética avançada <span aria-hidden="true">•</span> Saúde capilar</p>
+        <p class="rodape__frase">{{ business.assinatura }}</p>
+      </div>
+    </div>
+
+    <div class="rodape__grade">
+      <section class="rodape__bloco" aria-labelledby="rodape-endereco">
+        <h2 class="rodape__titulo" id="rodape-endereco">Endereço</h2>
+        <address class="rodape__end">
+          {{ business.address.street }}<br>
+          {{ business.address.district }} / {{ business.address.neighborhood }}<br>
+          {{ business.address.city }} – {{ business.address.state }}<br>
+          CEP {{ business.address.zip }}
+        </address>
+      </section>
+
+      <section class="rodape__bloco" aria-labelledby="rodape-horarios">
+        <h2 class="rodape__titulo" id="rodape-horarios">Horários</h2>
+        <dl class="rodape__horas">
+          {%- for g in hours.grupos %}
+          <div><dt>{{ g.dias }}</dt><dd>{{ g.horas }}</dd></div>
+          {%- endfor %}
+        </dl>
+      </section>
+
+      <nav class="rodape__bloco" aria-labelledby="rodape-paginas">
+        <h2 class="rodape__titulo" id="rodape-paginas">Páginas</h2>
+        <ul class="rodape__links rodape__links--duas">
+          {%- for item in nav.rodape %}
+          <li><a href="{{ item.href }}" {{ 'aria-current="page"' | safe if page.url == item.href }}>{{ item.label }}</a></li>
+          {%- endfor %}
+        </ul>
+      </nav>
+
+      <section class="rodape__bloco" aria-labelledby="rodape-contato">
+        <h2 class="rodape__titulo" id="rodape-contato">Contato</h2>
+        <ul class="rodape__links rodape__links--icones">
+          <li><a href="{{ business.whatsapp | wa('geral') }}" target="_blank" rel="noopener noreferrer">{% icon "whatsapp" %}<span>WhatsApp {{ business.whatsapp.display }}</span></a></li>
+          <li><a href="{{ business.instagram.url }}" target="_blank" rel="noopener noreferrer">{% icon "instagram" %}<span>Instagram {{ business.instagram.handle }}</span></a></li>
+          <li><a href="{{ business.maps.search }}" target="_blank" rel="noopener noreferrer">{% icon "mapa" %}<span>Google Maps</span></a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="rodape__base">
+      <p>© {{ build.ano }} {{ business.name }} · {{ business.address.neighborhood }}, {{ business.address.city }}</p>
+      <p>Procedimentos estéticos e capilares dependem de avaliação individual; as informações deste site não substituem acompanhamento médico.</p>
+      <p><a href="/privacidade/">Privacidade</a></p>
+    </div>
+  </div>
+</footer>

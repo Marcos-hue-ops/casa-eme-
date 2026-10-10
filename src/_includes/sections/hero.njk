@@ -1,0 +1,105 @@
+{%- import "components/macros.njk" as m -%}
+{#-
+  Primeira dobra. Em poucos segundos: o que é (beleza, estética avançada,
+  saúde capilar), onde fica (Moema), que experiência oferece (uma casa — a
+  nova gestão) e o que fazer (WhatsApp).
+
+  O nome e o slogan formam o h1, como na logo. O texto embaixo dele vem da
+  arte "Cuidado que vai além da beleza", enviada pela casa (destaques.js →
+  hero): escrito em HTML, e não deixado dentro da imagem, para ser lido por
+  leitor de tela e pelo Google. Abaixo dos botões, as credenciais: a
+  autoridade vem de fato verificável, não de adjetivo.
+
+  As duas "janelas" redondas repetem o círculo do selo: na grande, a foto da
+  arte; na pequena, a Dra. Rejane Rabelo, quem atende.
+-#}
+{%- set rejane = equipe.rejane -%}
+{%- set d = destaques.hero -%}
+<section class="hero" aria-labelledby="hero-titulo">
+  <svg class="hero__fundo" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+    <circle cx="100" cy="100" r="98"/><circle cx="100" cy="100" r="90"/>
+  </svg>
+
+  <div class="env hero__grade">
+    <div class="hero__texto">
+      <p class="hero__sobre">
+        {%- for parte in d.sobre.split(' · ') %}{% if not loop.first %} <span class="hero__ponto" aria-hidden="true"></span> {% endif %}<span>{{ parte }}</span>{% endfor -%}
+      </p>
+
+      <h1 class="hero__marca" id="hero-titulo">
+        <span class="hero__nome">Casa EME</span>
+        <span class="hero__slogan"><span class="hero__item">Beleza</span> <span class="hero__barra" aria-hidden="true">|</span> <span class="hero__item">Estética avançada</span> <span class="hero__barra" aria-hidden="true">|</span> <span class="hero__item">Saúde capilar</span></span>
+      </h1>
+
+      <span class="hero__fio" aria-hidden="true"></span>
+
+      <p class="hero__lema">{{ d.lema | enfase(d.enfase) | safe }}</p>
+
+      <p class="hero__lead">{{ d.texto }}</p>
+      {%- if d.fecho %}
+      <p class="hero__fecho">{{ d.fecho }}</p>
+      {%- endif %}
+
+      <div class="hero__acoes">
+        {{ m.wa(business, 'geral', 'Agendar pelo WhatsApp', 'btn btn--wa btn--grande', 'data-wa-gatilho') }}
+        {{ m.seta('/servicos/', 'Conhecer serviços') }}
+      </div>
+
+    </div>
+
+    <div class="hero__visual">
+      <div class="janelas">
+        <figure class="janela janela--grande">
+          {{ m.anel('anel anel--desenha') }}
+          <div class="janela__vidro">
+            {{ m.foto(galeria.janelas.principal.imagem, galeria.janelas.principal.alt, galeria.janelas.principal.sizes, true) }}
+          </div>
+        </figure>
+        <figure class="janela janela--pequena">
+          {{ m.anel('anel anel--desenha anel--tarde') }}
+          <div class="janela__vidro">
+            {{ m.foto(galeria.janelas.secundaria.imagem, galeria.janelas.secundaria.alt, '(min-width: 64rem) 11rem, 8rem') }}
+          </div>
+          <figcaption class="janela__legenda">
+            <a href="#quem-atende"><span class="janela__nome">{{ rejane.nome }}</span></a>
+            <span class="janela__cargo">{{ rejane.funcao }}<br>{{ rejane.registro.formatado }}</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+
+    {#- Credenciais: fatos, não adjetivos — como avalia, o que já fez. Quem
+        atende (nome e registro) fica uma vez só, na legenda do retrato. -#}
+    <ul class="credenciais" aria-label="Sobre o atendimento">
+      {%- for c in d.credenciais %}
+      <li class="credencial">
+        {%- if c.href %}<a class="credencial__link" href="{{ c.href }}">{% endif %}
+        <span class="credencial__rotulo">{{ c.rotulo }}</span>
+        <span class="credencial__valor">{{ c.valor }}</span>
+        <span class="credencial__detalhe">{{ c.detalhe }}</span>
+        {%- if c.href %}</a>{% endif %}
+      </li>
+      {%- endfor %}
+    </ul>
+  </div>
+</section>
+
+{#- Ficha: os três dados práticos logo abaixo da primeira dobra. -#}
+<section class="ficha" aria-label="Endereço, horário e agendamento">
+  <div class="env ficha__grade">
+    <div class="ficha__item">
+      <p class="ficha__rot">Endereço</p>
+      <p class="ficha__val"><a href="{{ business.maps.search }}" target="_blank" rel="noopener noreferrer">{{ business.address.street }}</a><br>{{ business.address.district }}, {{ business.address.neighborhood }}</p>
+    </div>
+    <div class="ficha__item">
+      <p class="ficha__rot">Horário <span class="estado" data-estado data-semana="{{ hours.semana | json }}" hidden></span></p>
+      <p class="ficha__val">
+        {%- for g in hours.grupos | selectattr('aberto') %}{{ g.dias }}, {{ g.horas }}{% if not loop.last %}<br>{% endif %}{% endfor -%}
+      </p>
+    </div>
+    <div class="ficha__item">
+      <p class="ficha__rot">Agendamento</p>
+      <p class="ficha__val"><a href="{{ business.whatsapp | wa('geral') }}" target="_blank" rel="noopener noreferrer">WhatsApp {{ business.whatsapp.display }}</a><br><a href="{{ business.instagram.url }}" target="_blank" rel="noopener noreferrer">{{ business.instagram.handle }}</a></p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,77 @@
+{%- import "components/macros.njk" as m -%}
+{#-
+  Depoimentos reais, enviados pela casa (depoimentos.js): um em vídeo e um
+  escrito. Nada é resumido nem reescrito — o vídeo tem legenda e transcrição
+  completa, para quem não pode ou não quer ouvir.
+
+  O vídeo só começa a baixar quando a pessoa aperta o play (preload="none").
+  Até lá, a página carrega apenas a imagem de capa.
+
+  Depois deles, os temas que a casa diz que mais se repetem nas avaliações,
+  sem aspas e sem autoria — não são citações.
+-#}
+{%- set t = destaques.depoimentos -%}
+<section class="vozes" id="depoimentos" aria-labelledby="vozes-titulo">
+  <div class="env">
+    <div class="vozes__cab">
+      <p class="rotulo">Depoimentos</p>
+      <h2 class="vozes__titulo" id="vozes-titulo">{{ t.titulo | enfase(t.enfase) | safe }}</h2>
+      <p class="vozes__lead">{{ t.intro }}</p>
+    </div>
+
+    <div class="vozes__grade">
+      {%- for d in depoimentos.itens %}
+      {%- if d.tipo == 'video' %}
+      <figure class="depo depo--video">
+        <div class="depo__tela moldura">
+          <video class="depo__video" controls preload="none" playsinline
+                 width="{{ d.video.largura }}" height="{{ d.video.altura }}"
+                 poster="{{ d.video.capa | src }}"
+                 aria-label="Vídeo: depoimento de {{ d.autor | lower }}">
+            <source src="{{ d.video.mp4 }}" type="video/mp4">
+            <track kind="captions" src="{{ d.video.legendas }}" srclang="pt-BR" label="Português" default>
+            <p>Seu navegador não reproduz o vídeo aqui. <a href="{{ d.video.mp4 }}">Abrir o vídeo do depoimento</a>.</p>
+          </video>
+        </div>
+        <figcaption class="depo__legenda">
+          <blockquote class="depo__trecho"><p>{{ d.trecho }}</p></blockquote>
+          <p class="depo__autor">{{ d.autor }}<span class="depo__contexto">{{ d.contexto }}</span></p>
+          <details class="depo__transcricao">
+            <summary>Ler a transcrição completa</summary>
+            <p>{{ d.transcricao }}</p>
+          </details>
+        </figcaption>
+      </figure>
+      {%- else %}
+      <figure class="depo depo--texto">
+        <blockquote class="depo__citacao"><p>{{ d.paragrafos[0] }}</p></blockquote>
+        {%- if d.paragrafos.length > 1 %}
+        <details class="depo__mais">
+          <summary>Ler o depoimento inteiro</summary>
+          <blockquote class="depo__citacao">
+            {%- for p in d.paragrafos.slice(1) %}
+            <p>{{ p }}</p>
+            {%- endfor %}
+          </blockquote>
+        </details>
+        {%- endif %}
+        <figcaption class="depo__autor">{{ d.autor }}<span class="depo__contexto">{{ d.contexto }}</span></figcaption>
+      </figure>
+      {%- endif %}
+      {%- endfor %}
+    </div>
+
+    <p class="vozes__ressalva">{{ t.ressalva }}</p>
+
+    <div class="vozes__temas-bloco">
+      <h3 class="vozes__sub">O que mais aparece nos comentários</h3>
+      <p class="vozes__intro">Quem já passou pela Casa EME costuma citar:</p>
+      <ul class="vozes__temas">
+        {%- for tema in depoimentos.destaques %}
+        <li>{{ tema }}</li>
+        {%- endfor %}
+      </ul>
+      <p class="vozes__fonte"><a href="{{ business.maps.search }}" target="_blank" rel="noopener noreferrer">Ver a Casa EME no Google Maps</a></p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,16 @@
+---
+permalink: /robots.txt
+eleventyExcludeFromCollections: true
+---
+{%- if site.publicavel -%}
+User-agent: *
+Allow: /
+
+Sitemap: {{ site.url }}/sitemap.xml
+{%- else -%}
+# Este endereço não está liberado para indexação (prévia, endereço
+# ...vercel.app ou build local). A regra está em src/_data/site.js: a indexação
+# é liberada sozinha no deploy de produção com domínio próprio.
+User-agent: *
+Disallow: /
+{%- endif %}

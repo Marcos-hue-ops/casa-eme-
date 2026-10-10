@@ -1,0 +1,57 @@
+{%- import "components/macros.njk" as m -%}
+{#-
+  Antes e depois (casos.js) nas páginas de cada especialidade: `areaCasos`
+  ('capilar' ou 'facial') escolhe a área; `nivelCasos` ajusta o título. Na
+  home, os casos entram dentro das seções de saúde capilar e de estética.
+
+  Toda foto vai junto com o aviso do conselho (resultado não é garantia) e,
+  nos casos em que a casa informou quem atendeu, com o crédito e o registro
+  profissional (casos.js → creditado).
+-#}
+{%- set t = destaques.casos -%}
+{%- set n = nivelCasos or 2 -%}
+{%- set capilares = casos.itens | casosDe('capilar') -%}
+{%- set faciais = casos.itens | casosDe('facial') -%}
+<section class="casos" id="antes-e-depois" aria-labelledby="casos-titulo">
+  <div class="env">
+    <div class="casos__cab">
+      <p class="rotulo">Antes e depois</p>
+      {%- if areaCasos == 'facial' %}
+      <h{{ n }} class="casos__titulo" id="casos-titulo">No rosto: <em>antes e depois</em></h{{ n }}>
+      <p class="casos__intro">{{ t.introFacial }}</p>
+      {%- else %}
+      <h{{ n }} class="casos__titulo" id="casos-titulo">Tratamento capilar: <em>antes e depois</em></h{{ n }}>
+      <p class="casos__intro">{{ t.intro }}</p>
+      {%- endif %}
+    </div>
+
+    <div data-lupa-grupo>
+      {%- if areaCasos != 'facial' %}
+      <div class="casos__bloco">
+        <ul class="casos__grade casos__grade--capilar">
+          {%- for c in capilares %}
+          <li>{{ m.caso(c, ('(min-width: 64rem) 18rem, (min-width: 40rem) 27vw, 22rem' if c.layout == 'empilhado' else '(min-width: 64rem) 42rem, (min-width: 40rem) 63vw, 92vw'), casos.aviso) }}</li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- endif %}
+
+      {%- if areaCasos != 'capilar' %}
+      <div class="casos__bloco">
+        <ul class="casos__grade casos__grade--facial">
+          {%- for c in faciais %}
+          <li>{{ m.caso(c, aviso=casos.aviso) }}</li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- endif %}
+    </div>
+
+    <div class="casos__pe">
+      {%- if areaCasos != 'facial' %}
+      <p class="casos__credito">{{ casos.credito }}</p>
+      {%- endif %}
+      <p class="casos__ressalva">{{ casos.ressalva }} {{ casos.aviso }}</p>
+    </div>
+  </div>
+</section>

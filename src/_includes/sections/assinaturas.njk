@@ -1,0 +1,39 @@
+{%- import "components/macros.njk" as m -%}
+{#-
+  Assinaturas — transcritas do story da casa. Apresentadas como um cardápio
+  impresso, dentro da moldura dupla que a Casa EME usa nos posts.
+-#}
+<section class="assinaturas" id="assinaturas" aria-labelledby="assinaturas-titulo">
+  <div class="env assinaturas__grade">
+    <div class="assinaturas__texto">
+      <p class="rotulo">{{ assinaturas.chamada }}</p>
+      <h2 class="assinaturas__titulo" id="assinaturas-titulo">{{ assinaturas.titulo }}</h2>
+      <p class="assinaturas__lead">{{ assinaturas.texto }}</p>
+      <ul class="assinaturas__condicoes">
+        {%- for c in assinaturas.condicoes %}<li>{{ c }}</li>{% endfor %}
+      </ul>
+      {{ m.wa(business, 'assinaturas', 'Quero saber das assinaturas') }}
+    </div>
+
+    <div class="cardapio moldura">
+      <p class="cardapio__marca" aria-hidden="true">Casa EME</p>
+      <ul class="cardapio__lista">
+        {%- for plano in assinaturas.planos %}
+        <li class="cardapio__item">
+          <div class="cardapio__linha">
+            <h3 class="cardapio__nome">{{ plano.nome }}{% if plano.variante %} <span class="cardapio__var">· {{ plano.variante }}</span>{% endif %}</h3>
+            <span class="cardapio__pontos" aria-hidden="true"></span>
+            {%- if assinaturas.mostrarPrecos %}
+            <p class="cardapio__preco"><span class="so-leitor">por </span>{{ plano.preco }}<span class="cardapio__mes"> / 30 dias</span></p>
+            {%- else %}
+            <p class="cardapio__preco cardapio__preco--consulta">consulte</p>
+            {%- endif %}
+          </div>
+          <p class="cardapio__inclui">{{ plano.inclui | join(' + ') }}</p>
+        </li>
+        {%- endfor %}
+      </ul>
+      <p class="cardapio__ressalva">{{ assinaturas.ressalva }}</p>
+    </div>
+  </div>
+</section>

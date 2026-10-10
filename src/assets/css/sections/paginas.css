@@ -1,0 +1,614 @@
+/** Blocos das páginas internas. */
+
+/* Texto corrido com rótulo na margem ----------------------------------------- */
+.texto-longo {
+  padding-block: var(--secao);
+}
+
+.texto-longo__grade {
+  display: grid;
+  gap: var(--e-2);
+}
+
+.texto-longo__titulo {
+  font-size: var(--t-h2);
+  margin-block-end: var(--e-3);
+}
+
+.texto-longo p:not(.rotulo) {
+  max-inline-size: 42rem;
+  color: var(--texto-2);
+}
+
+.texto-longo p + p {
+  margin-block-start: var(--e-2);
+}
+
+.texto-longo .texto-longo__lead {
+  font-size: var(--t-lead);
+  color: var(--cafe);
+}
+
+@media (min-width: 64rem) {
+  .texto-longo__grade {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+    gap: var(--e-6);
+  }
+
+  .texto-longo__grade > .rotulo {
+    align-self: start;
+    margin-block-start: 1rem;
+  }
+}
+
+/* Diferenciais (Sobre) ------------------------------------------------------- */
+.diferenciais {
+  padding-block: var(--secao);
+  background-color: var(--creme);
+}
+
+.diferenciais__cab {
+  max-inline-size: 40rem;
+  margin-block-end: var(--e-5);
+}
+
+.diferenciais__titulo {
+  font-size: var(--t-h2);
+}
+
+.diferenciais__lead {
+  margin-block-start: var(--e-3);
+  color: var(--texto-2);
+}
+
+.diferenciais__lista {
+  display: grid;
+  column-gap: var(--e-5);
+  border-block-start: 1px solid var(--fio-forte);
+}
+
+.diferencial {
+  padding-block: var(--e-4);
+  border-block-end: 1px solid var(--fio-forte);
+}
+
+.diferencial__num {
+  font-size: var(--t-mini);
+  letter-spacing: 0.14em;
+  color: var(--texto-2);
+}
+
+.diferencial__titulo {
+  margin-block: 0.5rem;
+  font-size: var(--t-h3);
+}
+
+.diferencial p {
+  color: var(--texto-2);
+}
+
+@media (min-width: 48rem) {
+  .diferenciais__lista {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64rem) {
+  .diferenciais__lista {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Ambiente (Sobre) ---------------------------------------------------------- */
+.ambiente {
+  padding-block: var(--secao);
+}
+
+.ambiente__grade {
+  display: grid;
+  gap: var(--e-5);
+}
+
+.ambiente__titulo {
+  font-size: var(--t-h2);
+  margin-block-end: var(--e-3);
+}
+
+.ambiente__texto p:not(.rotulo) {
+  max-inline-size: 34rem;
+  margin-block-end: var(--e-2);
+  color: var(--texto-2);
+}
+
+.ambiente__fotos {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: var(--e-3);
+  list-style: none;
+  padding: 0;
+}
+
+.ambiente__subtitulo {
+  font-size: var(--t-h3);
+  margin-block-end: var(--e-2);
+}
+
+.ambiente__lista {
+  list-style: none;
+  padding: 0;
+  border-block-start: 1px solid var(--fio-forte);
+}
+
+.ambiente__lista a {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.25rem var(--e-2);
+  min-block-size: 2.75rem;
+  padding-block: var(--e-2);
+  border-block-end: 1px solid var(--fio-forte);
+  text-decoration: none;
+}
+
+.ambiente__lista a span:first-child {
+  font-family: var(--serifa);
+  font-size: var(--t-h4);
+}
+
+.ambiente__lista a:hover span:first-child {
+  color: var(--marca);
+}
+
+.ambiente__chamada {
+  font-size: var(--t-pequeno);
+  color: var(--texto-2);
+}
+
+@media (min-width: 64rem) {
+  .ambiente__grade {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--e-7);
+  }
+}
+
+/* Categorias (Serviços, Estética) --------------------------------------------- */
+.categoria {
+  padding-block: var(--secao);
+  scroll-margin-top: calc(var(--altura-cab) + 4rem);
+}
+
+.categoria--alt {
+  background-color: var(--creme);
+}
+
+.categoria__grade {
+  display: grid;
+  gap: var(--e-5);
+}
+
+.categoria__num {
+  font-family: var(--serifa);
+  font-size: var(--t-h3);
+  color: var(--caramelo);
+}
+
+.categoria__titulo {
+  font-size: var(--t-h2);
+}
+
+.categoria__chamada {
+  margin-block-start: 0.5rem;
+  font-family: var(--serifa);
+  font-style: italic;
+  font-size: var(--t-h4);
+  color: var(--marca);
+}
+
+.categoria__responsavel {
+  margin-block-start: var(--e-2);
+  font-size: var(--t-pequeno);
+  color: var(--texto-2);
+}
+
+.categoria__responsavel span {
+  margin-inline-end: 0.5rem;
+  font-size: var(--t-mini);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.categoria__responsavel a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 1.5rem;
+  color: var(--marca);
+  text-decoration: underline;
+  text-decoration-color: var(--fio-forte);
+  text-underline-offset: 0.2em;
+}
+
+.categoria__texto {
+  margin-block-start: var(--e-3);
+  max-inline-size: 32rem;
+  color: var(--texto-2);
+}
+
+.categoria__grupos {
+  display: grid;
+  gap: var(--e-5);
+}
+
+.grupo {
+  scroll-margin-top: calc(var(--altura-cab) + 4rem);
+}
+
+.grupo__titulo {
+  font-size: var(--t-h3);
+  padding-block-end: var(--e-2);
+  border-block-end: 1px solid var(--marca);
+}
+
+.grupo__itens {
+  list-style: none;
+  padding: 0;
+}
+
+.grupo__item {
+  display: grid;
+  gap: 0.125rem;
+  padding-block: 0.875rem;
+  border-block-end: 1px solid var(--fio-forte);
+  break-inside: avoid;
+}
+
+.grupo__nome {
+  font-family: var(--serifa);
+  font-size: 1.1875rem;
+}
+
+.grupo__desc {
+  font-size: var(--t-pequeno);
+  color: var(--texto-2);
+}
+
+.categoria__grupos--um .grupo__itens {
+  border-block-start: 1px solid var(--marca);
+}
+
+@media (min-width: 40rem) {
+  .categoria__grupos:not(.categoria__grupos--um) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--e-4);
+  }
+
+  .categoria__grupos--um .grupo__itens {
+    columns: 2;
+    column-gap: var(--e-4);
+  }
+
+  .categoria__grupos--um .grupo__item:first-child {
+    border-block-start: 0;
+  }
+}
+
+@media (min-width: 64rem) {
+  .categoria__grade {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--e-7);
+    align-items: start;
+  }
+
+  .categoria__cab {
+    position: sticky;
+    inset-block-start: calc(var(--altura-cab) + 5rem);
+  }
+}
+
+/* Processo (Estética) ------------------------------------------------------- */
+.processo {
+  padding-block: var(--secao);
+}
+
+.processo__grade {
+  display: grid;
+  gap: var(--e-5);
+}
+
+.processo__titulo {
+  font-size: var(--t-h2);
+}
+
+.processo__passos {
+  display: grid;
+  gap: var(--e-4);
+  counter-reset: passo;
+}
+
+.processo__passos li {
+  padding-block-start: var(--e-3);
+  border-block-start: 1px solid var(--marca);
+  counter-increment: passo;
+}
+
+.processo__passos li::before {
+  content: counter(passo, decimal-leading-zero);
+  display: block;
+  margin-block-end: var(--e-2);
+  font-size: var(--t-mini);
+  letter-spacing: 0.14em;
+  color: var(--texto-2);
+}
+
+.processo__passos h3 {
+  font-size: var(--t-h4);
+  margin-block-end: 0.5rem;
+}
+
+.processo__passos p {
+  color: var(--texto-2);
+}
+
+@media (min-width: 48rem) {
+  .processo__passos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64rem) {
+  .processo__grade {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: var(--e-7);
+  }
+}
+
+/* Aviso responsável (faixa escura, Estética) ---------------------------------- */
+.aviso-responsavel {
+  padding-block: var(--secao);
+  text-align: center;
+}
+
+.aviso-responsavel__env {
+  max-inline-size: calc(46rem + var(--margem) * 2);
+}
+
+.aviso-responsavel__titulo {
+  font-size: var(--t-h2);
+  color: var(--creme);
+  margin-block-end: var(--e-3);
+}
+
+.aviso-responsavel p {
+  color: var(--creme-texto-2);
+}
+
+/* Galeria ------------------------------------------------------------------- */
+.galeria {
+  padding-block: var(--e-5) var(--secao);
+}
+
+/* Sem JavaScript o filtro não funcionaria: some, e todas as fotos ficam à
+   vista. Com JavaScript ele já nasce no lugar — nada empurra a grade. */
+.no-js .filtros {
+  display: none;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-1);
+  margin-block-end: var(--e-5);
+}
+
+.filtro {
+  min-block-size: 2.75rem;
+  padding-inline: 1.125rem;
+  border: 1px solid var(--fio-forte);
+  border-radius: var(--raio-pilula);
+  font-size: var(--t-pequeno);
+  font-weight: 500;
+  transition:
+    background-color var(--rapido) var(--curva),
+    color var(--rapido) var(--curva);
+}
+
+.filtro:hover {
+  border-color: var(--marca);
+}
+
+.filtro[aria-pressed='true'] {
+  background-color: var(--cafe);
+  border-color: var(--cafe);
+  color: var(--papel);
+}
+
+.galeria__grade {
+  display: grid;
+  gap: var(--e-5) var(--e-4);
+  align-items: start;
+}
+
+.galeria__item figure {
+  margin: 0;
+}
+
+.galeria__item figcaption {
+  margin-block-start: 0.75rem;
+  font-size: var(--t-pequeno);
+  color: var(--texto-2);
+}
+
+.galeria__cat {
+  margin-inline-end: 0.5rem;
+  font-size: var(--t-mini);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--marca);
+}
+
+.galeria__mais {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--e-1) var(--e-3);
+  margin-block-start: var(--e-6);
+  color: var(--texto-2);
+}
+
+@media (min-width: 40rem) {
+  .galeria__grade {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .galeria__item:nth-child(even) {
+    margin-block-start: var(--e-6);
+  }
+
+  .galeria__grade.is-filtrada .galeria__item {
+    margin-block-start: 0;
+  }
+}
+
+/* Com os antes e depois (fotos altas), três colunas no desktop: a página não
+   vira uma rolagem sem fim. O degrau passa para a coluna do meio. */
+@media (min-width: 64rem) {
+  .galeria__grade {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .galeria__item:nth-child(even) {
+    margin-block-start: 0;
+  }
+
+  .galeria__item:nth-child(3n + 2) {
+    margin-block-start: var(--e-6);
+  }
+}
+
+/* FAQ (página) -------------------------------------------------------------- */
+.faq-pagina {
+  padding-block: var(--e-4) var(--secao);
+}
+
+.faq-grupo {
+  display: grid;
+  gap: var(--e-3);
+  padding-block: var(--e-5);
+  scroll-margin-top: calc(var(--altura-cab) + 4rem);
+}
+
+.faq-grupo + .faq-grupo {
+  border-block-start: 1px solid var(--fio);
+}
+
+.faq-grupo__titulo {
+  font-size: var(--t-h3);
+}
+
+@media (min-width: 64rem) {
+  .faq-grupo {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: var(--e-6);
+  }
+}
+
+/* Contato ------------------------------------------------------------------- */
+.canais {
+  padding-block: var(--e-6);
+}
+
+.canais__grade {
+  display: grid;
+  gap: var(--e-4);
+  align-items: start;
+}
+
+.canal {
+  padding: clamp(1.5rem, 1rem + 2vw, 3rem);
+  border: 1px solid var(--fio-forte);
+  background-color: var(--branco);
+}
+
+.canal--principal {
+  background-color: var(--creme);
+  border-color: var(--marca);
+}
+
+.canal__titulo {
+  font-size: var(--t-h3);
+}
+
+.canal__numero {
+  margin-block: 0.25rem var(--e-2);
+  font-family: var(--serifa);
+  font-size: clamp(1.75rem, 1.2rem + 2.4vw, 3rem);
+  line-height: 1.15;
+}
+
+.canal__numero a {
+  color: var(--marca);
+  text-decoration: none;
+}
+
+.canal > p:not(.rotulo):not(.canal__numero) {
+  margin-block-end: var(--e-3);
+  color: var(--texto-2);
+}
+
+.canal__atalhos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-1);
+  margin-block-start: var(--e-3);
+}
+
+.canal__atalhos a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  padding-inline: 1rem;
+  border: 1px solid var(--fio-forte);
+  border-radius: var(--raio-pilula);
+  background-color: var(--papel);
+  font-size: var(--t-pequeno);
+  text-decoration: none;
+}
+
+.canal__atalhos a:hover {
+  border-color: var(--marca);
+  color: var(--marca);
+}
+
+@media (min-width: 64rem) {
+  .canais__grade {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+}
+
+/* 404 ---------------------------------------------------------------------- */
+.nao-achada {
+  padding-block: var(--secao);
+  text-align: center;
+}
+
+.nao-achada__env {
+  display: grid;
+  justify-items: center;
+  gap: var(--e-3);
+  max-inline-size: calc(40rem + var(--margem) * 2);
+}
+
+.nao-achada__titulo {
+  font-size: var(--t-h1);
+}
+
+.nao-achada p {
+  color: var(--texto-2);
+}
+
+.monograma--estatico {
+  margin: 0;
+}

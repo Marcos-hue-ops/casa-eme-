@@ -1,0 +1,69 @@
+# Publica o site pronto na branch `hostinger`, para a Hostinger puxar.
+#
+# A hospedagem de sites da Hostinger não roda `npm run build`: ela só copia
+# arquivos. Por isso esta automação gera o site (a pasta dist/, com o
+# .htaccess) a cada atualização da branch do site e grava o resultado,
+# sozinho, na branch `hostinger`. No hPanel, em Avançado → Git, aponte para
+# essa branch (README → "Publicar na Hostinger").
+#
+# Domínio e indexação: por padrão, https://casaememoema.com.br, aberto ao
+# Google. Para mudar sem editar este arquivo, crie em GitHub → Settings →
+# Secrets and variables → Actions → Variables: SITE_URL e SITE_PUBLICAVEL
+# ("false" tira o site do Google).
+name: Site para a Hostinger
+
+on:
+  push:
+    branches: [claude/brave-faraday-alroh1]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hostinger
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: ${{ vars.SITE_URL || 'https://casaememoema.com.br' }}
+      SITE_PUBLICAVEL: ${{ vars.SITE_PUBLICAVEL || 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+
+      # Cada publicação vira um commit novo em cima do anterior (sem apagar o
+      # histórico): o "git pull" da Hostinger sempre consegue avançar, e dá
+      # para voltar a uma versão antiga se for preciso.
+      - name: Grava o site pronto na branch hostinger
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REMOTO="https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if git ls-remote --exit-code --heads "$REMOTO" hostinger > /dev/null; then
+            git clone -q --depth 1 --branch hostinger "$REMOTO" publicar
+          else
+            git init -q -b hostinger publicar
+          fi
+          find publicar -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a dist/. publicar/
+          cd publicar
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "O site pronto não mudou: nada a publicar."
+            exit 0
+          fi
+          git commit -q -m "Site pronto para a Hostinger (${GITHUB_SHA::7})"
+          git push -q "$REMOTO" HEAD:hostinger

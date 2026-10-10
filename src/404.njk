@@ -1,0 +1,23 @@
+---
+layout: layouts/base.njk
+permalink: /404.html
+robots: noindex
+eleventyExcludeFromCollections: true
+title: "Página não encontrada | Casa EME Moema"
+description: "Esta página não existe ou mudou de endereço. Volte ao início do site da Casa EME, em Moema, ou fale com a casa pelo WhatsApp."
+---
+{%- import "components/macros.njk" as m -%}
+<section class="nao-achada">
+  <div class="env nao-achada__env">
+    <div class="monograma monograma--estatico" aria-hidden="true">
+      <svg class="monograma__aneis" viewBox="0 0 200 200" focusable="false"><circle cx="100" cy="100" r="98"/><circle cx="100" cy="100" r="88"/></svg>
+      <span class="monograma__m">M</span>
+    </div>
+    <h1 class="nao-achada__titulo">Esta página não está aqui.</h1>
+    <p>O endereço pode ter mudado. A Casa EME continua no mesmo lugar: {{ business.address.street }}, {{ business.address.neighborhood }}.</p>
+    <div class="acoes acoes--centro">
+      <a class="btn btn--escuro" href="/"><span>Voltar ao início</span></a>
+      {{ m.seta('/servicos/', 'Ver os serviços') }}
+    </div>
+  </div>
+</section>

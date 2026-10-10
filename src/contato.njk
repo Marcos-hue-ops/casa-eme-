@@ -1,0 +1,47 @@
+---
+layout: layouts/pagina.njk
+permalink: /contato/
+title: "Contato e Agendamento | Casa EME, Rua Pintassilgo, Moema"
+description: "Agende pelo WhatsApp (11) 96412-1702. Casa EME na Rua Pintassilgo, 457, Vila Uberabinha, Moema, São Paulo. Horários, mapa, rota e Instagram."
+tituloPagina: "Contato e agendamento"
+chamadaPagina: "O agendamento é pelo WhatsApp. Aqui estão também o endereço, os horários e o caminho até a casa."
+semCtaFinal: true
+trilha:
+  - nome: Início
+    href: /
+  - nome: Contato
+    href: /contato/
+---
+{%- import "components/macros.njk" as m -%}
+
+<section class="canais" aria-label="Canais de contato">
+  <div class="env canais__grade">
+    <div class="canal canal--principal">
+      <p class="rotulo">Agendamento</p>
+      <h2 class="canal__titulo">WhatsApp</h2>
+      <p class="canal__numero"><a href="{{ business.whatsapp | wa('geral') }}" target="_blank" rel="noopener noreferrer">{{ business.whatsapp.display }}</a></p>
+      <p>Conte qual serviço você procura e o melhor dia; a equipe responde com os horários disponíveis.</p>
+      {{ m.wa(business, 'geral', 'Agendar pelo WhatsApp', 'btn btn--wa btn--grande', 'data-wa-gatilho') }}
+      <ul class="canal__atalhos" aria-label="Mensagens prontas por assunto">
+        <li><a href="{{ business.whatsapp | wa('beleza') }}" target="_blank" rel="noopener noreferrer">Beleza</a></li>
+        <li><a href="{{ business.whatsapp | wa('estetica') }}" target="_blank" rel="noopener noreferrer">Estética avançada</a></li>
+        <li><a href="{{ business.whatsapp | wa('capilar') }}" target="_blank" rel="noopener noreferrer">Avaliação capilar</a></li>
+        <li><a href="{{ business.whatsapp | wa('relax') }}" target="_blank" rel="noopener noreferrer">Relax &amp; Spa</a></li>
+        <li><a href="{{ business.whatsapp | wa('assinaturas') }}" target="_blank" rel="noopener noreferrer">Assinaturas</a></li>
+      </ul>
+    </div>
+    <div class="canal">
+      <p class="rotulo">Instagram</p>
+      <h2 class="canal__titulo">{{ business.instagram.handle }}</h2>
+      <p>Trabalhos recentes e novidades da casa.</p>
+      <a class="btn btn--linha" href="{{ business.instagram.url }}" target="_blank" rel="noopener noreferrer">{% icon "instagram" %}<span>Abrir o Instagram</span></a>
+    </div>
+  </div>
+</section>
+
+{% set nivelLocal = 2 %}
+{% include "sections/local.njk" %}
+
+{% set contextoFaq = 'contato' %}
+{% set tituloFaq = 'Antes de vir' %}
+{% include "sections/faq-resumo.njk" %}

@@ -157,6 +157,10 @@ for (const url of PAGINAS_PUBLICAS) {
   ok(sitemap.includes(`<loc>${site.url}${url}</loc>`), `sitemap lista ${url}`);
 }
 ok((sitemap.match(/<loc>/g) || []).length === PAGINAS_PUBLICAS.length, 'sitemap só com as páginas públicas');
+/* Ordem fixa: o mesmo site gera o mesmo sitemap em qualquer máquina, e a
+   automação da Hostinger não grava commit só porque a ordem mudou. */
+const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+ok(locs[0] === `${site.url}/` && locs.every((u, i) => i === 0 || u > locs[i - 1]), 'sitemap em ordem alfabética, com a home primeiro');
 
 /* ------------------------------------------------------ dados estruturados */
 console.log('\nDados estruturados');

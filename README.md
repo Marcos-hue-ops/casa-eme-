@@ -255,18 +255,21 @@ logo (`.svg`, `.ai`, `.pdf`), ele deve substituir o selo — e então rode
 
 ### Antes de importar: a branch certa
 
-A Vercel publica em produção a **branch padrão** do repositório no GitHub.
-Neste repositório a branch padrão é `ccr-9c8e322d-m70ysg`, que só tem os prints
-originais — o site está na branch `claude/brave-faraday-alroh1`. Escolha um
-caminho **antes** de importar o projeto (senão o primeiro deploy publica a
-branch sem o site):
+O código do site está na branch `claude/brave-faraday-alroh1`. Na hora de
+importar, a Vercel escolhe sozinha a branch de produção (`main`, `master` ou
+a branch padrão do GitHub) e **guarda essa escolha no projeto**: trocar a
+branch padrão do GitHub depois não muda o que a Vercel publica. Confira, logo
+depois de importar, em *Settings → Environments → Production → Branch
+Tracking* (ou *Settings → Git → Production Branch*, conforme a tela), que
+está `claude/brave-faraday-alroh1`; se não estiver, digite e faça
+*Deployments → ⋯ → Redeploy*.
 
-- **Recomendado:** juntar `claude/brave-faraday-alroh1` na branch padrão
-  (pull request + merge no GitHub). Depois, se quiser, renomeie a branch
-  padrão para `main` em *Settings → General → Default branch* do repositório.
-- **Alternativa:** importar mesmo assim e, em seguida, na Vercel, ir em
-  *Settings → Git → Production Branch*, digitar `claude/brave-faraday-alroh1`
-  e fazer um novo deploy (*Deployments → ⋯ → Redeploy*).
+**Nunca** use a branch `hostinger` como produção na Vercel: ela só tem o site
+pronto, sem `package.json` nem `vercel.json`, e o build falha. As prévias que
+a Vercel tenta gerar dela aparecem com um X vermelho nos commits da
+`hostinger` no GitHub; isso não afeta a Hostinger nem a produção da Vercel.
+Para sumir com o X: em cada projeto, *Settings → Build and Deployment →
+Ignored Build Step* → comando `[ "$VERCEL_GIT_COMMIT_REF" = "hostinger" ] && exit 0 || exit 1`.
 
 ### Importar
 
@@ -391,7 +394,16 @@ nesse caso, crie um site vazio para o domínio ou use o caminho 2.
   endereço sem www pelo `.htaccess`. Para mudar, crie em GitHub → **Settings →
   Secrets and variables → Actions → Variables** `SITE_URL` e/ou
   `SITE_PUBLICAVEL` (`false` tira do Google) e rode **Actions → Site para a
-  Hostinger → Run workflow**.
+  Hostinger → Run workflow**. (Esse botão só aparece quando a branch padrão do
+  GitHub é a do código, `claude/brave-faraday-alroh1`. Com a `hostinger` como
+  padrão, a automação continua rodando a cada mudança no código, mas o botão
+  some: aí é preciso uma alteração qualquer no código para gerar de novo.)
+- **Branch padrão do GitHub:** a Hostinger não precisa que a `hostinger`
+  seja a padrão — vale o que estiver escrito no campo **Branch** do hPanel
+  (que vem com `main`; troque para `hostinger`). Se a `hostinger` for a
+  padrão, atenção ao enviar fotos ou arquivos pelo site do GitHub: escolha
+  antes a branch `claude/brave-faraday-alroh1` no seletor, senão o arquivo
+  vai para a `hostinger` e some na próxima atualização automática.
 - **DNS:** se o domínio foi registrado fora da Hostinger (Registro.br, por
   exemplo), aponte os servidores DNS (ou os registros `A` e `CNAME` do `www`)
   para os que o hPanel mostrar em **Domínios** (em geral
@@ -661,8 +673,8 @@ outros melhoram o site, mas não impedem a publicação.
 - [ ] Autoria das fotos de unhas confirmada (pendência 10)
 - [ ] Valores das assinaturas conferidos
 - [ ] `npm run build && npm run test && npm run qa` sem falhas
-- [ ] Branch do site juntada na branch padrão (ou Production Branch ajustada na Vercel)
-- [ ] Domínio conectado na Vercel, HTTPS ativo, redeploy feito
+- [ ] Production Branch da Vercel em `claude/brave-faraday-alroh1`; campo Branch do hPanel em `hostinger`
+- [ ] Domínio apontando para a hospedagem que publica o site (Hostinger), SSL ativo e "Forçar HTTPS" ligado
 - [ ] `robots.txt` do domínio com `Allow: /`
 - [ ] Search Console verificado e `sitemap.xml` enviado
 - [ ] Site cadastrado no Perfil da Empresa no Google, com NAP idêntico

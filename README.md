@@ -444,25 +444,99 @@ nesse caso, crie um site vazio para o domínio ou use o caminho 2.
 
 ## 8. Google Search Console e Perfil da Empresa
 
-**Search Console** (depois que o domínio próprio estiver conectado e o
-`robots.txt` dele mostrar `Allow: /`):
+O site já sai pronto para o Google: `robots.txt` com `Allow: /` e o
+endereço do sitemap, `sitemap.xml` com as 9 páginas públicas (sem a
+privacidade e a 404, que têm `noindex`), endereço canônico sem www em todas
+as páginas e dados estruturados. O que falta é feito na conta Google da casa.
 
-1. Acesse [search.google.com/search-console](https://search.google.com/search-console)
-   → **Adicionar propriedade**.
-2. Prefira **Domínio** e a verificação por **registro TXT no DNS** — não
-   depende do HTML e vale para `www` e sem `www`.
-3. Se preferir **Prefixo do URL** com **meta tag**: copie só o valor do
-   `content` que o Search Console mostrar e cole em `src/_data/site.js` →
-   `googleSiteVerification`. A meta tag passa a sair em todas as páginas.
-   Publique e clique em **Verificar**.
-4. Em **Sitemaps**, envie `sitemap.xml`.
-5. Em **Inspeção de URL**, peça a indexação da home.
+**Conta:** use a conta Google da Casa EME, de preferência a mesma do Perfil
+da Empresa. Quem cuida do site entra depois como usuário (passo 8), sem ser
+o dono.
+
+**1. Onde está o DNS do domínio.** Abra o Whois do Registro.br
+(registro.br → *Whois*), busque `casaememoema.com.br` e veja os servidores
+DNS:
+
+- terminam em `dns-parking.com` → o DNS está na **Hostinger** (passo 3A);
+- são `a.auto.dns.br` / `b.auto.dns.br` → o DNS está no **Registro.br**
+  (passo 3B);
+- outro nome → o registro vai no painel dessa empresa.
+
+Não troque os servidores DNS nem o "Provedor" só para isso: o site e o
+e-mail podem sair do ar.
+
+**2. Criar a propriedade e pegar o código.** search.google.com/search-console
+→ **Adicionar propriedade** → caixa da esquerda, **Domínio** (não "Prefixo
+do URL") → `casaememoema.com.br` (sem https, sem www, sem barra) →
+**Continuar**. Se pedir o provedor, escolha "Qualquer provedor de DNS".
+Copie o código que começa com `google-site-verification=` e deixe a aba
+aberta. A propriedade Domínio vale para com e sem www, http e https, e a
+verificação não depende do site estar no ar.
+
+**3A. Hostinger:** hPanel → **Domínios** → `casaememoema.com.br` →
+**Gerenciar** → **DNS / Nameservers** → **Registros DNS** (em telas novas,
+*Domínios → DNS*). Tipo **TXT**, Nome **@**, Valor: cole o código inteiro,
+TTL padrão → **Adicionar registro**.
+
+**3B. Registro.br:** conta do titular → domínio → **DNS** → **Configurar
+zona DNS** (ou "Editar zona"; se pedir, ative o *Modo avançado*) → **Nova
+entrada** → tipo **TXT**, nome **em branco**, cole o código → **Adicionar**
+→ **Salvar alterações**.
+
+Nos dois: cole exatamente o código, sem aspas e sem espaços, e não apague
+os registros que já existem (MX, SPF `v=spf1`, A, CNAME). O TXT do Google é
+um registro a mais. Nada de CNAME ou redirecionamento novo: o www → sem www
+já é feito pelo `.htaccess`.
+
+**4. Verificar.** Espere 15–30 min (Hostinger) ou ~1 h (Registro.br) e
+confira em toolbox.googleapps.com/apps/dig (tipo TXT, `casaememoema.com.br`)
+se o código aparece. Então clique em **Verificar**. Se falhar, espere
+algumas horas e tente de novo (pode levar até 72 h). **Nunca apague esse
+TXT**, nem depois: o Google confere de tempos em tempos e, sem ele, a
+verificação cai. Se um dia trocar os servidores DNS, recrie o TXT na zona
+nova antes.
+
+**5. Sitemap** (só com o site no ar: `https://casaememoema.com.br/sitemap.xml`
+precisa abrir no navegador). **Indexação → Sitemaps** → em "Adicionar um
+novo sitemap", digite `https://casaememoema.com.br/sitemap.xml` (se o
+endereço do site já aparecer antes da caixa, digite só `sitemap.xml`) →
+**Enviar**. "Não foi possível buscar" quase sempre quer dizer que o site
+ainda não estava no ar: abra o sitemap no navegador e envie de novo.
+
+**6. Pedir indexação.** Na barra do topo, cole `https://casaememoema.com.br/`
+→ Enter → **Testar URL publicado** → **Solicitar indexação**. Uma vez só
+para a home, `/servicos/`, `/saude-capilar/`, `/emagrecimento/`,
+`/estetica-avancada/` e `/contato/`. Há limite diário, e repetir não
+acelera.
+
+**7. O que esperar.** Dados em alguns dias; indexação em dias ou semanas,
+sem garantia. Em **Indexação → Páginas** é normal ver "Página com
+redirecionamento" (versões com www ou http) e "Excluída pela tag noindex"
+(privacidade e 404). "Detectada/Rastreada, mas não indexada no momento" é
+comum em site novo. Ligue **Forçar HTTPS** no hPanel (depois do SSL) para
+não sobrar a versão http.
+
+**8. Dar acesso a outra pessoa:** **Configurações → Usuários e permissões →
+Adicionar usuário**, permissão **Completo**.
+
+**Bônus — Bing:** bing.com/webmasters → *My Sites → Import*: traz o site do
+Search Console já verificado, com o sitemap.
+
+**Plano B (sem acesso ao DNS):** propriedade **Prefixo do URL** com
+`https://casaememoema.com.br/` e verificação por **Tag HTML**: copie só o
+valor do `content` e cole em `src/_data/site.js` → `googleSiteVerification`.
+A meta tag passa a sair em todas as páginas; publique e clique em
+**Verificar**. Não esvazie esse campo depois, ou a verificação cai.
+Google Analytics não é opção: o site não usa (seção 9).
 
 **Perfil da Empresa no Google** (Google Maps): é o que mais pesa em buscas
 como "salão de beleza em Moema". Garanta que nome, endereço, telefone e
 horários sejam **idênticos** aos do site, coloque o site no campo "Site", a
 categoria principal (ex.: "Salão de beleza") e as secundárias que fizerem
-sentido, e publique fotos reais do espaço.
+sentido, e publique fotos reais do espaço. O site entra em *Editar perfil →
+Contato → Site*: `https://casaememoema.com.br/`. Não há ligação oficial
+entre o Search Console e o Perfil da Empresa; usar a mesma conta Google nos
+dois às vezes adianta a verificação do perfil.
 
 ---
 

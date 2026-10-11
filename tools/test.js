@@ -317,6 +317,9 @@ const proibidos = [
   [/perca (at[ée] )?\d+|emagre[çc]a \d+|\d+\s?kg\b|\d+ quilos|em \d+ (dias|semanas) voc[eê]/i, 'promessa de emagrecimento'],
   [/cura (a |da )?(calv[ií]cie|alopecia|queda)|fim da (calv[ií]cie|queda)|nascer cabelo em/i, 'promessa capilar'],
   [/Rejane( Rabelo)?,? (é |a )?(m[ée]dica|dermatologista)|(m[ée]dica|dermatologista) Rejane/i, 'Dra. Rejane apresentada como médica'],
+  /* A casa pediu: quem visita não precisa saber da troca de gestão nem da
+     mudança de marca. */
+  [/nova gest[aã]o|sob nova (gest|dire|administra)|novos? (donos?|propriet[aá]rios?)|novo cap[ií]tulo|nova fase|rebranding|nova (marca|identidade)/i, 'menção a nova gestão ou mudança de marca'],
 ];
 /* Tempo de carreira informado pela casa (equipe.js) não conta como invenção. */
 const informados = Object.values(equipe).map((p) => p.experiencia).filter(Boolean);
@@ -415,7 +418,8 @@ const gilberto = equipe.gilberto;
 for (const pagina of ['index.html', 'sobre/index.html']) {
   const texto = textoDe(html[pagina]);
   ok(html[pagina].includes(`id="${gilberto.ancora}"`), `${pagina}: seção de quem cuida da beleza`);
-  ok(texto.includes(gilberto.funcao) && texto.includes(gilberto.experiencia), `${pagina}: função e experiência do Gilberto`);
+  ok(texto.toLowerCase().includes(gilberto.funcao.toLowerCase()) && texto.includes(gilberto.experiencia), `${pagina}: função e experiência do Gilberto`);
+  ok(texto.includes(gilberto.legenda), `${pagina}: legenda da foto do Gilberto`);
   ok(html[pagina].includes('/equipe/gilberto-'), `${pagina}: foto do Gilberto`);
 }
 ok(/categoria__responsavel[\s\S]{0,200}Gilberto/.test(html['servicos/index.html']), 'serviços: beleza com o Gilberto como responsável');

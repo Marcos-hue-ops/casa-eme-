@@ -120,7 +120,7 @@ export default {
     ],
     salao: 'Ezatto Cabeleireiros, em Florianópolis',
     ancora: 'quem-cuida-da-beleza',
-    legenda: 'Gilberto · Responsável pela beleza · 30 anos de experiência',
+    legenda: 'Gilberto · 30 anos dedicados à arte de transformar cabelos e valorizar cada detalhe',
     resumo: '30 anos de experiência',
     ficha: [
       { rotulo: 'Experiência', valor: '30 anos' },

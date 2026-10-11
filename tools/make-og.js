@@ -14,6 +14,7 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright-core';
 import sharp from 'sharp';
+import destaques from '../src/_data/destaques.js';
 
 const RAIZ = new URL('../', import.meta.url);
 const EXECUTAVEL = process.env.CHROMIUM || '/opt/pw-browsers/chromium';
@@ -31,6 +32,11 @@ const janela = (
     .jpeg({ quality: 92 })
     .toBuffer()
 ).toString('base64');
+
+/* Sobretítulo e lema vêm da primeira dobra (destaques.js → hero): o cartão
+   repete o que a home diz, sem texto próprio para ficar desatualizado. */
+const { sobre, lema, enfase } = destaques.hero;
+const lemaHtml = lema.replace(enfase, `<em>${enfase}</em>`);
 
 const html = `<!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><style>
@@ -66,11 +72,11 @@ const html = `<!doctype html>
   <div class="moldura"></div>
   <div class="conteudo">
     <div class="texto">
-      <p class="sobre">Nova gestão · Moema, São Paulo</p>
+      <p class="sobre">${sobre}</p>
       <h1 class="nome">Casa EME</h1>
       <p class="slogan">Beleza<i>|</i>Estética avançada<i>|</i>Saúde capilar</p>
       <div class="fio"></div>
-      <p class="lema">Uma nova experiência <em>em Moema.</em></p>
+      <p class="lema">${lemaHtml}</p>
       <p class="end">Rua Pintassilgo, 457 · Agendamento pelo WhatsApp</p>
     </div>
     <div class="visual">

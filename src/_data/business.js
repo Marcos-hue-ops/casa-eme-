@@ -30,8 +30,6 @@ export default {
   /** Como o perfil se apresenta no Instagram: "CASA EME | Moema". */
   fullName: 'Casa EME | Moema',
   slogan: 'Beleza · Estética avançada · Saúde capilar',
-  lema: 'Uma nova experiência em Moema.',
-  gestao: 'Nova gestão.',
   /** Fecho do manifesto "Por que Casa EME?", publicado pela própria casa. */
   assinatura: 'Uma casa para cuidar de mim.',
 

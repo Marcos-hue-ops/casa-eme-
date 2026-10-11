@@ -19,8 +19,8 @@
   color: var(--marca);
 }
 
-/* No celular, "Nova gestão" e o lema ficam um sobre o outro, sem o ponto
-   solto no fim da primeira linha. */
+/* No celular, se o sobretítulo tiver mais de uma parte, elas ficam uma sobre
+   a outra, sem o ponto solto no fim da primeira linha. */
 @media (max-width: 39.99rem) {
   .hero__sobre {
     flex-direction: column;

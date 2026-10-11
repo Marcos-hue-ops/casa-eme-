@@ -17,7 +17,7 @@ export default {
   /** Primeira dobra: o texto da arte "Cuidado que vai além da beleza", da própria casa. */
   hero: {
     /** Sobretítulo em versal; ' · ' separa as partes. */
-    sobre: 'Nova gestão · Moema, São Paulo',
+    sobre: 'Moema, São Paulo',
     lema: 'Cuidado que vai além da beleza.',
     /** Parte do lema que sai em itálico (precisa estar escrita igual no lema). */
     enfase: 'além da beleza.',

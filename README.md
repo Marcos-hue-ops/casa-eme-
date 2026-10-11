@@ -51,7 +51,7 @@ Outros comandos:
 |---|---|
 | `npm run images` | gera os WebP a partir de `fotos/` (ver seção 4) |
 | `npm run video` | prepara o vídeo do depoimento para a web e gera a capa (ver seção 4) |
-| `npm run og` | redesenha o cartão de compartilhamento (`src/assets/img/og-casa-eme.jpg`) |
+| `npm run og` | redesenha o cartão de compartilhamento (`src/assets/img/og-casa-eme.jpg`) com o sobretítulo e o lema do topo da home (`destaques.js → hero`); rode de novo sempre que eles mudarem |
 | `npm run icons` | regera favicon e ícones PNG a partir dos SVG da marca |
 | `npm run test` | testes de conteúdo, SEO e segurança sobre o `dist/` |
 | `npm run qa` | auditoria no navegador em 8 larguras (320 → 1920px) |
@@ -136,6 +136,7 @@ explicando os campos. Mude, rode `npm run build`, confira e publique.
 | **Serviços** (incluir, tirar, renomear) | `src/_data/servicos.js` | alimenta home, serviços, estética, capilar, emagrecimento, FAQ e schema. A **ordem** das categorias é a ordem do índice e da numeração da home: as três primeiras são os destaques |
 | **Textos da home e das especialidades** (primeira dobra e credenciais, índice de serviços, saúde capilar, quem atende, depoimentos, emagrecimento, estética, beleza, frase do manifesto) | `src/_data/destaques.js` | `enfase` é o trecho do título que sai em itálico. Os textos foram enxutos de propósito: frases curtas, uma ideia por frase |
 | **Credenciais da primeira dobra** | `src/_data/destaques.js → hero.credenciais` | só fatos informados (registro, método, casos); `href` leva à seção da home |
+| **Sobretítulo e lema do topo** | `src/_data/destaques.js → hero.sobre / lema` | depois de mudar, rode `npm run og` (o cartão do WhatsApp repete esse texto). A casa pediu para não citar "nova gestão" nem mudança de marca: o teste reprova se aparecer |
 | **Dra. Rejane Rabelo** (formação, cursos, registro, fotos, etapas da avaliação) | `src/_data/equipe.js` → `rejane` | só o que está nas artes dela; nunca "médica" |
 | **Gilberto** (beleza: experiência, formação, cursos, salão, foto) | `src/_data/equipe.js` → `gilberto`; textos da seção em `destaques.js → gilberto` | só o que a casa informou; a seção é a mesma da Dra. Rejane (`src/_includes/sections/pessoa.njk`), com o retrato à direita |
 | **Responsável por uma categoria** (linha "Responsável" na página de serviços) | `src/_data/servicos.js` → `responsavel` | chave de `equipe.js`: `'rejane'`, `'gilberto'` |

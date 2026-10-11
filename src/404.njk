@@ -4,7 +4,7 @@ permalink: /404.html
 robots: noindex
 eleventyExcludeFromCollections: true
 title: "Página não encontrada | Casa EME Moema"
-description: "Esta página não existe ou mudou de endereço. Volte ao início do site da Casa EME, em Moema, ou fale com a casa pelo WhatsApp."
+description: "Esta página não foi encontrada. Volte ao início do site da Casa EME, em Moema, ou fale com a casa pelo WhatsApp."
 ---
 {%- import "components/macros.njk" as m -%}
 <section class="nao-achada">
@@ -14,7 +14,7 @@ description: "Esta página não existe ou mudou de endereço. Volte ao início d
       <span class="monograma__m">M</span>
     </div>
     <h1 class="nao-achada__titulo">Esta página não está aqui.</h1>
-    <p>O endereço pode ter mudado. A Casa EME continua no mesmo lugar: {{ business.address.street }}, {{ business.address.neighborhood }}.</p>
+    <p>O link pode estar errado ou a página pode ter saído do ar. A Casa EME fica na {{ business.address.street }}, {{ business.address.neighborhood }}.</p>
     <div class="acoes acoes--centro">
       <a class="btn btn--escuro" href="/"><span>Voltar ao início</span></a>
       {{ m.seta('/servicos/', 'Ver os serviços') }}

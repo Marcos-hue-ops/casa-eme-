@@ -107,6 +107,10 @@ for (const g of hours.grupos) {
 
 /* ---------------------------------------------------------------- <head> */
 console.log('\nMetadados');
+/* O cartão de compartilhamento existe no site publicado, com o nome de site.js. */
+const cartao = await stat(path.join(DIST, site.ogImage)).catch(() => null);
+ok(Boolean(cartao?.size), `cartão de compartilhamento publicado (${site.ogImage})`);
+
 const titulos = new Map();
 const descricoes = new Map();
 for (const [nome, conteudo] of Object.entries(html)) {
@@ -121,7 +125,7 @@ for (const [nome, conteudo] of Object.entries(html)) {
   descricoes.set(descricao, nome);
 
   ok(/<link rel="canonical" href="https:\/\/[^"]+\/"/.test(conteudo) || nome === '404.html', `${nome}: canonical com barra final`);
-  ok(conteudo.includes('property="og:image"'), `${nome}: og:image`);
+  ok(conteudo.includes(`property="og:image" content="${site.url}${site.ogImage}"`), `${nome}: og:image aponta o cartão atual`);
   ok(conteudo.includes('property="og:title"'), `${nome}: og:title`);
   ok(conteudo.includes('name="twitter:card"'), `${nome}: twitter card`);
   ok(conteudo.includes('<html lang="pt-BR"'), `${nome}: idioma declarado`);

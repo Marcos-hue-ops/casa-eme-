@@ -15,6 +15,7 @@ import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright-core';
 import sharp from 'sharp';
 import destaques from '../src/_data/destaques.js';
+import site from '../src/_data/site.js';
 
 const RAIZ = new URL('../', import.meta.url);
 const EXECUTAVEL = process.env.CHROMIUM || '/opt/pw-browsers/chromium';
@@ -94,6 +95,7 @@ await pagina.evaluate(() => document.fonts.ready);
 const png = await pagina.screenshot({ type: 'png' });
 await navegador.close();
 
-const destino = fileURLToPath(new URL('src/assets/img/og-casa-eme.jpg', RAIZ));
+/* O nome do arquivo vem de site.js (ogImage), o mesmo que as páginas usam. */
+const destino = fileURLToPath(new URL(`src${site.ogImage}`, RAIZ));
 const { size } = await sharp(png).resize(1200, 630).jpeg({ quality: 86, mozjpeg: true }).toFile(destino);
-console.log(`og: src/assets/img/og-casa-eme.jpg — 1200×630, ${Math.round(size / 1024)} KB`);
+console.log(`og: src${site.ogImage} — 1200×630, ${Math.round(size / 1024)} KB`);

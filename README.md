@@ -51,7 +51,7 @@ Outros comandos:
 |---|---|
 | `npm run images` | gera os WebP a partir de `fotos/` (ver seção 4) |
 | `npm run video` | prepara o vídeo do depoimento para a web e gera a capa (ver seção 4) |
-| `npm run og` | redesenha o cartão de compartilhamento (`src/assets/img/og-casa-eme.jpg`) com o sobretítulo e o lema do topo da home (`destaques.js → hero`); rode de novo sempre que eles mudarem |
+| `npm run og` | redesenha o cartão de compartilhamento (o arquivo de `site.js → ogImage`, hoje `src/assets/img/og-casa-eme-moema.jpg`) com o sobretítulo e o lema do topo da home (`destaques.js → hero`); rode de novo sempre que eles mudarem e, quando o cartão mudar, troque o nome do arquivo em `ogImage` para o WhatsApp não mostrar a prévia antiga |
 | `npm run icons` | regera favicon e ícones PNG a partir dos SVG da marca |
 | `npm run test` | testes de conteúdo, SEO e segurança sobre o `dist/` |
 | `npm run qa` | auditoria no navegador em 8 larguras (320 → 1920px) |

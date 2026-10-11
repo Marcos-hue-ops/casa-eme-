@@ -64,7 +64,13 @@ export default {
   description:
     'Casa EME, salão de beleza em Moema (SP): cabelo, unhas, sobrancelhas e cílios, estética facial e corporal, saúde capilar e massagens. Agendamento pelo WhatsApp.',
   themeColor: '#FBF7F1',
-  ogImage: '/assets/img/og-casa-eme.jpg',
+  /**
+   * Cartão de compartilhamento (gerado por `npm run og`). O WhatsApp, o
+   * Instagram e o Facebook guardam a prévia pelo endereço da imagem: quando o
+   * cartão mudar de conteúdo, mude também o nome do arquivo aqui, e o novo
+   * cartão aparece sem esperar o cache deles vencer.
+   */
+  ogImage: '/assets/img/og-casa-eme-moema.jpg',
   ogImageAlt:
     'Casa EME — beleza, estética avançada e saúde capilar. Rua Pintassilgo, 457, Moema, São Paulo.',
 

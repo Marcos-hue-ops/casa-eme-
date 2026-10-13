@@ -393,7 +393,7 @@ nesse caso, crie um site vazio para o domínio ou use o caminho 2.
   `https://casaememoema.com.br/.htaccess`. Os dois têm de dar erro (403 ou
   404): o `.htaccess` do build bloqueia qualquer arquivo que comece com ponto.
 - **Google Analytics:** a branch `hostinger` já sai com o GA4 da Casa EME
-  (`G-X15KSL351K`) e com o aviso de cookies. O ID está no
+  (`G-8J70G881HF`) e com o aviso de cookies. O ID está no
   `.github/workflows/hostinger.yml`; uma variável `GA_MEASUREMENT_ID` em
   GitHub → **Settings → Secrets and variables → Actions → Variables** tem
   prioridade sobre ele (seção 9).
@@ -552,7 +552,7 @@ dois às vezes adianta a verificação do perfil.
 ## 9. Analytics
 
 O site mede as visitas com o **Google Analytics 4** (propriedade da Casa EME,
-ID de métricas **`G-X15KSL351K`**), e **só de quem aceita** no aviso de
+ID de métricas **`G-8J70G881HF`**), e **só de quem aceita** no aviso de
 cookies.
 
 ### Como funciona
@@ -602,7 +602,7 @@ Se um dia a produção for a Vercel, crie `GA_MEASUREMENT_ID` em *Settings →
 Environment Variables*, só no ambiente *Production*.
 
 Para testar localmente:
-`GA_MEASUREMENT_ID=G-X15KSL351K npm run build && GA_MEASUREMENT_ID=G-X15KSL351K npm test && npm run qa`.
+`GA_MEASUREMENT_ID=G-8J70G881HF npm run build && GA_MEASUREMENT_ID=G-8J70G881HF npm test && npm run qa`.
 O `npm run qa` percorre o aviso inteiro (recusar, aceitar, voltar atrás,
 recusa feita em outra aba, escolha vencida, sem JavaScript) com os pedidos ao
 Google interceptados: nenhum dado sai.
@@ -641,7 +641,7 @@ da implantação no hPanel):
 
 1. Abra o site numa janela anônima. O aviso aparece; com o DevTools aberto
    (F12 → **Rede**, filtro `google`), **nada** é pedido ao Google.
-2. Toque em **Aceitar**: aparece `gtag/js?id=G-X15KSL351K` e, logo depois,
+2. Toque em **Aceitar**: aparece `gtag/js?id=G-8J70G881HF` e, logo depois,
    um `collect?…&en=page_view`. Troque de página: **um** `page_view` por
    página.
 3. No GA4, **Relatórios → Tempo real**: a visita aparece em até um minuto.
@@ -649,7 +649,7 @@ da implantação no hPanel):
    **Tag Assistant Companion**; depois, em
    [tagassistant.google.com](https://tagassistant.google.com), **Add
    domain** → `https://casaememoema.com.br` → **Connect**. Na aba aberta,
-   aceite no aviso: o Tag Assistant mostra a tag `G-X15KSL351K`, uma só, e o
+   aceite no aviso: o Tag Assistant mostra a tag `G-8J70G881HF`, uma só, e o
    evento `page_view`, e a mesma sessão aparece em **Administrador →
    DebugView**. Sem a extensão ele pode não conectar: o site manda
    `Cross-Origin-Opener-Policy: same-origin`, que corta o vínculo com a

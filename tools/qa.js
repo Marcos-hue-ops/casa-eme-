@@ -396,7 +396,9 @@ if (ga4) {
   if ((await camadas()).length) anota(onde, 'dataLayer preenchido antes de qualquer escolha');
 
   /* O botão fixo do WhatsApp não pode ficar por baixo do aviso no celular. */
-  await pagina.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight / 2));
+  /* `behavior: 'instant'`: o site rola suave (reset.css), e numa página longa a
+     animação ainda está andando quando a medida é feita. */
+  await pagina.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight / 2, behavior: 'instant' }));
   await pagina.waitForTimeout(700);
   const cobre = await pagina.evaluate(() => {
     const a = document.querySelector('[data-cookies]').getBoundingClientRect();
@@ -511,14 +513,18 @@ if (ga4) {
     );
     const p = await ctx.newPage();
     await p.goto(`${BASE}/`, { waitUntil: 'networkidle' });
-    await p.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    await p.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
     await p.waitForTimeout(700);
-    const coberto = await p.evaluate(() => {
+    const situacao = await p.evaluate(() => {
       const botao = document.querySelector('.rodape [data-cookies-abrir]');
       const r = botao.getBoundingClientRect();
-      return [r.left + 2, r.left + r.width / 2, r.right - 2].some((x) => !botao.contains(document.elementFromPoint(x, r.top + r.height / 2)));
+      if (r.top < 0 || r.bottom > innerHeight) return 'fora';
+      return [r.left + 2, r.left + r.width / 2, r.right - 2].some((x) => !botao.contains(document.elementFromPoint(x, r.top + r.height / 2)))
+        ? 'coberto'
+        : 'ok';
     });
-    if (coberto) anota(`${onde} @${largura}`, '"Preferências de cookies" coberto no fim da página');
+    if (situacao === 'coberto') anota(`${onde} @${largura}`, '"Preferências de cookies" coberto no fim da página');
+    if (situacao === 'fora') anota(`${onde} @${largura}`, '"Preferências de cookies" fora da tela depois de rolar até o fim');
     await ctx.close();
   }
 
@@ -548,7 +554,7 @@ if (ga4) {
     if (r.topoAviso < 0) anota(aqui, `o aviso passa da altura da tela (começa em ${Math.round(r.topoAviso)}px)`);
     if (r.waVisivel && r.waTopo < r.cab) anota(aqui, 'o botão fixo do WhatsApp subiu para baixo do cabeçalho');
     if (altura > 400) {
-      await p.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+      await p.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
       await p.waitForTimeout(700);
       const cobertos = await p.evaluate(() =>
         [...document.querySelectorAll('.rodape__base a, .rodape__base button')]

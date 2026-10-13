@@ -1,0 +1,148 @@
+/** Rodapé — café, com o selo da casa e os dados de NAP completos. */
+.rodape {
+  background-color: var(--cafe);
+  color: var(--creme-texto);
+  padding-block: var(--e-7) var(--e-4);
+  font-size: var(--t-pequeno);
+}
+
+.rodape a {
+  color: var(--creme-texto);
+  text-decoration: none;
+}
+
+.rodape a:hover {
+  color: var(--mel-claro);
+}
+
+.rodape__topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--e-4);
+  padding-block-end: var(--e-5);
+  border-block-end: 1px solid var(--fio-noite);
+}
+
+.rodape__marca img {
+  inline-size: 6rem;
+  block-size: 6rem;
+}
+
+.rodape__nome {
+  font-family: var(--serifa);
+  font-size: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: var(--creme);
+}
+
+.rodape__slogan {
+  margin-block-start: 0.5rem;
+  font-size: var(--t-mini);
+  letter-spacing: var(--versal);
+  text-transform: uppercase;
+  color: var(--creme-texto-2);
+}
+
+.rodape__frase {
+  margin-block-start: var(--e-2);
+  font-family: var(--serifa);
+  font-style: italic;
+  font-size: var(--t-h4);
+  color: var(--mel-claro);
+}
+
+.rodape__grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  gap: var(--e-5) var(--e-4);
+  padding-block: var(--e-5);
+}
+
+.rodape__titulo {
+  font-family: var(--sans);
+  font-size: var(--t-mini);
+  font-weight: 600;
+  letter-spacing: var(--versal);
+  text-transform: uppercase;
+  color: var(--mel-claro);
+  margin-block-end: var(--e-2);
+}
+
+.rodape__end {
+  line-height: 1.8;
+}
+
+.rodape__horas div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--e-2);
+  padding-block: 0.375rem;
+  border-block-end: 1px solid var(--fio-noite);
+}
+
+.rodape__horas dd {
+  color: var(--creme-texto-2);
+  white-space: nowrap;
+}
+
+.rodape__links {
+  list-style: none;
+  padding: 0;
+  display: grid;
+}
+
+.rodape__links--duas {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--e-3);
+}
+
+.rodape__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-block-size: 2.75rem;
+}
+
+.rodape__links .icon {
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  color: var(--mel-claro);
+  flex: none;
+}
+
+.rodape__links a[aria-current='page'] {
+  color: var(--mel-claro);
+}
+
+.rodape__base {
+  display: grid;
+  gap: var(--e-1);
+  padding-block-start: var(--e-4);
+  border-block-start: 1px solid var(--fio-noite);
+  font-size: var(--t-mini);
+  color: var(--creme-texto-2);
+}
+
+.rodape__base a {
+  color: var(--creme-texto-2);
+  text-decoration: underline;
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+}
+
+@media (min-width: 64rem) {
+  .rodape__base {
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--e-4);
+  }
+
+  .rodape__base p:nth-child(2) {
+    text-align: center;
+  }
+}

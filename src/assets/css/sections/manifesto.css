@@ -1,0 +1,174 @@
+/**
+ * "Por que Casa EME?" — o M grande (o "eme" do nome) dentro do anel duplo.
+ *
+ * No desktop ele fica parado à esquerda enquanto a lista passa à direita, e a
+ * palavra ao lado do M acompanha o item do meio da tela. O item ativo ganha a
+ * cor da marca; os outros ficam em tom secundário — ambos com contraste de
+ * leitura (não é opacidade).
+ */
+.manifesto {
+  padding-block: var(--secao);
+}
+
+.manifesto__grade {
+  display: grid;
+  gap: var(--e-5);
+}
+
+.manifesto__titulo {
+  font-size: var(--t-h2);
+}
+
+.manifesto__intro {
+  margin-block-start: var(--e-3);
+  max-inline-size: 30rem;
+  color: var(--texto-2);
+}
+
+.monograma {
+  position: relative;
+  display: grid;
+  place-items: center;
+  inline-size: clamp(8.5rem, 18vw, 14rem);
+  aspect-ratio: 1;
+  margin-block-start: var(--e-5);
+}
+
+.monograma__aneis {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  fill: none;
+  stroke: var(--marca);
+  stroke-width: 0.9;
+}
+
+.monograma__m {
+  font-family: var(--serifa);
+  font-weight: 600;
+  font-size: clamp(3.75rem, 2.4rem + 4vw, 6.5rem);
+  line-height: 1;
+  color: var(--marca);
+  translate: 0 0.04em;
+}
+
+.monograma__de,
+.monograma__conta {
+  display: none;
+}
+
+.manifesto__lista {
+  border-block-start: 1px solid var(--fio);
+}
+
+.manifesto__item {
+  padding-block: var(--e-4);
+  border-block-end: 1px solid var(--fio);
+}
+
+.manifesto__m {
+  font-family: var(--serifa);
+  font-size: clamp(1.75rem, 1.35rem + 1.6vw, 2.75rem);
+  line-height: 1.1;
+}
+
+.manifesto__de {
+  font-style: italic;
+  color: var(--texto-2);
+}
+
+.manifesto__m strong {
+  font-weight: 600;
+  color: var(--marca);
+  transition: color var(--medio) var(--curva);
+}
+
+.manifesto__txt {
+  margin-block-start: 0.5rem;
+  font-family: var(--serifa);
+  font-style: italic;
+  font-size: var(--t-lead);
+  color: var(--texto-2);
+}
+
+.manifesto__item--fecho strong {
+  letter-spacing: 0.08em;
+}
+
+.manifesto__assina {
+  margin-block-start: var(--e-2);
+  font-family: var(--serifa);
+  font-size: var(--t-h3);
+  color: var(--cafe);
+}
+
+@media (min-width: 64rem) {
+  .manifesto__grade {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--e-7);
+    align-items: start;
+  }
+
+  .manifesto__lado {
+    block-size: 100%;
+  }
+
+  .manifesto__fixo {
+    position: sticky;
+    inset-block-start: calc(var(--altura-cab) + 2.5rem);
+  }
+
+  .monograma__de {
+    display: block;
+    position: absolute;
+    inset-block-start: calc(100% + 1rem);
+    inset-inline-start: 50%;
+    translate: -50% 0;
+    font-family: var(--serifa);
+    font-style: italic;
+    font-size: var(--t-h3);
+    white-space: nowrap;
+    color: var(--cafe);
+  }
+
+  .monograma__conta {
+    display: block;
+    position: absolute;
+    inset-block-start: 0.5rem;
+    inset-inline-start: calc(100% + 1rem);
+    font-size: var(--t-mini);
+    letter-spacing: 0.14em;
+    color: var(--texto-2);
+    white-space: nowrap;
+  }
+
+  [data-manifesto-palavra] {
+    display: inline-block;
+    transition:
+      opacity var(--medio) var(--curva),
+      translate var(--medio) var(--curva);
+  }
+
+  [data-manifesto-palavra].is-trocando {
+    opacity: 0;
+    translate: 0 0.35em;
+  }
+
+  /* Com JavaScript: só o item do meio da tela fica na cor da marca. */
+  .manifesto.is-ligado .manifesto__item:not(.is-ativo) strong {
+    color: var(--caramelo);
+  }
+
+  .manifesto.is-ligado .manifesto__item:not(.is-ativo) .manifesto__txt {
+    color: var(--texto-2);
+  }
+
+  .manifesto.is-ligado .manifesto__item.is-ativo .manifesto__txt {
+    color: var(--cafe);
+  }
+
+  .manifesto__item {
+    padding-block: var(--e-5);
+  }
+}

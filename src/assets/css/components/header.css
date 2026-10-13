@@ -1,0 +1,283 @@
+/**
+ * Cabeçalho.
+ *
+ * Fixo no topo, transparente sobre o papel; ganha fundo e fio quando a página
+ * rola. No celular: marca, botão de menu — o agendamento fica com o botão
+ * flutuante, que está na zona do polegar. Do tablet em diante o botão
+ * "Agendar" volta ao cabeçalho, e a navegação completa aparece a partir de
+ * 75rem.
+ */
+.cab {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--z-cab);
+  block-size: var(--altura-cab);
+  background-color: rgb(251 247 241 / 0);
+  border-block-end: 1px solid transparent;
+  transition:
+    background-color var(--medio) var(--curva),
+    border-color var(--medio) var(--curva);
+}
+
+.cab--solido {
+  background-color: rgb(251 247 241 / 0.94);
+  border-block-end-color: var(--fio);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  .cab--solido {
+    background-color: rgb(251 247 241 / 0.82);
+    backdrop-filter: blur(12px) saturate(1.1);
+  }
+}
+
+.cab__env {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e-3);
+  block-size: 100%;
+  max-inline-size: calc(84rem + var(--margem) * 2);
+  margin-inline: auto;
+  padding-inline: var(--margem);
+}
+
+/* Marca */
+.marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-block-size: 2.75rem;
+  text-decoration: none;
+  color: var(--marca);
+  flex: none;
+}
+
+.marca__selo {
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+}
+
+.marca__txt {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.marca__nome {
+  font-family: var(--serifa);
+  font-size: 1.1875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.marca__lugar {
+  margin-block-start: 0.3rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--texto-2);
+}
+
+/* Navegação de desktop */
+.nav {
+  display: none;
+}
+
+.nav__lista {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.6vw, 1.75rem);
+}
+
+.nav__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--cafe);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav__link::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0.55rem;
+  block-size: 1px;
+  background-color: var(--marca);
+  scale: 0 1;
+  transform-origin: left;
+  transition: scale var(--medio) var(--curva);
+}
+
+.nav__link:hover::after,
+.nav__link[aria-current='page']::after {
+  scale: 1 1;
+}
+
+.nav__link[aria-current='page'] {
+  color: var(--marca);
+}
+
+.cab__acoes {
+  display: flex;
+  align-items: center;
+  gap: var(--e-2);
+}
+
+.btn--cab {
+  display: none;
+  min-block-size: 2.75rem;
+  padding-inline: 1.125rem;
+}
+
+/* Botão de menu */
+.menu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-block-size: 2.75rem;
+  min-inline-size: 2.75rem;
+  padding-inline: 0.25rem;
+  font-size: var(--t-pequeno);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cafe);
+}
+
+.menu-btn__linhas {
+  display: grid;
+  gap: 6px;
+  inline-size: 1.5rem;
+}
+
+.menu-btn__linhas span {
+  display: block;
+  block-size: 1.5px;
+  background-color: currentColor;
+  transition:
+    translate var(--medio) var(--curva),
+    rotate var(--medio) var(--curva);
+}
+
+.menu-btn[aria-expanded='true'] .menu-btn__linhas span:first-child {
+  translate: 0 3.75px;
+  rotate: 45deg;
+}
+
+.menu-btn[aria-expanded='true'] .menu-btn__linhas span:last-child {
+  translate: 0 -3.75px;
+  rotate: -45deg;
+}
+
+@media (min-width: 40rem) {
+  .btn--cab {
+    display: inline-flex;
+  }
+}
+
+@media (min-width: 75rem) {
+  .nav {
+    display: block;
+  }
+
+  .menu-btn {
+    display: none;
+  }
+}
+
+/* Painel do menu (celular e tablet) */
+.painel {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-painel);
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: var(--e-4);
+  padding: calc(var(--altura-cab) + var(--e-4)) var(--margem) var(--e-4);
+  background-color: var(--creme);
+  overflow-y: auto;
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity var(--medio) var(--curva),
+    visibility 0s linear var(--medio);
+}
+
+.painel.is-aberto {
+  visibility: visible;
+  opacity: 1;
+  transition:
+    opacity var(--medio) var(--curva),
+    visibility 0s;
+}
+
+.painel__lista {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.painel__link {
+  display: flex;
+  align-items: baseline;
+  gap: var(--e-2);
+  padding-block: 0.5rem;
+  font-family: var(--serifa);
+  font-size: clamp(1.625rem, 1.2rem + 2vw, 2.25rem);
+  line-height: 1.15;
+  color: var(--cafe);
+  text-decoration: none;
+  border-block-end: 1px solid var(--fio);
+}
+
+.painel__link[aria-current='page'] {
+  color: var(--marca);
+  font-style: italic;
+}
+
+.painel__num {
+  font-family: var(--sans);
+  font-size: var(--t-mini);
+  letter-spacing: 0.1em;
+  color: var(--texto-2);
+  min-inline-size: 1.5rem;
+}
+
+.painel__pe {
+  display: grid;
+  gap: var(--e-3);
+  justify-items: start;
+}
+
+.painel__info {
+  font-size: var(--t-pequeno);
+  color: var(--texto-2);
+}
+
+.painel__insta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-block-size: 2.75rem;
+  font-size: var(--t-pequeno);
+  font-weight: 600;
+  color: var(--marca);
+  text-decoration: none;
+}
+
+body.trava {
+  overflow: hidden;
+}
+
+@media (min-width: 75rem) {
+  .painel {
+    display: none;
+  }
+}

@@ -1,0 +1,41 @@
+---
+layout: layouts/pagina.njk
+permalink: /perguntas-frequentes/
+title: "Perguntas Frequentes | Casa EME Moema"
+description: "Onde fica, horários, agendamento pelo WhatsApp, serviços de beleza, estética avançada, saúde capilar e assinaturas da Casa EME, em Moema. Tire suas dúvidas."
+tituloPagina: "Perguntas frequentes"
+chamadaPagina: "Respostas curtas para as dúvidas mais comuns. Não encontrou a sua? Pergunte pelo WhatsApp."
+waChave: duvida
+faqSchema: true
+trilha:
+  - nome: Início
+    href: /
+  - nome: Perguntas frequentes
+    href: /perguntas-frequentes/
+---
+{%- import "components/macros.njk" as m -%}
+
+<nav class="atalhos" aria-label="Assuntos">
+  <div class="env">
+    <ul class="atalhos__lista">
+      {%- for g in faq %}
+      <li><a class="atalho" href="/perguntas-frequentes/#{{ g.id }}">{{ g.grupo }}</a></li>
+      {%- endfor %}
+    </ul>
+  </div>
+</nav>
+
+<div class="faq-pagina">
+  <div class="env">
+    {%- for g in faq %}
+    <section class="faq-grupo" id="{{ g.id }}" aria-labelledby="faq-{{ g.id }}">
+      <h2 class="faq-grupo__titulo" id="faq-{{ g.id }}">{{ g.grupo }}</h2>
+      <div class="faq" data-faq>
+        {%- for item in g.perguntas %}
+        {{ m.pergunta(item) }}
+        {%- endfor %}
+      </div>
+    </section>
+    {%- endfor %}
+  </div>
+</div>

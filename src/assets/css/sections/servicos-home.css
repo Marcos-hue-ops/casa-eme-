@@ -1,0 +1,675 @@
+/** Índice de serviços, Beleza, Assinaturas, Estética, Saúde capilar e Relax — a parte central da home. */
+
+/* Índice ------------------------------------------------------------------ */
+.indice {
+  padding-block: var(--secao);
+  background-color: var(--creme);
+  overflow: hidden;
+}
+
+.indice__cab {
+  max-inline-size: 46rem;
+}
+
+.indice__titulo {
+  font-size: var(--t-h2);
+}
+
+.indice__lead {
+  margin-block-start: var(--e-3);
+  color: var(--texto-2);
+  max-inline-size: 38rem;
+}
+
+.indice__lista {
+  margin-block-start: var(--e-6);
+  border-block-start: 1px solid var(--fio-forte);
+}
+
+.indice__link {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.5rem var(--e-3);
+  align-items: baseline;
+  padding-block: var(--e-4);
+  border-block-end: 1px solid var(--fio-forte);
+  text-decoration: none;
+}
+
+.indice__link::before {
+  content: '';
+  position: absolute;
+  inset: 0 -0.75rem;
+  z-index: -1;
+  background-color: var(--papel);
+  scale: 1 0;
+  transform-origin: bottom;
+  transition: scale var(--medio) var(--curva);
+}
+
+.indice__link:hover::before,
+.indice__link:focus-visible::before {
+  scale: 1 1;
+}
+
+.indice__num {
+  font-size: var(--t-mini);
+  letter-spacing: 0.14em;
+  color: var(--texto-2);
+}
+
+.indice__nome {
+  font-family: var(--serifa);
+  font-size: clamp(1.75rem, 1.2rem + 2.4vw, 3.25rem);
+  line-height: 1.05;
+  transition: color var(--rapido) var(--curva);
+}
+
+.indice__link:hover .indice__nome {
+  color: var(--marca);
+}
+
+.indice__desc {
+  grid-column: 2 / 3;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.indice__chamada {
+  font-weight: 600;
+  font-size: var(--t-pequeno);
+  letter-spacing: 0.04em;
+}
+
+.indice__itens {
+  font-size: var(--t-pequeno);
+  color: var(--texto-2);
+}
+
+.indice__seta {
+  grid-column: 3;
+  grid-row: 1;
+  align-self: center;
+  display: grid;
+  place-items: center;
+  inline-size: 3rem;
+  block-size: 3rem;
+  border: 1px solid var(--fio-forte);
+  border-radius: 50%;
+  color: var(--marca);
+  transition:
+    background-color var(--rapido) var(--curva),
+    color var(--rapido) var(--curva),
+    border-color var(--rapido) var(--curva);
+}
+
+.indice__link:hover .indice__seta {
+  background-color: var(--marca);
+  border-color: var(--marca);
+  color: var(--branco);
+}
+
+@media (min-width: 64rem) {
+  .indice__link {
+    grid-template-columns: 3.5rem minmax(0, 5fr) minmax(0, 6fr) 3rem;
+    align-items: center;
+    padding-block: var(--e-4);
+  }
+
+  .indice__desc {
+    grid-column: auto;
+  }
+
+  .indice__seta {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+/* Beleza ------------------------------------------------------------------ */
+.beleza {
+  padding-block: var(--secao);
+}
+
+.beleza__grade {
+  display: grid;
+  gap: var(--e-5);
+}
+
+.beleza__foto {
+  max-inline-size: 36rem;
+  margin: 0;
+}
+
+.beleza__titulo {
+  font-size: var(--t-h2);
+  margin-block-end: var(--e-3);
+}
+
+.beleza__texto > p:not(.rotulo) {
+  color: var(--texto-2);
+  max-inline-size: 34rem;
+}
+
+.beleza__listas {
+  display: grid;
+  margin-block-start: var(--e-4);
+  border-block-start: 1px solid var(--fio-forte);
+}
+
+/* Lista corrida: os serviços numa linha só, separados por ponto — o salão
+   inteiro cabe numa olhada, sem uma coluna comprida de itens. */
+.lista-corrida {
+  padding-block: var(--e-2);
+  border-block-end: 1px solid var(--fio);
+}
+
+.lista-corrida__titulo {
+  font-size: var(--t-h4);
+}
+
+.lista-corrida ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin-block-start: 0.25rem;
+  font-size: var(--t-pequeno);
+  line-height: 1.7;
+  color: var(--texto-2);
+}
+
+.lista-corrida li:not(:last-child)::after {
+  content: '·';
+  margin-inline: 0.5rem;
+  color: var(--mel);
+}
+
+.beleza__nota {
+  margin-block-start: var(--e-3);
+  font-family: var(--serifa);
+  font-style: italic;
+  color: var(--texto-2);
+}
+
+.beleza__detalhe {
+  margin: 0 0 0 auto;
+  inline-size: min(72%, 18rem);
+  border: 0.5rem solid var(--papel);
+  outline: 1px solid var(--fio-forte);
+}
+
+@media (min-width: 64rem) {
+  .beleza__grade {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+    grid-template-rows: auto 1fr;
+    column-gap: var(--e-7);
+    row-gap: 0;
+    align-items: start;
+  }
+
+  .beleza__foto {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .beleza__texto {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    padding-block-start: var(--e-4);
+  }
+
+  .beleza__detalhe {
+    grid-column: 1;
+    grid-row: 2;
+    margin-block-start: -5rem;
+    margin-inline-end: -2rem;
+    inline-size: min(60%, 17rem);
+    position: relative;
+  }
+}
+
+/* Assinaturas --------------------------------------------------------------- */
+.assinaturas {
+  padding-block: var(--secao);
+  background-color: var(--pessego-claro);
+}
+
+.assinaturas__grade {
+  display: grid;
+  gap: var(--e-5);
+}
+
+.assinaturas__titulo {
+  font-size: clamp(2.5rem, 1.6rem + 4vw, 4.5rem);
+  font-style: italic;
+  color: var(--marca);
+}
+
+.assinaturas__lead {
+  margin-block-start: var(--e-3);
+  font-size: var(--t-lead);
+  max-inline-size: 30rem;
+}
+
+.assinaturas__condicoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-1);
+  margin-block: var(--e-4);
+}
+
+.assinaturas__condicoes li {
+  padding: 0.375rem 0.875rem;
+  border: 1px solid var(--fio-forte);
+  border-radius: var(--raio-pilula);
+  background-color: var(--papel);
+  font-size: var(--t-pequeno);
+}
+
+.cardapio.moldura {
+  padding: clamp(1.5rem, 0.8rem + 3vw, 3.25rem);
+  background-color: var(--papel);
+}
+
+.cardapio.moldura::before {
+  inset: 0.375rem;
+}
+
+.cardapio__marca {
+  position: relative;
+  text-align: center;
+  font-family: var(--serifa);
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--marca);
+  padding-block-end: var(--e-3);
+}
+
+.cardapio__marca::after {
+  content: '';
+  display: block;
+  inline-size: 3rem;
+  block-size: 1px;
+  margin: var(--e-2) auto 0;
+  background-color: var(--marca);
+}
+
+.cardapio__lista {
+  position: relative;
+}
+
+.cardapio__item {
+  padding-block: var(--e-3);
+  border-block-end: 1px solid var(--fio);
+}
+
+.cardapio__item:last-child {
+  border-block-end: 0;
+}
+
+.cardapio__linha {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.cardapio__nome {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.cardapio__var {
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--texto-2);
+}
+
+.cardapio__pontos {
+  display: none;
+}
+
+.cardapio__preco {
+  font-family: var(--serifa);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--marca);
+  white-space: nowrap;
+  text-align: right;
+}
+
+.cardapio__mes {
+  display: block;
+  font-family: var(--sans);
+  font-size: var(--t-mini);
+  font-weight: 400;
+  color: var(--texto-2);
+}
+
+.cardapio__inclui {
+  margin-block-start: 0.25rem;
+  font-size: var(--t-pequeno);
+  color: var(--texto-2);
+}
+
+.cardapio__ressalva {
+  position: relative;
+  margin-block-start: var(--e-3);
+  padding-block-start: var(--e-3);
+  border-block-start: 1px solid var(--fio);
+  font-size: var(--t-mini);
+  color: var(--texto-2);
+  text-align: center;
+}
+
+@media (min-width: 40rem) {
+  .cardapio__linha {
+    grid-template-columns: auto minmax(1rem, 1fr) auto;
+  }
+
+  .cardapio__pontos {
+    display: block;
+    border-block-end: 1px dotted var(--fio-forte);
+    translate: 0 -0.3em;
+  }
+
+  .cardapio__mes {
+    display: inline;
+  }
+}
+
+@media (min-width: 64rem) {
+  .assinaturas__grade {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--e-7);
+    align-items: center;
+  }
+}
+
+/* Estética avançada (faixa escura) --------------------------------------------- */
+.estetica {
+  position: relative;
+  overflow: hidden;
+  padding-block: var(--secao);
+}
+
+.estetica__aneis {
+  position: absolute;
+  inset-block-start: -14rem;
+  inset-inline-end: -16rem;
+  inline-size: clamp(28rem, 58vw, 52rem);
+  fill: none;
+  stroke: var(--mel);
+  stroke-width: 0.35;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.estetica__grade {
+  position: relative;
+  display: grid;
+  gap: var(--e-5);
+}
+
+.estetica__titulo {
+  font-size: var(--t-h2);
+  color: var(--creme);
+  margin-block-end: var(--e-3);
+}
+
+.estetica__texto > p:not(.rotulo) {
+  color: var(--creme-texto-2);
+  max-inline-size: 32rem;
+}
+
+.estetica__nota {
+  margin-block-start: var(--e-3);
+  padding-inline-start: var(--e-2);
+  border-inline-start: 1px solid var(--mel);
+  font-size: var(--t-pequeno);
+}
+
+.estetica__listas {
+  display: grid;
+  gap: var(--e-5);
+}
+
+.lista-dupla__titulo {
+  font-size: var(--t-h3);
+  font-style: italic;
+  color: var(--mel-claro);
+  padding-block-end: var(--e-2);
+  border-block-end: 1px solid var(--mel);
+}
+
+.lista-dupla ul {
+  list-style: none;
+  padding: 0;
+}
+
+.lista-dupla li {
+  padding-block: 0.75rem;
+  border-block-end: 1px solid var(--fio-noite);
+  font-family: var(--serifa);
+  font-size: 1.1875rem;
+  color: var(--creme-texto);
+}
+
+@media (min-width: 40rem) {
+  .estetica__listas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--e-4);
+  }
+}
+
+@media (min-width: 64rem) {
+  .estetica__grade {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--e-7);
+    align-items: start;
+  }
+}
+
+/* Saúde capilar ------------------------------------------------------------- */
+.capilar {
+  padding-block: var(--secao);
+  background-color: var(--creme);
+}
+
+.capilar__cab {
+  max-inline-size: 44rem;
+}
+
+.capilar__titulo {
+  font-size: var(--t-h2);
+}
+
+.capilar__titulo--menor {
+  font-size: var(--t-h3);
+}
+
+.etapas {
+  position: relative;
+  display: grid;
+  gap: var(--e-5);
+  margin-block-start: var(--e-6);
+}
+
+.etapa__num {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  inline-size: 3.5rem;
+  block-size: 3.5rem;
+  border: 1px solid var(--marca);
+  border-radius: 50%;
+  outline: 1px solid var(--marca);
+  outline-offset: 4px;
+  background-color: var(--creme);
+  font-family: var(--serifa);
+  font-size: 1.125rem;
+  color: var(--marca);
+}
+
+.etapa__tempo {
+  margin-block-start: var(--e-3);
+  font-size: var(--t-mini);
+  font-weight: 600;
+  letter-spacing: var(--versal);
+  text-transform: uppercase;
+  color: var(--texto-2);
+}
+
+.etapa__titulo {
+  margin-block-start: 0.25rem;
+  font-size: var(--t-h3);
+}
+
+.etapa__txt {
+  margin-block-start: 0.5rem;
+  color: var(--texto-2);
+}
+
+.etapa__itens {
+  list-style: none;
+  padding: 0;
+  margin-block-start: var(--e-3);
+  border-block-start: 1px solid var(--fio-forte);
+}
+
+.etapa__itens li {
+  padding-block: 0.5rem;
+  border-block-end: 1px solid var(--fio-forte);
+  font-size: var(--t-pequeno);
+}
+
+.etapa__desc {
+  color: var(--texto-2);
+}
+
+.capilar__pe {
+  display: grid;
+  gap: var(--e-3);
+  margin-block-start: var(--e-6);
+}
+
+.capilar__aviso {
+  max-inline-size: 40rem;
+  padding-inline-start: var(--e-2);
+  border-inline-start: 1px solid var(--mel);
+  font-size: var(--t-pequeno);
+  color: var(--texto-2);
+}
+
+.capilar__pe .acoes {
+  margin-block-start: 0;
+}
+
+@media (min-width: 64rem) {
+  .etapas {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--e-5);
+  }
+
+  /* O fio que liga as três etapas, à altura dos números. */
+  .etapas::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 1.75rem;
+    inset-inline: 1.75rem calc(33.33% - 1.75rem);
+    block-size: 1px;
+    background-color: var(--marca);
+    transform-origin: left;
+  }
+
+  .js .etapas::before {
+    scale: 0 1;
+    transition: scale 1.6s var(--curva) 0.3s;
+  }
+
+  .js .etapas.is-vis::before {
+    scale: 1 1;
+  }
+
+  .capilar__pe {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .etapas::before {
+    scale: 1 1;
+  }
+}
+
+/* Relax & Spa ---------------------------------------------------------------- */
+.relax {
+  padding-block: var(--secao);
+}
+
+.relax__grade {
+  display: grid;
+  gap: var(--e-5);
+}
+
+.relax__titulo {
+  font-size: var(--t-h2);
+  margin-block-end: var(--e-3);
+}
+
+.relax__texto > p:not(.rotulo) {
+  color: var(--texto-2);
+  max-inline-size: 30rem;
+  margin-block-end: var(--e-4);
+}
+
+.relax__lista {
+  border-block-start: 1px solid var(--fio-forte);
+  counter-reset: relax;
+}
+
+.relax__item {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 0.25rem var(--e-2);
+  padding-block: var(--e-3);
+  border-block-end: 1px solid var(--fio-forte);
+  counter-increment: relax;
+}
+
+.relax__item::before {
+  content: counter(relax, decimal-leading-zero);
+  grid-row: span 2;
+  padding-block-start: 0.6rem;
+  font-size: var(--t-mini);
+  letter-spacing: 0.14em;
+  color: var(--texto-2);
+}
+
+.relax__nome {
+  font-size: var(--t-h3);
+}
+
+.relax__desc {
+  color: var(--texto-2);
+}
+
+@media (min-width: 64rem) {
+  .relax__grade {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--e-7);
+    align-items: start;
+  }
+}

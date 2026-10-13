@@ -1,0 +1,16 @@
+{%- import "components/macros.njk" as m -%}
+{#- Chamada final, comum a todas as páginas. A mensagem segue o contexto da página (waChave). -#}
+<section class="final" aria-labelledby="final-titulo">
+  <div class="env final__grade">
+    <div class="final__instagram">
+      <p class="rotulo">Instagram</p>
+      <a class="final__handle" href="{{ business.instagram.url }}" target="_blank" rel="noopener noreferrer">{{ business.instagram.handle }}<span class="so-leitor"> (abre o Instagram)</span></a>
+      <p>Trabalhos recentes e novidades da casa.</p>
+    </div>
+    <div class="final__wa">
+      <h2 class="final__titulo" id="final-titulo">Seu horário na Casa EME começa <em>por uma mensagem.</em></h2>
+      {{ m.wa(business, waChave or 'geral', 'Agendar pelo WhatsApp', 'btn btn--wa btn--grande') }}
+      <p class="final__meta">{{ business.whatsapp.display }} · {{ hours.resumoCurto }}</p>
+    </div>
+  </div>
+</section>

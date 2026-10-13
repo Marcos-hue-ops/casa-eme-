@@ -1,0 +1,17 @@
+{%- import "components/macros.njk" as m -%}
+{#- Algumas perguntas, e o caminho para todas. `contextoFaq` escolhe quais (campo `em` de faq.js). -#}
+{%- set perguntas = faq | faqDe(contextoFaq or 'home') -%}
+<section class="duvidas" aria-labelledby="duvidas-titulo">
+  <div class="env duvidas__grade">
+    <div class="duvidas__cab">
+      <p class="rotulo">Perguntas frequentes</p>
+      <h2 class="duvidas__titulo" id="duvidas-titulo">{{ tituloFaq or 'Antes de agendar' }}</h2>
+      {{ m.seta('/perguntas-frequentes/', 'Ver todas as perguntas') }}
+    </div>
+    <div class="faq" data-faq>
+      {%- for item in perguntas %}
+      {{ m.pergunta(item) }}
+      {%- endfor %}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,23 @@
+---
+layout: layouts/base.njk
+---
+{#-
+  Páginas internas: abertura com trilha, título e chamada; depois o conteúdo;
+  no fim, o mesmo passo seguinte de todas as páginas — o WhatsApp.
+-#}
+<header class="abertura">
+  <div class="env abertura__env">
+    {% include "components/trilha.njk" %}
+    <h1 class="abertura__titulo">{{ tituloPagina | safe }}</h1>
+    {%- if chamadaPagina %}
+    <p class="abertura__lead">{{ chamadaPagina | safe }}</p>
+    {%- endif %}
+  </div>
+  <svg class="abertura__aneis" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+    <circle cx="100" cy="100" r="98"/><circle cx="100" cy="100" r="88"/>
+  </svg>
+</header>
+
+{{ content | safe }}
+
+{% if not semCtaFinal %}{% include "sections/cta.njk" %}{% endif %}

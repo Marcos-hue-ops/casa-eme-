@@ -1,0 +1,83 @@
+{#-
+  Macros do projeto. O que aparece mais de uma vez mora aqui: mudar um botão
+  de WhatsApp é mudar um arquivo, e não caçar ocorrências.
+-#}
+
+{#- Botão de WhatsApp. `chave` escolhe a mensagem pré-escrita em business.js. -#}
+{% macro wa(business, chave, rotulo, classe='btn btn--wa', atributos='') -%}
+<a class="{{ classe }}" href="{{ business.whatsapp | wa(chave) }}" target="_blank" rel="noopener noreferrer" {{ atributos | safe }}>
+  {% icon "whatsapp" %}
+  <span>{{ rotulo }}</span>
+  <span class="so-leitor">(abre o WhatsApp)</span>
+</a>
+{%- endmacro %}
+
+{#- Link de texto com seta — a ação secundária ao lado de um botão. -#}
+{% macro seta(href, rotulo, classe='link-seta') -%}
+<a class="{{ classe }}" href="{{ href }}"><span>{{ rotulo }}</span>{% icon "seta" %}</a>
+{%- endmacro %}
+
+{#- Rótulo de seção: fio curto + texto em versal espaçada, como o slogan da logo. -#}
+{% macro rotulo(texto, classe='') -%}
+<p class="rotulo {{ classe }}">{{ texto }}</p>
+{%- endmacro %}
+
+{#-
+  Foto responsiva a partir da linha `imagem:` de galeria.js.
+  `sizes` diz ao navegador qual largura a foto ocupa — sem isto ele baixaria a
+  maior versão também no celular.
+-#}
+{% macro foto(imagem, alt, sizes='(min-width: 64rem) 40vw, 92vw', prioridade=false, classe='') -%}
+<img class="{{ classe }}"
+     src="{{ imagem | src }}"
+     srcset="{{ imagem | srcset }}"
+     sizes="{{ sizes }}"
+     width="{{ imagem.largura }}" height="{{ imagem.altura }}"
+     alt="{{ alt }}"
+     {% if prioridade %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
+     decoding="async">
+{%- endmacro %}
+
+{#- Anel duplo da logo, em SVG. Decorativo. -#}
+{% macro anel(classe='anel') -%}
+<svg class="{{ classe }}" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+  <circle class="anel__fora" cx="100" cy="100" r="98" pathLength="1"/>
+  <circle class="anel__dentro" cx="100" cy="100" r="88" pathLength="1"/>
+</svg>
+{%- endmacro %}
+
+{#- Pergunta do FAQ, como <details>: abre e fecha sem JavaScript. -#}
+{% macro pergunta(item) -%}
+<details class="faq__item" id="{{ item.id }}">
+  <summary class="faq__p">
+    <span>{{ item.p }}</span>
+    {% icon "mais", "faq__sinal" %}
+  </summary>
+  <div class="faq__r"><p>{{ item.r | safe }}</p></div>
+</details>
+{%- endmacro %}
+
+
+{#-
+  Caso de antes e depois (casos.js). A foto inteira é um botão que abre a
+  ampliação. "Antes" e "Depois" são escritos sobre cada metade das montagens
+  empilhadas; o texto alternativo já descreve as duas partes, por isso as
+  marcas ficam escondidas do leitor de tela. `aviso` (a frase do conselho)
+  entra na legenda da foto ampliada.
+-#}
+{% macro caso(item, sizes='(min-width: 64rem) 15rem, (min-width: 40rem) 30vw, 46vw', aviso='') -%}
+<figure class="caso caso--{{ item.layout }}">
+  <button type="button" class="caso__abrir" data-lupa="{{ item.imagem | src }}" data-lupa-legenda="{{ item.titulo }}. {% if item.layout == 'empilhado' %}Em cima, antes; embaixo, depois. {% endif %}{{ item.detalhe }}{% if aviso %} {{ aviso }}{% endif %}">
+    <span class="so-leitor">Ampliar foto: {{ item.titulo }}.</span>
+    {{ foto(item.imagem, item.alt, sizes) }}
+    {%- if item.layout == 'empilhado' %}
+    <span class="caso__marca caso__marca--antes" aria-hidden="true">Antes</span>
+    <span class="caso__marca caso__marca--depois" aria-hidden="true">Depois</span>
+    {%- endif %}
+  </button>
+  <figcaption class="caso__legenda">
+    <span class="caso__titulo">{{ item.titulo }}</span>
+    <span class="caso__detalhe">{{ item.detalhe }}</span>
+  </figcaption>
+</figure>
+{%- endmacro %}

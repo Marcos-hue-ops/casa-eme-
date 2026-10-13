@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="{{ site.lang }}" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  {#-
+    Política de segurança de conteúdo. Os hashes dos scripts inline são
+    calculados no build (tools/postbuild.js) e injetados no lugar da marca
+    abaixo: a política fica estrita, sem 'unsafe-inline'.
+
+    `frame-src` libera só o Google Maps, que entra depois do clique de quem
+    visita. Sem `upgrade-insecure-requests`: todo recurso é do próprio
+    domínio, com caminho relativo, e a diretiva só serviria para deixar o
+    site sem estilo se ele fosse aberto em http antes de o SSL ficar ativo
+    (comum logo depois de apontar um domínio na Hostinger). `frame-ancestors` só vale por cabeçalho HTTP e sai nos arquivos
+    gerados para a hospedagem (dist/_headers, vercel.json).
+
+    Com o Google Analytics ligado (src/_data/analytics.js), entram os
+    domínios do Google em `script-src`, `img-src` e `connect-src` — os
+    mesmos que tools/postbuild.js põe nos cabeçalhos. Liberar o domínio não
+    carrega nada: o script só é pedido depois do "Aceitar" no aviso de cookies.
+  -#}
+  {%- if not build.dev %}
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' {{ '__CSP_SCRIPT_HASHES__' }}{% if analytics.ativo %} {{ analytics.csp.script | join(' ') }}{% endif %}; style-src 'self'; img-src 'self' data:{% if analytics.ativo %} {{ analytics.csp.img | join(' ') }}{% endif %}; font-src 'self'; connect-src 'self'{% if analytics.ativo %} {{ analytics.csp.connect | join(' ') }}{% endif %}; form-action 'none'; frame-src https://www.google.com; manifest-src 'self'">
+  {%- endif %}
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}">
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  <meta name="robots" content="{{ 'noindex, follow' if robots == 'noindex' and site.publicavel else ('index, follow, max-image-preview:large' if site.publicavel else 'noindex, nofollow') }}">
+  <meta name="theme-color" content="{{ site.themeColor }}">
+
+  {#-
+    Google Search Console: o valor vai em src/_data/site.js
+    (googleSiteVerification). Vazio, nada sai.
+  -#}
+  {%- if site.googleSiteVerification %}
+  <meta name="google-site-verification" content="{{ site.googleSiteVerification }}">
+  {%- endif %}
+
+  <meta name="geo.region" content="BR-SP">
+  <meta name="geo.placename" content="Moema, São Paulo">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ business.fullName }}">
+  <meta property="og:locale" content="{{ site.locale }}">
+  <meta property="og:title" content="{{ ogTitle or title }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:image" content="{{ site.url }}{{ site.ogImage }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{ site.ogImageAlt }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ ogTitle or title }}">
+  <meta name="twitter:description" content="{{ description }}">
+  <meta name="twitter:image" content="{{ site.url }}{{ site.ogImage }}">
+  <meta name="twitter:image:alt" content="{{ site.ogImageAlt }}">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  {#- Fontes do próprio domínio: nenhuma requisição sai para terceiros. O itálico
+      só é baixado quando aparece na tela, por isso só entra no preload da
+      home (abaixo), onde ele está na primeira dobra. -#}
+  <link rel="preload" href="/assets/fonts/baskervville-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/hanken-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  {%- if preloadHero %}
+  {#- Na home o lema da primeira dobra é itálico: sem o preload, a troca de
+      fonte muda a quebra de linha e empurra o resto da dobra. -#}
+  <link rel="preload" href="/assets/fonts/baskervville-italic-latin.woff2" as="font" type="font/woff2" crossorigin>
+  {#- A foto da primeira dobra é o maior elemento visível: vem antes do resto. -#}
+  <link rel="preload" as="image" href="{{ galeria.janelas.principal.imagem | src }}" imagesrcset="{{ galeria.janelas.principal.imagem | srcset }}" imagesizes="{{ galeria.janelas.principal.sizes }}" fetchpriority="high">
+  {%- endif %}
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <script>document.documentElement.classList.replace('no-js','js');</script>
+  <script type="module" src="/assets/js/main.js"></script>
+
+  {#-
+    Analytics: o Google Analytics 4 não entra aqui. Ele só é carregado pelo
+    assets/js/modules/cookies.js, e só depois que a pessoa aceita no aviso de
+    cookies (logo abaixo do <body>). Sem ID configurado, não há nada: ver
+    src/_data/analytics.js e README.md → "Analytics".
+  -#}
+
+  <script type="application/ld+json">{{ schema | json | safe }}</script>
+  {%- if trilha %}
+  <script type="application/ld+json">{{ trilha | trilhaLd(site.url) | json | safe }}</script>
+  {%- endif %}
+  {%- if faqSchema %}
+  <script type="application/ld+json">{{ faq | faqLd(site.url) | json | safe }}</script>
+  {%- endif %}
+  {%- if servicoSchema %}
+  <script type="application/ld+json">{{ servicoSchema | json | safe }}</script>
+  {%- endif %}
+  {%- if videoSchema %}
+  {%- for d in depoimentos.itens %}{% if d.tipo == 'video' %}
+  <script type="application/ld+json">{{ d | videoLd(site.url) | json | safe }}</script>
+  {%- endif %}{% endfor %}
+  {%- endif %}
+</head>
+
+<body{% if corpoClasse %} class="{{ corpoClasse }}"{% endif %}>
+  <a class="pular" href="#conteudo">Ir para o conteúdo</a>
+  {%- if analytics.ativo %}
+
+  {#-
+    Aviso de cookies. Só existe com o Analytics ligado e nasce escondido: o
+    script mostra o aviso enquanto não houver escolha guardada, e é ele quem
+    carrega o Google Analytics depois do "Aceitar". Sem JavaScript, o aviso
+    não aparece e o Analytics nunca carrega. Fica logo no começo da página
+    para quem navega por teclado ou leitor de tela decidir antes de seguir.
+    Os dois botões têm o mesmo peso: recusar é tão fácil quanto aceitar.
+    Texto curto de propósito: o que é, para quê e que é opcional; o resto
+    (dados, prazos, como mudar de ideia) fica na página de privacidade.
+  -#}
+  <section class="cookies" id="aviso-cookies" aria-labelledby="aviso-cookies-titulo" tabindex="-1" data-cookies data-ga4="{{ analytics.id }}" data-versao="{{ analytics.versao }}" data-validade="{{ analytics.validadeDias }}" hidden>
+    <p class="cookies__titulo" id="aviso-cookies-titulo">Cookies</p>
+    <p class="cookies__texto">Usamos cookies do Google Analytics para entender como o site é visitado — só se você aceitar. <a href="/privacidade/#estatistica">Saiba mais</a></p>
+    <p class="cookies__estado" data-cookies-estado hidden></p>
+    <div class="cookies__acoes">
+      <button type="button" class="btn btn--claro" data-cookies-recusar>Recusar</button>
+      <button type="button" class="btn btn--claro" data-cookies-aceitar>Aceitar</button>
+    </div>
+  </section>
+  {%- endif %}
+
+  {% include "components/header.njk" %}
+
+  <main id="conteudo" tabindex="-1">
+    {{ content | safe }}
+  </main>
+
+  {% include "components/footer.njk" %}
+
+  {#- Botão fixo do WhatsApp. Só aparece depois que o botão principal da página sai da tela. -#}
+  <a class="wa-fixo" data-wa-fixo href="{{ business.whatsapp | wa(waChave or 'geral') }}" target="_blank" rel="noopener noreferrer">
+    {% icon "whatsapp" %}
+    <span class="wa-fixo__txt">Agendar</span>
+    <span class="so-leitor">pelo WhatsApp (abre o WhatsApp)</span>
+  </a>
+
+  {% include "components/lightbox.njk" %}
+</body>
+</html>

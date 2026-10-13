@@ -1,0 +1,88 @@
+---
+layout: layouts/pagina.njk
+permalink: /privacidade/
+robots: noindex
+title: "Privacidade | Casa EME Moema"
+tituloPagina: "Privacidade"
+trilha:
+  - nome: Início
+    href: /
+  - nome: Privacidade
+    href: /privacidade/
+---
+{#-
+  Duas versões, conforme o Google Analytics esteja ligado no build
+  (src/_data/analytics.js). A descrição e a chamada da página mudam junto, em
+  privacidade.11tydata.js. Mudou o que o site coleta? Mude esta página e
+  suba `versao` em analytics.js, para o aviso de cookies perguntar de novo.
+-#}
+<section class="texto-longo" aria-label="Política de privacidade">
+  <div class="env texto-longo__grade">
+    <p class="rotulo">Atualizado em {{ build.data }}</p>
+    <div class="prosa">
+      {%- if analytics.ativo %}
+      <h2>Quem cuida dos seus dados</h2>
+      <p>A Casa EME ({{ business.address.inline }}) é a responsável pelos dados tratados por este site — a controladora, na linguagem da Lei Geral de Proteção de Dados (LGPD). Para qualquer assunto de privacidade, inclusive para exercer os direitos listados abaixo, fale com a Casa EME pelo WhatsApp {{ business.whatsapp.display }}.</p>
+
+      <h2>Em resumo</h2>
+      <ul>
+        <li>O site não tem formulário, cadastro nem login.</li>
+        <li>Cookies, só os de estatística do Google Analytics, e só se você aceitar no aviso de cookies.</li>
+        <li>Os dados de visita não são usados para publicidade nem vendidos.</li>
+        <li>Você pode mudar sua escolha quando quiser, em “Preferências de cookies”, no rodapé.</li>
+      </ul>
+
+      <h2 id="estatistica">Estatística de visitas (Google Analytics)</h2>
+      <p>Se você tocar em “Aceitar” no aviso de cookies, o site carrega o Google Analytics 4, a ferramenta do Google que conta e descreve as visitas. Se você recusar, ou não responder, ele não é carregado: nenhum script do Google entra na página e nenhum cookie é gravado.</p>
+      <p><strong>Para quê.</strong> Saber quais páginas e serviços despertam mais interesse, por onde as pessoas chegam ao site (busca do Google, Instagram, link direto) e se ele funciona bem no celular e no computador — para melhorar o conteúdo e a comunicação da Casa EME.</p>
+      <p><strong>O que é coletado.</strong> As páginas visitadas e o tempo em cada uma; a página ou o site de onde você veio; cliques em links para fora do site, como os do WhatsApp; a rolagem da página; o tipo de aparelho, o sistema, o navegador, o idioma e o tamanho da tela; e a região aproximada (cidade e país), que o Google estima a partir do endereço IP. Segundo o Google, o Google Analytics 4 não registra nem armazena o endereço IP.</p>
+      <p><strong>O que não é coletado.</strong> Nome, telefone, e-mail ou qualquer dado que identifique você diretamente. O Analytics não vê o que você escreve no WhatsApp. O site desliga no Analytics o recurso que reconhece a mesma pessoa em aparelhos diferentes (Google Signals) e a personalização de anúncios.</p>
+      <p><strong>Base legal.</strong> O seu consentimento (art. 7º, inciso I, da LGPD), dado no aviso de cookies. Você pode retirá-lo a qualquer momento, e o site funciona igual para quem recusa.</p>
+      <p><strong>Cookies gravados</strong>, só depois do “Aceitar”:</p>
+      <ul>
+        <li><code>_ga</code> — um número aleatório que distingue um navegador do outro, para contar visitantes sem contar a mesma pessoa duas vezes. Dura até 2 anos e é renovado a cada visita.</li>
+        <li><code>_ga_{{ analytics.id | replace('G-', '') }}</code> — guarda o andamento da visita (a sessão). Dura até 2 anos e é renovado a cada visita.</li>
+      </ul>
+      <p><strong>Quem recebe.</strong> O Google, que opera o Analytics em nome da Casa EME (o operador, na linguagem da LGPD), conforme os termos de proteção de dados do Google Analytics. Os dados podem ser processados em servidores do Google fora do Brasil, inclusive nos Estados Unidos — uma transferência internacional de dados, nos termos do art. 33 da LGPD.</p>
+      <p><strong>Por quanto tempo.</strong> Os dados ligados ao cookie ficam no Google Analytics até 14 meses depois da sua última visita e então são apagados. Os relatórios somados, como o total de visitas de um mês, não identificam ninguém e podem ser mantidos.</p>
+      <p><strong>Como mudar de ideia.</strong> Toque em “Preferências de cookies”, no rodapé de qualquer página, ou no botão abaixo. Se você recusar depois de ter aceitado, o envio para na hora e os cookies do Analytics são apagados deste navegador. Também dá para apagar os cookies nas configurações do próprio navegador.</p>
+      <p><button type="button" class="btn btn--linha" data-cookies-abrir aria-controls="aviso-cookies">Rever minha escolha</button></p>
+      <p><strong>Onde fica a sua escolha.</strong> No próprio navegador (armazenamento local, com o nome <code>casa-eme:cookies</code>), para o aviso não aparecer a cada página. Ela vale por {{ (analytics.validadeDias / 30.4) | round }} meses; depois disso, o site pergunta de novo.</p>
+
+      <h2>WhatsApp</h2>
+      <p>Os botões de agendamento abrem o WhatsApp com uma mensagem já escrita. Nada é enviado até você tocar em enviar, e a conversa acontece no aplicativo, sujeita à política de privacidade do WhatsApp. As informações que você compartilhar na conversa são usadas pela Casa EME para o agendamento e o atendimento.</p>
+
+      <h2>Instagram e Google Maps</h2>
+      <p>Os links para o Instagram e para o Google Maps levam a esses serviços, que têm políticas próprias. O mapa embutido nas páginas de contato e na home só é carregado quando você toca em "Mostrar o mapa"; antes disso, o Google Maps não recebe nenhuma informação do seu acesso.</p>
+
+      <h2>Hospedagem</h2>
+      <p>Como qualquer site, este é entregue por um serviço de hospedagem, que pode registrar dados técnicos de acesso (como endereço IP e horário) para segurança e funcionamento, conforme a política do provedor.</p>
+
+      <h2>Seus direitos</h2>
+      <p>Pela LGPD (art. 18), você pode pedir à Casa EME a confirmação de que ela trata dados seus, o acesso a eles, a correção, a anonimização, o bloqueio ou a eliminação do que for desnecessário, a portabilidade, a informação sobre com quem eles são compartilhados e a eliminação dos dados tratados com o seu consentimento — além de retirar o consentimento a qualquer momento. Como o Analytics não guarda nome nem contato, o caminho mais direto para os dados de estatística é recusar nas preferências de cookies e apagar os cookies do navegador.</p>
+      <p>Você também pode apresentar reclamação à Autoridade Nacional de Proteção de Dados (ANPD), em <a href="https://www.gov.br/anpd/pt-br" target="_blank" rel="noopener noreferrer">gov.br/anpd</a>.</p>
+
+      <h2>Mudanças nesta página</h2>
+      <p>Se o site passar a coletar outra coisa, esta página muda antes, e o aviso de cookies volta a aparecer para você decidir de novo.</p>
+
+      <h2>Dúvidas</h2>
+      <p>Fale com a Casa EME pelo WhatsApp {{ business.whatsapp.display }}.</p>
+      {%- else %}
+      <h2>O que o site guarda</h2>
+      <p>Nada. O site da Casa EME não tem formulário, não usa cookies, não grava nada no seu navegador e não tem ferramentas de análise de audiência ou de publicidade. As fontes e as imagens saem do próprio site, sem passar por serviços de terceiros.</p>
+
+      <h2>WhatsApp</h2>
+      <p>Os botões de agendamento abrem o WhatsApp com uma mensagem já escrita. Nada é enviado até você tocar em enviar, e a conversa acontece no aplicativo, sujeita à política de privacidade do WhatsApp. As informações que você compartilhar na conversa são usadas pela Casa EME para o agendamento e o atendimento.</p>
+
+      <h2>Instagram e Google Maps</h2>
+      <p>Os links para o Instagram e para o Google Maps levam a esses serviços, que têm políticas próprias. O mapa embutido nas páginas de contato e na home só é carregado quando você toca em "Mostrar o mapa"; antes disso, o Google não recebe nenhuma informação do seu acesso.</p>
+
+      <h2>Hospedagem</h2>
+      <p>Como qualquer site, este é entregue por um serviço de hospedagem, que pode registrar dados técnicos de acesso (como endereço IP e horário) para segurança e funcionamento, conforme a política do provedor.</p>
+
+      <h2>Dúvidas</h2>
+      <p>Fale com a Casa EME pelo WhatsApp {{ business.whatsapp.display }}.</p>
+      {%- endif %}
+    </div>
+  </div>
+</section>

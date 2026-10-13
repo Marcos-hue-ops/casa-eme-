@@ -1,0 +1,51 @@
+# Exemplo de configuração — Apache. Renomeie para .htaccess na raiz publicada.
+#
+# Como no Nginx, a Content-Security-Policy fica comentada: ela carrega os hashes
+# dos scripts inline, que mudam a cada build. Copie de dist/csp.gerada.txt.
+
+<IfModule mod_headers.c>
+  # Header always set Content-Security-Policy "<cole de dist/csp.gerada.txt>"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), interest-cohort=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header always set Cross-Origin-Resource-Policy "same-origin"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+  # CSS e JS levam o hash do conteúdo no nome; fontes não mudam.
+  <FilesMatch "\.(woff2|css|js)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Fotos mantêm o nome quando trocadas por versão melhor: um mês de cache.
+  <FilesMatch "\.(webp|avif|jpg|png|svg)$">
+    Header set Cache-Control "public, max-age=2592000, must-revalidate"
+  </FilesMatch>
+
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+
+  <FilesMatch "^(robots\.txt|sitemap\.xml)$">
+    Header set Cache-Control "public, max-age=3600, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/xml
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # URLs terminam em barra e servem o index.html da pasta.
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_URI} !/$
+  RewriteRule ^(.*)$ /$1/ [R=301,L]
+</IfModule>
+
+ErrorDocument 404 /404.html

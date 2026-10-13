@@ -1,0 +1,54 @@
+---
+layout: layouts/pagina.njk
+permalink: /galeria/
+title: "Galeria | Antes e Depois, Estética e Cabelo | Casa EME Moema"
+description: "Antes e depois de saúde capilar e estética avançada, cabelo e unhas: fotos de trabalhos da Casa EME, em Moema. Veja mais no Instagram @casaeme_moema."
+tituloPagina: "Galeria"
+chamadaPagina: "Trabalhos da Casa EME, do salão à saúde capilar e à estética avançada. Toque numa foto para ampliar; mais no perfil <a href=\"https://www.instagram.com/casaeme_moema/\" target=\"_blank\" rel=\"noopener noreferrer\">@casaeme_moema</a>."
+trilha:
+  - nome: Início
+    href: /
+  - nome: Galeria
+    href: /galeria/
+---
+{%- import "components/macros.njk" as m -%}
+{#-
+  A galeria se monta a partir de src/_data/galeria.js. O filtro só mostra as
+  categorias que têm foto — ambiente, estética, saúde capilar e bem-estar
+  aparecem sozinhos quando as primeiras fotos entrarem.
+-#}
+{%- set usadas = [] -%}
+{%- for foto in galeria.fotos %}{% if not (foto.categoria in usadas) %}{% set usadas = (usadas.push(foto.categoria), usadas) %}{% endif %}{% endfor -%}
+
+<section class="galeria" aria-label="Fotos" data-galeria>
+  <div class="env">
+    {%- if usadas.length > 1 %}
+    <div class="filtros" role="group" aria-label="Filtrar fotos por categoria" data-filtros>
+      <button type="button" class="filtro" data-filtro="todas" aria-pressed="true">Todas</button>
+      {%- for chave, nome in galeria.categorias %}{% if chave in usadas %}
+      <button type="button" class="filtro" data-filtro="{{ chave }}" aria-pressed="false">{{ nome }}</button>
+      {%- endif %}{% endfor %}
+    </div>
+    {%- endif %}
+
+    <ul class="galeria__grade" data-lupa-grupo>
+      {%- for foto in galeria.fotos %}
+      <li class="galeria__item" data-categoria="{{ foto.categoria }}">
+        <figure>
+          <button type="button" class="galeria__abrir" data-lupa="{{ foto.imagem | src }}" data-lupa-legenda="{{ foto.legenda }}{% if foto.aviso %}. {{ foto.aviso }}{% endif %}">
+            <span class="so-leitor">Ampliar foto.</span>
+            {{ m.foto(foto.imagem, foto.alt, '(min-width: 64rem) 25rem, (min-width: 40rem) 46vw, 92vw', loop.first) }}
+          </button>
+          <figcaption><span class="galeria__cat">{{ galeria.categorias[foto.categoria] }}</span> {{ foto.legenda }}{% if foto.credito %}<span class="galeria__credito">{{ foto.credito }}</span>{% endif %}</figcaption>
+        </figure>
+      </li>
+      {%- endfor %}
+    </ul>
+
+    <p class="galeria__ressalva">Saúde capilar e estética: {{ casos.ressalva | lower }}<br>{{ casos.aviso }}</p>
+
+    <p class="galeria__mais">Mais trabalhos no Instagram da casa.
+      <a class="link-seta" href="{{ business.instagram.url }}" target="_blank" rel="noopener noreferrer"><span>Seguir {{ business.instagram.handle }}</span>{% icon "externo" %}</a>
+    </p>
+  </div>
+</section>

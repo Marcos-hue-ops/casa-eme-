@@ -1,0 +1,295 @@
+/**
+ * Primeira dobra.
+ *
+ * À esquerda, o letreiro como na logo: CASA EME em versal espaçada, o slogan
+ * com as barras verticais e o fio curto embaixo. À direita, duas "janelas"
+ * redondas — o círculo do selo — com trabalho da casa dentro.
+ *
+ * O tamanho do nome é medido na coluna (unidades cqi), não na tela: ele
+ * ocupa a mesma fração do espaço em qualquer largura e nunca transborda.
+ */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(2rem, 1rem + 4vw, 4.5rem) clamp(3rem, 2rem + 4vw, 6rem);
+}
+
+.hero__fundo {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: -22rem;
+  inline-size: clamp(36rem, 64vw, 60rem);
+  translate: 0 -50%;
+  fill: none;
+  stroke: var(--linho);
+  stroke-width: 0.45;
+  pointer-events: none;
+}
+
+.hero__grade {
+  position: relative;
+  display: grid;
+  gap: var(--e-6);
+}
+
+.hero__texto {
+  container-type: inline-size;
+}
+
+.hero__sobre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  font-size: var(--t-mini);
+  font-weight: 500;
+  letter-spacing: var(--versal);
+  text-transform: uppercase;
+  color: var(--texto-2);
+}
+
+.hero__ponto {
+  inline-size: 5px;
+  block-size: 5px;
+  border-radius: 50%;
+  background-color: var(--mel);
+}
+
+.hero__marca {
+  margin-block-start: var(--e-4);
+  font-weight: inherit;
+  letter-spacing: 0;
+}
+
+.hero__nome {
+  display: block;
+  font-size: clamp(2.75rem, 13.5cqi, 7.5rem);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--marca);
+  margin-inline-end: -0.1em;
+}
+
+.hero__slogan {
+  display: block;
+  margin-block-start: var(--e-3);
+  font-family: var(--sans);
+  font-size: clamp(0.6875rem, 2.6cqi, 0.9375rem);
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  line-height: 1.7;
+  text-transform: uppercase;
+  color: var(--texto-2);
+  text-wrap: balance;
+}
+
+.hero__barra {
+  margin-inline: 0.35em;
+  color: var(--mel);
+}
+
+.hero__item {
+  white-space: nowrap;
+}
+
+/* No celular, as três frentes empilham — como numa ficha — em vez de
+   quebrar "Estética avançada" no meio. */
+@media (max-width: 39.99rem) {
+  .hero__item {
+    display: block;
+  }
+
+  .hero__barra {
+    display: none;
+  }
+}
+
+.hero__fio {
+  display: block;
+  inline-size: 4.5rem;
+  block-size: 2px;
+  margin-block-start: var(--e-4);
+  background-color: var(--marca);
+}
+
+.hero__lema {
+  margin-block-start: var(--e-4);
+  font-family: var(--serifa);
+  font-size: clamp(1.75rem, 1.2rem + 2.2vw, 3.125rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.hero__lema em {
+  color: var(--marca);
+}
+
+.hero__lead {
+  margin-block-start: var(--e-3);
+  max-inline-size: 34rem;
+  font-size: var(--t-lead);
+  color: var(--texto-2);
+}
+
+.hero__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--e-2) var(--e-4);
+  margin-block-start: var(--e-4);
+}
+
+/* Janelas */
+.hero__visual {
+  display: flex;
+  justify-content: center;
+}
+
+.janelas {
+  position: relative;
+  inline-size: min(100%, 21rem);
+  aspect-ratio: 1 / 1.08;
+  margin: 0;
+}
+
+.janela {
+  position: absolute;
+  margin: 0;
+}
+
+.janela .anel {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.janela__vidro {
+  position: absolute;
+  inset: 9%;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--linho);
+}
+
+.janela__vidro img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.janela--grande {
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  inline-size: 88%;
+  aspect-ratio: 1;
+}
+
+.janela--pequena {
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  inline-size: 42%;
+  aspect-ratio: 1;
+}
+
+.janela--pequena::before {
+  content: '';
+  position: absolute;
+  inset: 6%;
+  border-radius: 50%;
+  background-color: var(--papel);
+}
+
+@media (min-width: 48rem) {
+  .janelas {
+    inline-size: min(100%, 26rem);
+  }
+}
+
+@media (min-width: 64rem) {
+  .hero {
+    min-block-size: min(calc(100svh - var(--altura-cab) - 7rem), 52rem);
+    display: grid;
+    align-items: center;
+  }
+
+  .hero__grade {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: center;
+    gap: var(--e-6);
+  }
+
+  .hero__visual {
+    justify-content: flex-end;
+  }
+
+  .janelas {
+    inline-size: min(100%, 28rem);
+  }
+}
+
+/* Ficha: endereço · horário · agendamento */
+.ficha {
+  background-color: var(--creme);
+  border-block: 1px solid var(--fio);
+}
+
+.ficha__grade {
+  display: grid;
+}
+
+.ficha__item {
+  padding-block: var(--e-3);
+  border-block-end: 1px solid var(--fio);
+}
+
+.ficha__item:last-child {
+  border-block-end: 0;
+}
+
+.ficha__rot {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: var(--t-mini);
+  font-weight: 600;
+  letter-spacing: var(--versal);
+  text-transform: uppercase;
+  color: var(--texto-2);
+}
+
+.ficha__val {
+  margin-block-start: 0.5rem;
+  font-family: var(--serifa);
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+.ficha__val a {
+  color: var(--marca);
+  text-decoration: underline;
+  text-decoration-color: var(--fio-forte);
+}
+
+.ficha__val a:hover {
+  text-decoration-color: currentColor;
+}
+
+@media (min-width: 48rem) {
+  .ficha__grade {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .ficha__item {
+    padding: var(--e-4) var(--e-4);
+    border-block-end: 0;
+    border-inline-start: 1px solid var(--fio);
+  }
+
+  .ficha__item:first-child {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+  }
+}

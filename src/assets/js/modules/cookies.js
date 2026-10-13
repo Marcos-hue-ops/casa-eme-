@@ -116,8 +116,8 @@ function apagarCookiesDoAnalytics() {
 }
 
 const TEXTO_ESTADO = {
-  aceito: 'Sua escolha atual: aceitou os cookies de estatística.',
-  recusado: 'Sua escolha atual: recusou os cookies de estatística.',
+  aceito: 'Sua escolha atual: aceitou.',
+  recusado: 'Sua escolha atual: recusou.',
 };
 
 export function cookies() {

@@ -10,6 +10,12 @@
 # Google. Para mudar sem editar este arquivo, crie em GitHub → Settings →
 # Secrets and variables → Actions → Variables: SITE_URL e SITE_PUBLICAVEL
 # ("false" tira o site do Google).
+#
+# Google Analytics 4: o ID de métricas da Casa EME vai abaixo, em
+# GA_MEASUREMENT_ID. Só o site da Hostinger (o do domínio) mede; as prévias
+# e o build local saem sem Analytics e sem aviso de cookies. Uma variável
+# GA_MEASUREMENT_ID criada no mesmo lugar das outras tem prioridade sobre o
+# ID daqui (README → "Analytics").
 name: Site para a Hostinger
 
 on:
@@ -30,6 +36,7 @@ jobs:
     env:
       SITE_URL: ${{ vars.SITE_URL || 'https://casaememoema.com.br' }}
       SITE_PUBLICAVEL: ${{ vars.SITE_PUBLICAVEL || 'true' }}
+      GA_MEASUREMENT_ID: ${{ vars.GA_MEASUREMENT_ID || 'G-X15KSL351K' }}
     steps:
       - uses: actions/checkout@v4
 

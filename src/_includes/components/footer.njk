@@ -55,7 +55,7 @@
     <div class="rodape__base">
       <p>© {{ build.ano }} {{ business.name }} · {{ business.address.neighborhood }}, {{ business.address.city }}</p>
       <p>Procedimentos estéticos e capilares dependem de avaliação individual; as informações deste site não substituem acompanhamento médico.</p>
-      <p><a href="/privacidade/">Privacidade</a></p>
+      <p><a href="/privacidade/">Privacidade</a>{% if analytics.ativo %}<span class="rodape__preferencias"><span aria-hidden="true">·</span><button type="button" class="rodape__botao" data-cookies-abrir aria-controls="aviso-cookies">Preferências de cookies</button></span>{% endif %}</p>
     </div>
   </div>
 </footer>

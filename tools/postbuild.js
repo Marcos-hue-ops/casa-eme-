@@ -17,6 +17,8 @@ import { readdir, readFile, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import analytics from '../src/_data/analytics.js';
+
 const DIST = fileURLToPath(new URL('../dist/', import.meta.url));
 const MARCA = '__CSP_SCRIPT_HASHES__';
 const SCRIPT_INLINE = /<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi;
@@ -70,15 +72,17 @@ for (const arquivo of arquivos) {
 }
 
 /* 3. Cabeçalhos ------------------------------------------------------------- */
+/* Com o Google Analytics ligado, os domínios dele entram nas três diretivas
+   que o GA4 usa — os mesmos da <meta> em base.njk (src/_data/analytics.js). */
 const csp = [
   "default-src 'self'",
   "base-uri 'self'",
   "object-src 'none'",
-  `script-src 'self' ${[...todosHashes].join(' ')}`,
+  `script-src ${["'self'", ...todosHashes, ...analytics.csp.script].join(' ')}`,
   "style-src 'self'",
-  "img-src 'self' data:",
+  `img-src ${["'self'", 'data:', ...analytics.csp.img].join(' ')}`,
   "font-src 'self'",
-  "connect-src 'self'",
+  `connect-src ${["'self'", ...analytics.csp.connect].join(' ')}`,
   "form-action 'none'",
   /* O mapa do Google só entra depois do clique de quem visita (ver map.js). */
   'frame-src https://www.google.com',

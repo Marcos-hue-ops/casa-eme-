@@ -22,6 +22,7 @@
 @import 'components/reveal.css';
 @import 'components/estado.css';
 @import 'components/abertura.css';
+@import 'components/cookies.css';
 
 /* Seções */
 @import 'sections/hero.css';

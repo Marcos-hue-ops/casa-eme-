@@ -5,8 +5,9 @@
  * lê o HTML gerado e cobra o que é conteúdo e contrato: NAP igual em todo
  * lugar, WhatsApp certo em cada link, títulos e descrições únicos e no
  * tamanho, dados estruturados coerentes com os dados de origem, nenhum
- * recurso de terceiro no carregamento e nenhuma afirmação que a Casa EME não
- * tenha feito.
+ * recurso de terceiro no carregamento (o Google Analytics só entra depois do
+ * "Aceitar" no aviso de cookies) e nenhuma afirmação que a Casa EME não tenha
+ * feito.
  *
  * Sai com código 1 se algo falhar.
  */
@@ -15,6 +16,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import site from '../src/_data/site.js';
+import analytics from '../src/_data/analytics.js';
 import business from '../src/_data/business.js';
 import hours from '../src/_data/hours.js';
 import faq from '../src/_data/faq.js';
@@ -228,11 +230,14 @@ for (const g of faq) for (const p of g.perguntas) ok(textoFaq.includes(p.p), `FA
 
 /* ------------------------------------------------ privacidade e segurança */
 console.log('\nPrivacidade e segurança');
-const PERMITIDOS = /^https:\/\/(wa\.me|www\.instagram\.com|www\.google\.com\/maps|www\.gov\.br\/inca)\//;
+const PERMITIDOS = /^https:\/\/(wa\.me|www\.instagram\.com|www\.google\.com\/maps|www\.gov\.br\/(inca|anpd))\//;
 for (const [nome, conteudo] of Object.entries(html)) {
   ok(!/<form\b/i.test(conteudo), `${nome}: sem formulário`);
   ok(!/<iframe\b/i.test(conteudo), `${nome}: sem iframe no HTML entregue`);
-  ok(!/\b(gtag|googletagmanager|google-analytics|fbq|hotjar|clarity\.ms)\b/i.test(conteudo), `${nome}: sem rastreador`);
+  /* O domínio do Google Analytics pode estar liberado na CSP (liberar não
+     carrega nada); fora dela, nenhum rastreador no HTML entregue. */
+  const semCsp = conteudo.replace(/<meta http-equiv="Content-Security-Policy"[^>]*>/, '');
+  ok(!/\b(gtag|googletagmanager|google-analytics|fbq|hotjar|clarity\.ms)\b/i.test(semCsp), `${nome}: sem rastreador no HTML`);
   ok(!conteudo.includes('unsafe-inline') && !conteudo.includes('unsafe-eval'), `${nome}: CSP sem unsafe-*`);
   ok(conteudo.includes('http-equiv="Content-Security-Policy"'), `${nome}: CSP na página`);
   ok(!conteudo.includes('__CSP_SCRIPT_HASHES__'), `${nome}: hashes da CSP injetados`);
@@ -283,6 +288,76 @@ if (!process.env.VERCEL) {
 }
 for (const [nome, conteudo] of Object.entries(html)) {
   ok(!conteudo.includes('upgrade-insecure-requests'), `${nome}: CSP sem upgrade-insecure-requests (quebraria o site em http)`);
+}
+
+/* ------------------------------------------------- Analytics e cookies */
+/**
+ * Com ID do GA4 no build: aviso em toda página, escondido até o script
+ * decidir (sem JavaScript, nada aparece e nada carrega), com "Recusar" do
+ * mesmo peso de "Aceitar"; botão de preferências; CSP com os domínios do
+ * Google; e a política de privacidade contando tudo isso. Sem ID: nada disso,
+ * e a política dizendo que o site não usa cookies.
+ */
+console.log(`\nAnalytics (${analytics.ativo ? analytics.id : 'desligado'})`);
+const cspDe = (texto) =>
+  Object.fromEntries(
+    texto
+      .split(';')
+      .map((d) => d.trim().split(/\s+/))
+      .filter((d) => d[0])
+      .map(([diretiva, ...fontes]) => [diretiva, fontes])
+  );
+const politica = textoDe(html['privacidade/index.html']);
+const cspHospedagem = process.env.VERCEL ? null : await readFile(path.join(DIST, 'csp.gerada.txt'), 'utf8');
+
+if (analytics.ativo) {
+  const diretivas = { 'script-src': analytics.csp.script, 'img-src': analytics.csp.img, 'connect-src': analytics.csp.connect };
+  for (const [nome, conteudo] of Object.entries(html)) {
+    const aviso = conteudo.match(/<section class="cookies"[^>]*>[\s\S]*?<\/section>/)?.[0] ?? '';
+    ok(Boolean(aviso), `${nome}: aviso de cookies`);
+    ok(/^<section class="cookies"[^>]*\shidden>/.test(aviso), `${nome}: aviso nasce escondido (sem JavaScript, nada aparece e nada carrega)`);
+    ok(aviso.includes(`data-ga4="${analytics.id}"`), `${nome}: aviso leva o ID do GA4`);
+    const botoes = [...aviso.matchAll(/<button[^>]*class="([^"]+)"[^>]*data-cookies-(recusar|aceitar)/g)];
+    ok(botoes.length === 2, `${nome}: aviso com "Recusar" e "Aceitar"`);
+    ok(botoes.length === 2 && botoes[0][1] === botoes[1][1], `${nome}: recusar com o mesmo peso de aceitar`);
+    ok(aviso.includes('href="/privacidade/'), `${nome}: aviso leva à política de privacidade`);
+    ok(conteudo.includes('data-cookies-abrir'), `${nome}: botão de preferências de cookies`);
+
+    const csp = cspDe(conteudo.match(/http-equiv="Content-Security-Policy" content="([^"]+)"/)?.[1] ?? '');
+    for (const [diretiva, fontes] of Object.entries(diretivas)) {
+      for (const fonte of fontes) ok(csp[diretiva]?.includes(fonte), `${nome}: CSP libera ${fonte} em ${diretiva}`);
+    }
+  }
+  if (cspHospedagem !== null) {
+    const csp = cspDe(cspHospedagem.split('\n')[0]);
+    for (const [diretiva, fontes] of Object.entries(diretivas)) {
+      for (const fonte of fontes) ok(csp[diretiva]?.includes(fonte), `cabeçalhos (.htaccess, _headers): ${fonte} em ${diretiva}`);
+    }
+  }
+  for (const trecho of [
+    'Google Analytics',
+    'Aceitar',
+    '_ga',
+    `_ga_${analytics.id.slice(2)}`,
+    'consentimento',
+    'art. 7º',
+    'art. 18',
+    'ANPD',
+    'Estados Unidos',
+    '14 meses',
+    'casa-eme:cookies',
+    'Preferências de cookies',
+  ]) {
+    ok(politica.includes(trecho), `privacidade explica: "${trecho}"`);
+  }
+  ok(!/não usa cookies/i.test(politica), 'privacidade não diz mais que o site não usa cookies');
+} else {
+  for (const [nome, conteudo] of Object.entries(html)) {
+    ok(!conteudo.includes('data-cookies'), `${nome}: sem aviso de cookies`);
+    ok(!/googletagmanager|google-analytics|analytics\.google/.test(conteudo), `${nome}: CSP sem domínio do Google Analytics`);
+  }
+  if (cspHospedagem !== null) ok(!/googletagmanager|google-analytics/.test(cspHospedagem), 'cabeçalhos sem domínio do Google Analytics');
+  ok(/não usa cookies/.test(politica), 'privacidade diz que o site não usa cookies');
 }
 
 const vercel = JSON.parse(await readFile(new URL('../vercel.json', import.meta.url), 'utf8'));

@@ -3,15 +3,16 @@
 Site da **Casa EME**, casa de beleza, estética avançada e saúde capilar na
 Rua Pintassilgo, 457 — Vila Uberabinha, Moema, São Paulo.
 
-Site estático, rápido e sem coleta de dados: o WhatsApp é o canal de
-agendamento, e cada botão abre a conversa com uma mensagem já escrita para o
-assunto da página.
+Site estático e rápido: o WhatsApp é o canal de agendamento, e cada botão
+abre a conversa com uma mensagem já escrita para o assunto da página. A única
+coleta de dados é a estatística de visitas do Google Analytics 4, e só de quem
+aceita no aviso de cookies (seção 9).
 
 | | |
 |---|---|
 | Gerador | [Eleventy 3](https://www.11ty.dev/) (Nunjucks) |
 | CSS | arquivos nativos, empacotados e minificados pelo Lightning CSS |
-| JavaScript | módulos ES pequenos, empacotados pelo esbuild (~8 KB) |
+| JavaScript | módulos ES pequenos, empacotados pelo esbuild (~10 KB) |
 | Imagens | WebP gerado com `sharp` a partir de `fotos/` |
 | Hospedagem | Vercel (configurada) · Hostinger (branch `hostinger`, com `.htaccess`) · Netlify/Cloudflare Pages · Apache/Nginx (exemplos em `deploy/`) |
 | Node | 20 ou mais novo (`.nvmrc` pede 22) |
@@ -151,6 +152,8 @@ explicando os campos. Mude, rode `npm run build`, confira e publique.
 | **Fotos da galeria e da primeira dobra** | `src/_data/galeria.js` | ver seção 4 |
 | **Título e descrição de uma página (SEO)** | front matter no topo de cada `src/*.njk` (`title`, `description`) | |
 | **Título/descrição padrão, domínio, cartão social** | `src/_data/site.js` | |
+| **Google Analytics 4** (ID, versão do aviso, validade da escolha) | ID: `.github/workflows/hostinger.yml` → `GA_MEASUREMENT_ID`; o resto: `src/_data/analytics.js` | seção 9 |
+| **Aviso de cookies** (texto) e **política de privacidade** | `src/_includes/layouts/base.njk` e `src/privacidade.njk` | mudou o que o site coleta? Suba `versao` em `analytics.js` |
 | **Textos de uma seção da home** | `src/_includes/sections/*.njk` | |
 | **Cores, fontes, espaçamentos** | `src/assets/css/base/tokens.css` | todas as cores moram aqui |
 
@@ -389,6 +392,11 @@ nesse caso, crie um site vazio para o domínio ou use o caminho 2.
 - **Teste de segurança:** abra `https://casaememoema.com.br/.git/config` e
   `https://casaememoema.com.br/.htaccess`. Os dois têm de dar erro (403 ou
   404): o `.htaccess` do build bloqueia qualquer arquivo que comece com ponto.
+- **Google Analytics:** a branch `hostinger` já sai com o GA4 da Casa EME
+  (`G-X15KSL351K`) e com o aviso de cookies. O ID está no
+  `.github/workflows/hostinger.yml`; uma variável `GA_MEASUREMENT_ID` em
+  GitHub → **Settings → Secrets and variables → Actions → Variables** tem
+  prioridade sobre ele (seção 9).
 - **Domínio e Google:** a branch `hostinger` já sai com o domínio
   **`https://casaememoema.com.br`** (sem www) no canonical, no sitemap e no
   cartão social, e com a indexação ligada. Quem digitar `www.` é levado para o
@@ -543,31 +551,113 @@ dois às vezes adianta a verificação do perfil.
 
 ## 9. Analytics
 
-Não há nenhuma ferramenta de análise instalada, de propósito: o site não
-coleta dados de quem visita, e a página de privacidade diz isso.
+O site mede as visitas com o **Google Analytics 4** (propriedade da Casa EME,
+ID de métricas **`G-X15KSL351K`**), e **só de quem aceita** no aviso de
+cookies.
 
-Se a Casa EME decidir medir audiência:
+### Como funciona
 
-- prefira uma ferramenta sem cookies (ex.: Vercel Web Analytics, Plausible);
-- inclua o script em `src/_includes/layouts/base.njk` (há um comentário
-  marcando o lugar);
-- libere o domínio dela na CSP — no `<meta>` de `base.njk` **e** em
-  `tools/postbuild.js` (`script-src` e `connect-src`);
-- atualize `src/privacidade.njk`;
-- ajuste o teste "sem rastreador" em `tools/test.js`.
+- **Aviso de cookies** em todas as páginas, com **Recusar** e **Aceitar** do
+  mesmo tamanho e da mesma cor: recusar é tão fácil quanto aceitar. O aviso
+  leva à política de privacidade.
+- **Nada do Google antes do "Aceitar".** Nenhum script, nenhum cookie,
+  nenhum pedido. É o modo básico do Consent Mode do Google: a tag só entra na
+  página depois do consentimento (`src/assets/js/modules/cookies.js`). Quem
+  recusa, ignora o aviso ou está sem JavaScript não é medido.
+- **A escolha fica no navegador** (`localStorage`, chave `casa-eme:cookies`)
+  por 12 meses; depois disso, ou quando a `versao` do aviso sobe, a pergunta
+  volta.
+- **Voltar atrás a qualquer momento:** "Preferências de cookies", no rodapé,
+  e "Rever minha escolha", na página de privacidade, reabrem o aviso. Recusar
+  depois de ter aceitado corta o envio na hora (`ga-disable-G-…`, a chave
+  oficial do Google) e apaga os cookies `_ga` e `_ga_…`.
+- **Uma visualização por página.** O site não tem navegação por JavaScript:
+  cada página aberta é um `page_view`, o automático do `config`.
+- **Sem dado pessoal enviado.** O site não tem formulário e nenhum endereço
+  leva dado de quem visita. O GA4 sai com Google Signals e personalização de
+  anúncios desligados (`allow_google_signals: false`,
+  `allow_ad_personalization_signals: false`) e com `ad_storage`,
+  `ad_user_data` e `ad_personalization` negados.
+- **CSP:** os domínios do Google entram em `script-src`
+  (`https://www.googletagmanager.com`), `connect-src` e `img-src`
+  (`*.google-analytics.com`, `*.analytics.google.com`,
+  `*.googletagmanager.com`), na `<meta>` de cada página e no `.htaccess`. A
+  lista está em `src/_data/analytics.js`.
+- **Sem ID, nada disso existe:** sem aviso, sem botão, sem domínio do Google
+  na CSP, e a página de privacidade volta a dizer que o site não usa cookies.
+  É o que acontece nas prévias da Vercel e no build local.
+
+### Onde fica o ID
+
+A Hostinger não roda build, então não adianta variável de ambiente no hPanel:
+o ID entra **no build feito pelo GitHub**, em `.github/workflows/hostinger.yml`
+(`GA_MEASUREMENT_ID`). Para trocar sem editar o arquivo, crie em GitHub →
+**Settings → Secrets and variables → Actions → Variables** a variável
+`GA_MEASUREMENT_ID` (ela tem prioridade) e rode **Actions → Site para a
+Hostinger → Run workflow**. O ID não é segredo: ele aparece no HTML de
+qualquer site com GA4. Um ID fora do formato `G-XXXXXXXXXX` faz o build parar,
+e a versão anterior continua no ar.
+
+Se um dia a produção for a Vercel, crie `GA_MEASUREMENT_ID` em *Settings →
+Environment Variables*, só no ambiente *Production*.
+
+Para testar localmente:
+`GA_MEASUREMENT_ID=G-X15KSL351K npm run build && GA_MEASUREMENT_ID=G-X15KSL351K npm test && npm run qa`.
+O `npm run qa` percorre o aviso inteiro (recusar, aceitar, voltar atrás,
+escolha vencida, sem JavaScript) com os pedidos ao Google interceptados:
+nenhum dado sai.
+
+### Ajustes no painel do GA4 (uma vez)
+
+Em [analytics.google.com](https://analytics.google.com) →
+**Administrador**:
+
+1. **Fluxos de dados → o site → Medição otimizada → engrenagem de
+   "Visualizações de página" → Configurações avançadas:** desmarque
+   **"Mudanças de página com base em eventos do histórico do navegador"**. O
+   site não usa navegação por JavaScript, e assim um clique em âncora
+   (`#conteudo`, perguntas do FAQ) nunca conta como página nova.
+2. **Coleta de dados → Coleta de dados do Google Signals:** deixe
+   desativada (o site já desliga pelo código; o painel fica coerente).
+3. **Retenção de dados:** 2 ou 14 meses. A política de privacidade diz
+   "no máximo 14 meses", que vale para as duas opções.
+4. **Vinculações de produtos:** não vincule Google Ads nem outro produto de
+   anúncio sem antes mudar a política de privacidade e subir a `versao` do
+   aviso.
+
+### Conferir se está medindo
+
+Depois de publicar (a mudança aparece no domínio só depois do Action verde e
+da implantação no hPanel):
+
+1. Abra o site numa janela anônima. O aviso aparece; com o DevTools aberto
+   (F12 → **Rede**, filtro `google`), **nada** é pedido ao Google.
+2. Toque em **Aceitar**: aparece `gtag/js?id=G-X15KSL351K` e, logo depois,
+   um `collect?…&en=page_view`. Troque de página: **um** `page_view` por
+   página.
+3. No GA4, **Relatórios → Tempo real**: a visita aparece em até um minuto.
+4. No [Tag Assistant](https://tagassistant.google.com), **Add domain** →
+   `https://casaememoema.com.br` → **Connect**. Na aba aberta, aceite no
+   aviso: o Tag Assistant mostra a tag `G-X15KSL351K`, uma só, e o evento
+   `page_view`. A mesma sessão aparece em **Administrador → DebugView**.
+5. Outra janela anônima, **Recusar**: nenhum pedido ao Google, e nada no
+   Tempo real.
+6. No rodapé, **Preferências de cookies** reabre o aviso.
 
 ---
 
 ## 10. Segurança e privacidade
 
-- Nenhum formulário, nenhum banco de dados, nenhum cookie, nenhum
-  `localStorage`. O agendamento acontece no WhatsApp.
+- Nenhum formulário, nenhum banco de dados. O agendamento acontece no
+  WhatsApp. Cookies, só os do Google Analytics, e só depois do "Aceitar" no
+  aviso de cookies; o `localStorage` guarda apenas essa escolha (seção 9).
 - **Content-Security-Policy** estrita em todas as páginas: só recursos do
-  próprio domínio; scripts inline liberados por hash (sem `unsafe-inline`);
-  `frame-src` só para o Google Maps.
+  próprio domínio, mais os do Google Analytics quando ele está ligado;
+  scripts inline liberados por hash (sem `unsafe-inline`); `frame-src` só
+  para o Google Maps.
 - O mapa do Google **só carrega quando a pessoa clica** em "Mostrar o mapa".
 - Fontes, CSS, JS e imagens saem do próprio domínio — nenhuma requisição a
-  terceiros no carregamento.
+  terceiros no carregamento. O Google Analytics só é pedido depois do aceite.
 - Cabeçalhos: HSTS, `X-Content-Type-Options`, `X-Frame-Options: DENY`,
   `frame-ancestors 'none'`, `Referrer-Policy`, `Permissions-Policy`,
   `Cross-Origin-Opener-Policy`.
@@ -597,7 +687,10 @@ npm run build && npm run test && npm run qa
   canonical, Open Graph e Twitter Card; sitemap e robots coerentes com
   `publicavel`; schema coerente com os dados (endereço, telefone, horários,
   serviços); `FAQPage` só no FAQ; ausência de formulário, iframe, rastreador e
-  recurso de terceiros; CSP sem `unsafe-*`; preços só os das assinaturas;
+  recurso de terceiros no HTML; CSP sem `unsafe-*`; com Analytics, aviso de
+  cookies em toda página (escondido até o script decidir, com "Recusar" do
+  mesmo peso de "Aceitar"), domínios do Google na CSP e a política de
+  privacidade explicando o GA4; sem Analytics, nada disso; preços só os das assinaturas;
   nenhuma frase proibida pelo briefing ("resultado garantido", "sem riscos",
   clichês, superlativos, certificações, tempo de mercado, promessa de quilos
   ou de cura capilar, a Dra. Rejane chamada de médica...); um único telefone
@@ -611,7 +704,11 @@ npm run build && npm run test && npm run qa
   sem violação de CSP, alvos de toque ≥ 44 px nas ações, contraste WCAG AA,
   hierarquia de títulos sem saltos, ids únicos, âncoras e links internos
   válidos, imagens carregadas e animações de entrada que de fato revelam o
-  conteúdo.
+  conteúdo. Com Analytics, percorre o aviso de cookies: nada do Google antes
+  do aceite, recusa guardada, aceite que baixa o `gtag.js` uma vez com o ID
+  certo, voltar atrás que corta o envio e apaga os cookies, escolha vencida,
+  sem JavaScript, e o botão do WhatsApp sem cobrir o aviso nem
+  "Preferências de cookies".
 
 Medição feita com 4G lento simulado e CPU 4× mais lenta (celular): LCP
 ≈ 1,3–1,4 s e CLS 0 na home, serviços e galeria.
@@ -752,6 +849,7 @@ outros melhoram o site, mas não impedem a publicação.
 - [ ] Domínio apontando para a hospedagem que publica o site (Hostinger), SSL ativo e "Forçar HTTPS" ligado
 - [ ] `robots.txt` do domínio com `Allow: /`
 - [ ] Search Console verificado e `sitemap.xml` enviado
+- [ ] GA4: ajustes do painel feitos e coleta conferida no Tempo real e no Tag Assistant (seção 9)
 - [ ] Site cadastrado no Perfil da Empresa no Google, com NAP idêntico
 
 ---

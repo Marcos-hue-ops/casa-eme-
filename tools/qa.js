@@ -4,11 +4,13 @@
  * Sobe o dist/, abre cada página em cada largura da lista e confere o que só
  * dá para saber com a página renderizada: rolagem horizontal, erro de console,
  * violação de CSP, alvo de toque pequeno demais, imagem sem dimensão, ordem de
- * títulos e link interno quebrado.
+ * títulos e link interno quebrado. Com o Google Analytics no build, também o
+ * caminho inteiro do aviso de cookies (nada do Google antes do "Aceitar").
  *
  * Sai com código 1 se achar qualquer coisa — serve para rodar antes de publicar.
  */
 import { spawn } from 'node:child_process';
+import { readFile } from 'node:fs/promises';
 import { chromium } from 'playwright-core';
 
 const EXECUTAVEL = process.env.CHROMIUM || '/opt/pw-browsers/chromium';
@@ -346,6 +348,181 @@ for (const largura of LARGURAS) {
     [...new Set(relatorio)].forEach((p) => anota(`${url} (movimento ligado)`, p));
   }
   await contexto.close();
+}
+
+/* ---------------------------------------------- consentimento de cookies */
+/**
+ * Só roda quando o dist/ foi gerado com um ID do GA4 (o ID vem do próprio
+ * HTML, não do ambiente: testa o que vai ser publicado).
+ *
+ * Os pedidos ao Google são interceptados e respondidos aqui — nenhum dado
+ * sai de verdade e o teste não depende de rede. O gtag.js de mentira só
+ * marca que foi baixado; o que importa é QUANDO ele é pedido e o que o site
+ * pôs no dataLayer.
+ */
+const ga4 = (await readFile(new URL('../dist/index.html', import.meta.url), 'utf8')).match(/data-ga4="([^"]+)"/)?.[1];
+if (ga4) {
+  const onde = 'consentimento';
+  const GOOGLE = /^https:\/\/([a-z0-9-]+\.)*(googletagmanager\.com|google-analytics\.com|analytics\.google\.com)\//;
+  const contexto = await navegador.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  let pedidos = [];
+  await contexto.route(GOOGLE, (rota) => {
+    const url = rota.request().url();
+    pedidos.push(url);
+    const gtag = url.startsWith('https://www.googletagmanager.com/gtag/js');
+    return rota.fulfill({ status: gtag ? 200 : 204, contentType: 'text/javascript', body: gtag ? 'window.__gtagBaixado = (window.__gtagBaixado || 0) + 1;' : '' });
+  });
+  await contexto.addInitScript(() => {
+    window.__violacoes = [];
+    document.addEventListener('securitypolicyviolation', (e) => window.__violacoes.push(`${e.violatedDirective} ${e.blockedURI || ''}`));
+  });
+  const pagina = await contexto.newPage();
+  const erros = [];
+  pagina.on('console', (msg) => msg.type() === 'error' && erros.push(msg.text()));
+  pagina.on('pageerror', (e) => erros.push(String(e)));
+
+  const aviso = '[data-cookies]';
+  const visivel = () => pagina.isVisible(aviso);
+  const camadas = () =>
+    pagina.evaluate(() => (window.dataLayer || []).map((item) => Array.from(item)));
+  const pedidosGtag = () => pedidos.filter((u) => u.startsWith('https://www.googletagmanager.com/gtag/js'));
+  const escolhaGuardada = () =>
+    pagina.evaluate(() => JSON.parse(localStorage.getItem('casa-eme:cookies') || 'null')?.escolha ?? null);
+
+  /* 1. Primeira visita: o aviso aparece e nada do Google é pedido. */
+  await pagina.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+  if (!(await visivel())) anota(onde, 'o aviso não aparece na primeira visita');
+  if (pedidos.length) anota(onde, `pedido ao Google antes de qualquer escolha: ${pedidos[0]}`);
+  if ((await camadas()).length) anota(onde, 'dataLayer preenchido antes de qualquer escolha');
+
+  /* O botão fixo do WhatsApp não pode ficar por baixo do aviso no celular. */
+  await pagina.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight / 2));
+  await pagina.waitForTimeout(700);
+  const cobre = await pagina.evaluate(() => {
+    const a = document.querySelector('[data-cookies]').getBoundingClientRect();
+    const w = document.querySelector('[data-wa-fixo]').getBoundingClientRect();
+    return w.bottom > a.top + 1;
+  });
+  if (cobre) anota(onde, 'o aviso cobre o botão fixo do WhatsApp no celular');
+
+  /* 2. Recusar: o aviso some, a escolha fica, e a página seguinte não pede nada. */
+  await pagina.click('[data-cookies-recusar]');
+  if (await visivel()) anota(onde, 'o aviso não fecha ao recusar');
+  if ((await escolhaGuardada()) !== 'recusado') anota(onde, 'a recusa não foi guardada');
+  await pagina.goto(`${BASE}/servicos/`, { waitUntil: 'networkidle' });
+  if (await visivel()) anota(onde, 'o aviso volta depois de recusado');
+  if (pedidos.length) anota(onde, `pedido ao Google depois de recusar: ${pedidos[0]}`);
+
+  /* 3. Rever pelo rodapé e aceitar: o gtag.js é pedido uma vez, com o ID certo,
+        e o foco volta ao botão de onde a pessoa saiu. */
+  await pagina.click('.rodape [data-cookies-abrir]');
+  if (!(await visivel())) anota(onde, '"Preferências de cookies" não reabre o aviso');
+  if (!(await pagina.evaluate(() => document.activeElement?.matches('[data-cookies]'))))
+    anota(onde, 'o foco não vai para o aviso reaberto');
+  if (!(await pagina.textContent('[data-cookies-estado]'))?.includes('recusou'))
+    anota(onde, 'o aviso reaberto não mostra a escolha atual');
+  await pagina.click('[data-cookies-aceitar]');
+  await pagina.waitForFunction(() => window.__gtagBaixado === 1, null, { timeout: 5000 }).catch(() => {});
+  if (pedidosGtag().length !== 1) anota(onde, `gtag.js pedido ${pedidosGtag().length} vez(es) depois do aceite (esperado: 1)`);
+  else if (!pedidosGtag()[0].endsWith(`?id=${ga4}`)) anota(onde, `gtag.js pedido com outro ID: ${pedidosGtag()[0]}`);
+  if (!(await pagina.evaluate(() => document.activeElement?.matches('.rodape [data-cookies-abrir]'))))
+    anota(onde, 'o foco não volta ao botão de preferências');
+
+  const conferirCamadas = async (pagina_) => {
+    const itens = await camadas();
+    const padrao = itens.find(([c, t]) => c === 'consent' && t === 'default')?.[2];
+    if (!padrao || padrao.analytics_storage !== 'granted' || padrao.ad_storage !== 'denied' || padrao.ad_user_data !== 'denied' || padrao.ad_personalization !== 'denied')
+      anota(`${onde} ${pagina_}`, `consentimento padrão inesperado: ${JSON.stringify(padrao)}`);
+    const configs = itens.filter(([c, alvo]) => c === 'config' && alvo === ga4);
+    if (configs.length !== 1) anota(`${onde} ${pagina_}`, `${configs.length} config(s) do GA4 (esperado: 1 — uma visualização por página)`);
+    const opcoes = configs[0]?.[2] || {};
+    if (opcoes.allow_google_signals !== false || opcoes.allow_ad_personalization_signals !== false)
+      anota(`${onde} ${pagina_}`, `Google Signals ou personalização de anúncios ligados: ${JSON.stringify(opcoes)}`);
+  };
+  await conferirCamadas('/servicos/');
+
+  /* 4. Página seguinte, já aceito: o GA4 carrega sozinho, uma vez, sem aviso. */
+  pedidos = [];
+  await pagina.goto(`${BASE}/contato/`, { waitUntil: 'networkidle' });
+  if (await visivel()) anota(onde, 'o aviso volta depois de aceito');
+  if (pedidosGtag().length !== 1) anota(onde, `gtag.js pedido ${pedidosGtag().length} vez(es) na página seguinte (esperado: 1)`);
+  await conferirCamadas('/contato/');
+
+  /* 5. Voltar atrás: o envio é cortado na hora e os cookies do GA4 somem. */
+  await pagina.evaluate((id) => {
+    document.cookie = '_ga=GA1.1.111.222; path=/';
+    document.cookie = `_ga_${id.slice(2)}=GS1.1.333; path=/`;
+  }, ga4);
+  await pagina.click('.rodape [data-cookies-abrir]');
+  /* Com escolha feita, o Esc fecha sem mudar nada. */
+  await pagina.keyboard.press('Escape');
+  if (await visivel()) anota(onde, 'o Esc não fecha o aviso reaberto');
+  await pagina.click('.rodape [data-cookies-abrir]');
+  await pagina.click('[data-cookies-recusar]');
+  const depois = await pagina.evaluate((id) => ({
+    desligado: window[`ga-disable-${id}`] === true,
+    cookies: document.cookie,
+    atualizacao: (window.dataLayer || []).map((i) => Array.from(i)).some(([c, t, v]) => c === 'consent' && t === 'update' && v?.analytics_storage === 'denied'),
+  }), ga4);
+  if (!depois.desligado) anota(onde, 'recusar depois de aceitar não corta o envio (ga-disable)');
+  if (!depois.atualizacao) anota(onde, 'recusar depois de aceitar não atualiza o consentimento para denied');
+  if (/(^|;\s*)_ga/.test(depois.cookies)) anota(onde, `cookies do GA4 continuam depois da recusa: ${depois.cookies}`);
+  if ((await escolhaGuardada()) !== 'recusado') anota(onde, 'a nova recusa não foi guardada');
+
+  pedidos = [];
+  await pagina.goto(`${BASE}/privacidade/`, { waitUntil: 'networkidle' });
+  if (pedidos.length) anota(onde, `pedido ao Google depois de voltar atrás: ${pedidos[0]}`);
+  /* O botão da própria política também reabre o aviso. */
+  await pagina.click('.prosa [data-cookies-abrir]');
+  if (!(await visivel())) anota(onde, '"Rever minha escolha", na privacidade, não reabre o aviso');
+
+  /* 6. Escolha vencida: depois do prazo, a pergunta volta e nada carrega antes. */
+  await pagina.evaluate(() =>
+    localStorage.setItem('casa-eme:cookies', JSON.stringify({ escolha: 'aceito', versao: 1, data: '2000-01-01T00:00:00.000Z' }))
+  );
+  pedidos = [];
+  await pagina.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+  if (!(await visivel())) anota(onde, 'escolha vencida não faz o aviso voltar');
+  if (pedidos.length) anota(onde, 'escolha vencida ainda carrega o GA4');
+
+  const violacoes = await pagina.evaluate(() => window.__violacoes || []);
+  violacoes.forEach((v) => anota(onde, `violação de CSP: ${v}`));
+  erros.forEach((e) => anota(onde, `console: ${e.slice(0, 160)}`));
+
+  /* 7. No fim da página, em qualquer largura, o botão fixo do WhatsApp não
+        cobre "Preferências de cookies" — é o caminho para voltar atrás. */
+  for (const largura of LARGURAS) {
+    const ctx = await navegador.newContext({ viewport: { width: largura, height: 900 }, isMobile: largura < 768, hasTouch: largura < 768 });
+    await ctx.route(GOOGLE, (rota) => rota.fulfill({ status: 204, body: '' }));
+    await ctx.addInitScript(() =>
+      localStorage.setItem('casa-eme:cookies', JSON.stringify({ escolha: 'recusado', versao: 1, data: new Date().toISOString() }))
+    );
+    const p = await ctx.newPage();
+    await p.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+    await p.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    await p.waitForTimeout(700);
+    const coberto = await p.evaluate(() => {
+      const botao = document.querySelector('.rodape [data-cookies-abrir]');
+      const r = botao.getBoundingClientRect();
+      return [r.left + 2, r.left + r.width / 2, r.right - 2].some((x) => !botao.contains(document.elementFromPoint(x, r.top + r.height / 2)));
+    });
+    if (coberto) anota(`${onde} @${largura}`, '"Preferências de cookies" coberto no fim da página');
+    await ctx.close();
+  }
+
+  /* 8. Sem JavaScript: nem aviso, nem botão de preferências, nem Google. */
+  const semJs = await navegador.newContext({ javaScriptEnabled: false });
+  const pedidosSemJs = [];
+  await semJs.route(GOOGLE, (rota) => (pedidosSemJs.push(rota.request().url()), rota.abort()));
+  const paginaSemJs = await semJs.newPage();
+  await paginaSemJs.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+  if (await paginaSemJs.isVisible(aviso)) anota(`${onde} sem JS`, 'o aviso aparece sem JavaScript');
+  if (await paginaSemJs.isVisible('.rodape [data-cookies-abrir]')) anota(`${onde} sem JS`, 'o botão de preferências aparece sem JavaScript');
+  if (pedidosSemJs.length) anota(`${onde} sem JS`, `pedido ao Google: ${pedidosSemJs[0]}`);
+  await semJs.close();
+
+  await contexto.close();
+  console.log(`qa: consentimento de cookies conferido (${ga4})`);
 }
 
 await navegador.close();

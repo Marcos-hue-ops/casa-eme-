@@ -1,0 +1,132 @@
+/**
+ * Aviso de cookies — só existe com o Google Analytics ligado.
+ *
+ * No celular, uma faixa café no pé da tela (o botão fixo do WhatsApp sobe
+ * junto, ver wa-fixo.css); no desktop, um cartão no canto esquerdo, longe do
+ * botão fixo. Os dois botões são iguais de propósito: recusar tem o mesmo
+ * peso de aceitar.
+ *
+ * Fica abaixo do menu do celular e da ampliação de fotos: quem abriu um dos
+ * dois quer aquilo, e o aviso continua lá quando fechar.
+ */
+.cookies {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: var(--z-aviso);
+  display: grid;
+  gap: var(--e-2);
+  padding: var(--e-3) var(--margem) max(var(--e-3), env(safe-area-inset-bottom));
+  background-color: var(--cafe);
+  color: var(--creme-texto);
+  font-size: var(--t-pequeno);
+  line-height: 1.55;
+  box-shadow: 0 -10px 30px -18px rgb(42 30 20 / 0.55);
+  animation: cookies-entra var(--medio) var(--curva);
+}
+
+.cookies:focus-visible {
+  outline-color: var(--mel-claro);
+  outline-offset: -4px;
+}
+
+.cookies__titulo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: var(--t-mini);
+  font-weight: 500;
+  letter-spacing: var(--versal);
+  text-transform: uppercase;
+  color: var(--mel-claro);
+}
+
+/* O fio curto dourado dos rótulos de seção. */
+.cookies__titulo::before {
+  content: '';
+  inline-size: 1.75rem;
+  block-size: 1px;
+  background-color: var(--mel);
+  flex: none;
+}
+
+.cookies__texto a {
+  color: var(--mel-claro);
+  text-decoration: underline;
+}
+
+.cookies__estado {
+  color: var(--creme-texto-2);
+  font-size: var(--t-mini);
+}
+
+.cookies__acoes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--e-1);
+}
+
+.cookies :focus-visible {
+  outline-color: var(--mel-claro);
+}
+
+@keyframes cookies-entra {
+  from {
+    opacity: 0;
+    translate: 0 1rem;
+  }
+}
+
+@media (min-width: 48rem) {
+  .cookies {
+    inset-inline: var(--e-3) auto;
+    inset-block-end: max(var(--e-3), env(safe-area-inset-bottom));
+    max-inline-size: 27rem;
+    padding: var(--e-3);
+    border: 1px solid var(--fio-noite);
+    border-radius: var(--raio);
+    box-shadow: 0 10px 30px -12px rgb(42 30 20 / 0.55);
+  }
+}
+
+/* Botão "Preferências de cookies" do rodapé: veste-se como o link ao lado. */
+.rodape__preferencias {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-inline-start: 0.5rem;
+}
+
+.rodape__botao {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--creme-texto-2);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.rodape__botao:hover {
+  color: var(--mel-claro);
+}
+
+/* No desktop, quando a página chega ao fim, o botão fixo do WhatsApp para
+   sobre o canto direito da última linha do rodapé — onde ficam "Privacidade"
+   e "Preferências de cookies". O rodapé ganha embaixo a altura do botão, e o
+   caminho para rever a escolha nunca fica coberto. */
+@media (min-width: 64rem) {
+  .rodape:has([data-cookies-abrir]) {
+    padding-block-end: calc(var(--e-4) + 3.5rem);
+  }
+}
+
+/* Sem JavaScript, o aviso não aparece e o Analytics não carrega: não há o
+   que rever, e um botão que não faz nada só confundiria. */
+.no-js .rodape__preferencias,
+.no-js [data-cookies-abrir] {
+  display: none;
+}

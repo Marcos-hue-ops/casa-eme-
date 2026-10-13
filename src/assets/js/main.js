@@ -3,8 +3,10 @@
  * seu elemento na página — todas as páginas carregam o mesmo arquivo, sem
  * verificação de rota.
  *
- * Nada aqui lê, grava ou envia dado de quem visita: não há cookie, não há
- * localStorage, não há requisição para terceiros.
+ * Nada aqui lê, grava ou envia dado de quem visita, com uma exceção, que só
+ * existe quando o build tem um ID do Google Analytics: o aviso de cookies
+ * (modules/cookies.js) guarda a escolha da pessoa no localStorage e, só
+ * depois do "Aceitar", carrega o GA4.
  */
 import { cabecalho } from './modules/header.js';
 import { revelar } from './modules/reveal.js';
@@ -15,8 +17,9 @@ import { mapa } from './modules/map.js';
 import { lupa } from './modules/lightbox.js';
 import { manifesto } from './modules/manifesto.js';
 import { galeria } from './modules/galeria.js';
+import { cookies } from './modules/cookies.js';
 
-const modulos = [cabecalho, revelar, faq, horarios, flutuante, mapa, lupa, manifesto, galeria];
+const modulos = [cookies, cabecalho, revelar, faq, horarios, flutuante, mapa, lupa, manifesto, galeria];
 
 /* Um módulo com erro não derruba os outros. */
 for (const modulo of modulos) {

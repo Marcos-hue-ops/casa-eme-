@@ -24,6 +24,26 @@
   margin-block-start: var(--e-2);
 }
 
+/* Listas e nomes técnicos da página de privacidade (cookies, armazenamento). */
+.texto-longo ul:not([class]) {
+  max-inline-size: 42rem;
+  padding-inline-start: 1.25rem;
+  color: var(--texto-2);
+}
+
+.texto-longo li + li {
+  margin-block-start: var(--e-1);
+}
+
+.texto-longo li::marker {
+  color: var(--mel);
+}
+
+.texto-longo code {
+  font-size: 0.9em;
+  overflow-wrap: anywhere;
+}
+
 .texto-longo .texto-longo__lead {
   font-size: var(--t-lead);
   color: var(--cafe);

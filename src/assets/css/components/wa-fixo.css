@@ -6,8 +6,13 @@
 .wa-fixo {
   position: fixed;
   /* `--aviso-cookies`: altura do aviso de cookies enquanto ele está aberto
-     (cookies.js). No celular o aviso ocupa o pé da tela e o botão sobe. */
+     (cookies.js). No celular o aviso ocupa o pé da tela e o botão sobe —
+     mas, no celular deitado, só até logo abaixo do cabeçalho. */
   inset-block-end: calc(max(1rem, env(safe-area-inset-bottom)) + var(--aviso-cookies, 0px));
+  inset-block-end: min(
+    calc(max(1rem, env(safe-area-inset-bottom)) + var(--aviso-cookies, 0px)),
+    calc(100dvh - var(--altura-cab) - 4.5rem)
+  );
   inset-inline-end: max(1rem, env(safe-area-inset-right));
   z-index: var(--z-flutuante);
   display: inline-flex;
@@ -63,6 +68,21 @@
   opacity: 1;
   translate: 0 0;
   visibility: visible;
+}
+
+/* Com o aviso de cookies aberto no celular, o botão principal da primeira
+   dobra pode ficar por baixo dele: o fixo aparece já, logo acima do aviso. */
+@media (max-width: 47.99rem) {
+  .com-aviso .wa-fixo {
+    opacity: 1;
+    translate: 0 0;
+    visibility: visible;
+    transition:
+      opacity var(--medio) var(--curva),
+      translate var(--medio) var(--curva),
+      visibility 0s,
+      background-color var(--rapido) var(--curva);
+  }
 }
 
 @media (min-width: 48rem) {

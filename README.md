@@ -604,8 +604,8 @@ Environment Variables*, só no ambiente *Production*.
 Para testar localmente:
 `GA_MEASUREMENT_ID=G-X15KSL351K npm run build && GA_MEASUREMENT_ID=G-X15KSL351K npm test && npm run qa`.
 O `npm run qa` percorre o aviso inteiro (recusar, aceitar, voltar atrás,
-escolha vencida, sem JavaScript) com os pedidos ao Google interceptados:
-nenhum dado sai.
+recusa feita em outra aba, escolha vencida, sem JavaScript) com os pedidos ao
+Google interceptados: nenhum dado sai.
 
 ### Ajustes no painel do GA4 (uma vez)
 
@@ -619,11 +619,20 @@ Em [analytics.google.com](https://analytics.google.com) →
    (`#conteudo`, perguntas do FAQ) nunca conta como página nova.
 2. **Coleta de dados → Coleta de dados do Google Signals:** deixe
    desativada (o site já desliga pelo código; o painel fica coerente).
-3. **Retenção de dados:** 2 ou 14 meses. A política de privacidade diz
-   "no máximo 14 meses", que vale para as duas opções.
+3. **Retenção de dados:** 14 meses (ou 2). A política de privacidade diz
+   "até 14 meses depois da sua última visita", que vale com **"Redefinir
+   dados do usuário em uma nova atividade"** ligado ou desligado.
 4. **Vinculações de produtos:** não vincule Google Ads nem outro produto de
    anúncio sem antes mudar a política de privacidade e subir a `versao` do
    aviso.
+5. **Configurações da conta → Termos de processamento de dados:** revise e
+   aceite. A política diz que o Google trata os dados *em nome* da Casa EME
+   (operador), conforme esses termos.
+6. **Configurações da conta → Configurações de compartilhamento de dados:**
+   desmarque **"Produtos e serviços do Google"** e **"Contribuições para
+   modelagem e insights de negócios"** (no máximo, deixe "Suporte técnico").
+   Com elas marcadas, o Google usa os dados também por conta própria, e a
+   política deixa de ser verdade.
 
 ### Conferir se está medindo
 
@@ -636,10 +645,17 @@ da implantação no hPanel):
    um `collect?…&en=page_view`. Troque de página: **um** `page_view` por
    página.
 3. No GA4, **Relatórios → Tempo real**: a visita aparece em até um minuto.
-4. No [Tag Assistant](https://tagassistant.google.com), **Add domain** →
-   `https://casaememoema.com.br` → **Connect**. Na aba aberta, aceite no
-   aviso: o Tag Assistant mostra a tag `G-X15KSL351K`, uma só, e o evento
-   `page_view`. A mesma sessão aparece em **Administrador → DebugView**.
+4. **Opcional — Tag Assistant.** No Chrome, instale antes a extensão
+   **Tag Assistant Companion**; depois, em
+   [tagassistant.google.com](https://tagassistant.google.com), **Add
+   domain** → `https://casaememoema.com.br` → **Connect**. Na aba aberta,
+   aceite no aviso: o Tag Assistant mostra a tag `G-X15KSL351K`, uma só, e o
+   evento `page_view`, e a mesma sessão aparece em **Administrador →
+   DebugView**. Sem a extensão ele pode não conectar: o site manda
+   `Cross-Origin-Opener-Policy: same-origin`, que corta o vínculo com a
+   janela aberta pelo Tag Assistant. Isso **não** quer dizer que o GA4 esteja
+   parado — a conferência que vale é a dos passos 2 e 3. Não afrouxe o
+   cabeçalho para este teste.
 5. Outra janela anônima, **Recusar**: nenhum pedido ao Google, e nada no
    Tempo real.
 6. No rodapé, **Preferências de cookies** reabre o aviso.
@@ -849,7 +865,7 @@ outros melhoram o site, mas não impedem a publicação.
 - [ ] Domínio apontando para a hospedagem que publica o site (Hostinger), SSL ativo e "Forçar HTTPS" ligado
 - [ ] `robots.txt` do domínio com `Allow: /`
 - [ ] Search Console verificado e `sitemap.xml` enviado
-- [ ] GA4: ajustes do painel feitos e coleta conferida no Tempo real e no Tag Assistant (seção 9)
+- [ ] GA4: ajustes do painel feitos e coleta conferida na aba Rede e no Tempo real (seção 9)
 - [ ] Site cadastrado no Perfil da Empresa no Google, com NAP idêntico
 
 ---

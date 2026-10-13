@@ -351,6 +351,9 @@ if (analytics.ativo) {
     ok(politica.includes(trecho), `privacidade explica: "${trecho}"`);
   }
   ok(!/não usa cookies/i.test(politica), 'privacidade não diz mais que o site não usa cookies');
+  for (const [nome, conteudo] of Object.entries(html)) {
+    ok(!/nenhum dado sai do seu navegador/i.test(textoDe(conteudo)), `${nome}: nenhuma frase diz que nada sai do navegador (falso depois do aceite)`);
+  }
 } else {
   for (const [nome, conteudo] of Object.entries(html)) {
     ok(!conteudo.includes('data-cookies'), `${nome}: sem aviso de cookies`);

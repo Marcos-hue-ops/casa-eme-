@@ -16,6 +16,8 @@
  *    cookies do Analytics apagados;
  *  • a escolha vale pela versão do aviso e por um prazo (`data-versao`,
  *    `data-validade`); passado o prazo ou mudada a versão, a pergunta volta;
+ *  • a escolha feita numa aba vale nas outras já abertas e na página que o
+ *    navegador devolve do cache ao voltar: recusar lá desliga aqui;
  *  • uma página é uma visualização: o site não tem navegação por JavaScript,
  *    então o `page_view` automático do `config` é o único que sai.
  *
@@ -129,8 +131,10 @@ export function cookies() {
   const raiz = document.documentElement;
   let voltarPara = null;
 
-  /* No celular o aviso é uma faixa no pé da tela: a altura dela sobe o botão
-     fixo do WhatsApp, que senão ficaria por baixo (wa-fixo.css). */
+  /* Enquanto o aviso está aberto, `.com-aviso` e a altura dele (`--aviso-cookies`)
+     ficam na raiz: o botão fixo do WhatsApp sobe e aparece acima dele no
+     celular (wa-fixo.css), e o fim da página e o foco do teclado não ficam
+     por baixo dele (cookies.css). */
   const medir = () => raiz.style.setProperty('--aviso-cookies', `${aviso.offsetHeight}px`);
   const observador = 'ResizeObserver' in window ? new ResizeObserver(medir) : null;
 
@@ -138,6 +142,7 @@ export function cookies() {
     estado.textContent = TEXTO_ESTADO[atual] || '';
     estado.hidden = !atual;
     aviso.hidden = false;
+    raiz.classList.add('com-aviso');
     medir();
     observador?.observe(aviso);
   };
@@ -145,6 +150,7 @@ export function cookies() {
   const esconder = () => {
     aviso.hidden = true;
     observador?.disconnect();
+    raiz.classList.remove('com-aviso');
     raiz.style.removeProperty('--aviso-cookies');
     /* Quem abriu pelas preferências volta para o botão de onde saiu. */
     if (voltarPara) voltarPara.focus();
@@ -172,6 +178,24 @@ export function cookies() {
       mostrar(lerEscolha(versao, validade));
       aviso.focus({ preventScroll: true });
     });
+  });
+
+  /* A escolha pode mudar em outra aba, ou enquanto esta página esperava no
+     cache de voltar/avançar. Recusa lá desliga aqui; aceite lá vale aqui; e o
+     aviso aberto sozinho fecha, porque a pergunta já foi respondida. Só a
+     recusa gravada desliga: um aceite que valeu só para esta página
+     (armazenamento bloqueado) não é desfeito. */
+  const reavaliar = () => {
+    const atual = lerEscolha(versao, validade);
+    if (atual === 'recusado' && carregado) desligarAnalytics(id);
+    if (atual === 'aceito') ligarAnalytics(id);
+    if (atual && !aviso.hidden && !voltarPara) esconder();
+  };
+  window.addEventListener('storage', (evento) => {
+    if (evento.key === CHAVE || evento.key === null) reavaliar();
+  });
+  window.addEventListener('pageshow', (evento) => {
+    if (evento.persisted) reavaliar();
   });
 
   const escolha = lerEscolha(versao, validade);

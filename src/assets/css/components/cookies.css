@@ -7,7 +7,12 @@
  * peso de aceitar.
  *
  * Fica abaixo do menu do celular e da ampliação de fotos: quem abriu um dos
- * dois quer aquilo, e o aviso continua lá quando fechar.
+ * dois quer aquilo, e o aviso continua lá quando fechar. Fica abaixo também
+ * do botão fixo do WhatsApp, que sobe acima dele (e, no celular deitado, só
+ * até o cabeçalho, já por cima do canto do aviso).
+ *
+ * Com zoom alto, o aviso nunca passa da altura da tela: o texto rola dentro
+ * dele, e o título e os botões continuam alcançáveis.
  */
 .cookies {
   position: fixed;
@@ -22,6 +27,10 @@
   font-size: var(--t-pequeno);
   line-height: 1.55;
   box-shadow: 0 -10px 30px -18px rgb(42 30 20 / 0.55);
+  max-block-size: calc(100vh - var(--altura-cab));
+  max-block-size: calc(100dvh - var(--altura-cab));
+  overflow-y: auto;
+  overscroll-behavior: contain;
   animation: cookies-entra var(--medio) var(--curva);
 }
 
@@ -82,6 +91,8 @@
     inset-inline: var(--e-3) auto;
     inset-block-end: max(var(--e-3), env(safe-area-inset-bottom));
     max-inline-size: 27rem;
+    max-block-size: calc(100vh - var(--altura-cab) - 2 * var(--e-3));
+    max-block-size: calc(100dvh - var(--altura-cab) - 2 * var(--e-3));
     padding: var(--e-3);
     border: 1px solid var(--fio-noite);
     border-radius: var(--raio);
@@ -114,6 +125,17 @@
   color: var(--mel-claro);
 }
 
+/* Enquanto o aviso está aberto (`.com-aviso` na raiz, posto pelo cookies.js),
+   nada fica preso por baixo dele: o fim da página sobe acima do aviso, e o
+   navegador rola o foco do teclado e as âncoras para fora dele. */
+.com-aviso {
+  scroll-padding-block-end: calc(var(--aviso-cookies, 0px) + 1rem);
+}
+
+.com-aviso .rodape {
+  padding-block-end: calc(var(--e-4) + var(--aviso-cookies, 0px));
+}
+
 /* No desktop, quando a página chega ao fim, o botão fixo do WhatsApp para
    sobre o canto direito da última linha do rodapé — onde ficam "Privacidade"
    e "Preferências de cookies". O rodapé ganha embaixo a altura do botão, e o
@@ -121,6 +143,10 @@
 @media (min-width: 64rem) {
   .rodape:has([data-cookies-abrir]) {
     padding-block-end: calc(var(--e-4) + 3.5rem);
+  }
+
+  .com-aviso .rodape:has([data-cookies-abrir]) {
+    padding-block-end: calc(var(--e-4) + max(3.5rem, var(--aviso-cookies, 0px)));
   }
 }
 

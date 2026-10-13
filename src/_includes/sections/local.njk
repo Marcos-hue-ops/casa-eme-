@@ -43,7 +43,7 @@
           <circle cx="100" cy="100" r="98"/><circle cx="100" cy="100" r="88"/><circle cx="100" cy="100" r="4"/>
         </svg>
         <p class="mapa__rua">{{ business.address.street }}</p>
-        <p class="mapa__aviso">O mapa é do Google e só carrega se você pedir — até lá, nenhum dado sai do seu navegador.</p>
+        <p class="mapa__aviso">O mapa é do Google e só carrega se você pedir — até lá, {% if analytics.ativo %}o Google Maps não recebe nada do seu acesso{% else %}nenhum dado sai do seu navegador{% endif %}.</p>
         <button type="button" class="btn btn--linha" data-mapa-abrir>{% icon "mapa" %}<span>Mostrar o mapa</span></button>
       </div>
     </div>

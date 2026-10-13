@@ -469,6 +469,18 @@ if (ga4) {
   if (/(^|;\s*)_ga/.test(depois.cookies)) anota(onde, `cookies do GA4 continuam depois da recusa: ${depois.cookies}`);
   if ((await escolhaGuardada()) !== 'recusado') anota(onde, 'a nova recusa não foi guardada');
 
+  /* 5b. Recusa feita em outra aba desliga esta, que continua aberta. */
+  await pagina.click('.rodape [data-cookies-abrir]');
+  await pagina.click('[data-cookies-aceitar]');
+  const outraAba = await contexto.newPage();
+  await outraAba.goto(`${BASE}/sobre/`, { waitUntil: 'networkidle' });
+  await outraAba.click('.rodape [data-cookies-abrir]');
+  await outraAba.click('[data-cookies-recusar]');
+  await pagina.waitForFunction((id) => window[`ga-disable-${id}`] === true, ga4, { timeout: 3000 }).catch(() => {});
+  if (!(await pagina.evaluate((id) => window[`ga-disable-${id}`] === true, ga4)))
+    anota(onde, 'recusar em outra aba não desliga o GA4 na aba que já estava aberta');
+  await outraAba.close();
+
   pedidos = [];
   await pagina.goto(`${BASE}/privacidade/`, { waitUntil: 'networkidle' });
   if (pedidos.length) anota(onde, `pedido ao Google depois de voltar atrás: ${pedidos[0]}`);
@@ -507,6 +519,48 @@ if (ga4) {
       return [r.left + 2, r.left + r.width / 2, r.right - 2].some((x) => !botao.contains(document.elementFromPoint(x, r.top + r.height / 2)));
     });
     if (coberto) anota(`${onde} @${largura}`, '"Preferências de cookies" coberto no fim da página');
+    await ctx.close();
+  }
+
+  /* 7b. Com o aviso ainda aberto: no celular o botão fixo do WhatsApp aparece
+         acima dele; no fim da página nada do rodapé fica por baixo dele; com
+         zoom de 400% (320×256) o título continua na tela; no celular deitado
+         o botão fixo não sobe para baixo do cabeçalho. */
+  for (const [largura, altura, url] of [[320, 568, '/contato/'], [375, 667, '/'], [768, 1024, '/contato/'], [320, 256, '/'], [568, 320, '/servicos/']]) {
+    const ctx = await navegador.newContext({ viewport: { width: largura, height: altura }, isMobile: largura < 768, hasTouch: largura < 768 });
+    await ctx.route(GOOGLE, (rota) => rota.fulfill({ status: 204, body: '' }));
+    const p = await ctx.newPage();
+    const aqui = `${onde} ${url} @${largura}×${altura}`;
+    await p.goto(`${BASE}${url}`, { waitUntil: 'networkidle' });
+    await p.waitForTimeout(500);
+    const r = await p.evaluate(() => {
+      const aviso = document.querySelector('[data-cookies]').getBoundingClientRect();
+      const wa = document.querySelector('[data-wa-fixo]');
+      const estiloWa = getComputedStyle(wa);
+      return {
+        topoAviso: aviso.top,
+        waVisivel: estiloWa.visibility === 'visible' && Number(estiloWa.opacity) > 0.9,
+        waTopo: wa.getBoundingClientRect().top,
+        cab: document.querySelector('.cab')?.getBoundingClientRect().bottom ?? 0,
+      };
+    });
+    if (largura < 768 && altura > 400 && !r.waVisivel) anota(aqui, 'aviso aberto no celular sem o botão fixo do WhatsApp');
+    if (r.topoAviso < 0) anota(aqui, `o aviso passa da altura da tela (começa em ${Math.round(r.topoAviso)}px)`);
+    if (r.waVisivel && r.waTopo < r.cab) anota(aqui, 'o botão fixo do WhatsApp subiu para baixo do cabeçalho');
+    if (altura > 400) {
+      await p.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+      await p.waitForTimeout(700);
+      const cobertos = await p.evaluate(() =>
+        [...document.querySelectorAll('.rodape__base a, .rodape__base button')]
+          .filter((el) => el.getClientRects().length)
+          .filter((el) => {
+            const b = el.getBoundingClientRect();
+            return document.elementFromPoint(b.left + b.width / 2, b.top + b.height / 2)?.closest('[data-cookies]');
+          })
+          .map((el) => el.textContent.trim())
+      );
+      if (cobertos.length) anota(aqui, `no fim da página, o aviso cobre: ${cobertos.join(', ')}`);
+    }
     await ctx.close();
   }
 

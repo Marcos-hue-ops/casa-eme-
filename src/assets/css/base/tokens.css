@@ -86,8 +86,8 @@
   /* Camadas */
   --z-cab: 40;
   --z-painel: 35;
+  --z-aviso: 29;             /* aviso de cookies: abaixo do botão do WhatsApp e do menu */
   --z-flutuante: 30;
-  --z-aviso: 33;             /* aviso de cookies: acima do WhatsApp, abaixo do menu */
   --z-lupa: 60;
 
   --altura-cab: 4rem;

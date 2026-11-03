@@ -474,6 +474,17 @@ if (outubroRosa.ativo) {
   ok(Boolean(secao), 'home: seção Outubro Rosa');
   ok(textoDe(secao).includes(outubroRosa.aviso), 'Outubro Rosa: aviso de que não substitui acompanhamento médico');
   ok(!secao.includes('wa.me'), 'Outubro Rosa: sem botão de agendamento');
+} else {
+  /* Desligado: nenhum rastro — nem seção, nem título, nem link do INCA, nem
+     espaço reservado entre a galeria e as perguntas frequentes. */
+  for (const [nome, conteudo] of Object.entries(html)) {
+    ok(!/class="rosa|Outubro Rosa|gov\.br\/inca/i.test(conteudo), `${nome}: sem Outubro Rosa`);
+  }
+  const antesDasDuvidas = html['index.html'].slice(0, html['index.html'].indexOf('<section class="duvidas"'));
+  ok(
+    antesDasDuvidas.slice(antesDasDuvidas.lastIndexOf('<section ')).startsWith('<section class="mostra"') && /<\/section>\s*$/.test(antesDasDuvidas),
+    'home: a galeria passa direto para as perguntas frequentes'
+  );
 }
 
 /* Telefone: um só, o da casa. O pessoal da Dra. Rejane (que aparece nas artes

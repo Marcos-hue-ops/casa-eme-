@@ -147,7 +147,7 @@ explicando os campos. Mude, rode `npm run build`, confira e publique.
 | **Manifesto "Por que Casa EME?"** | `src/_data/manifesto.js` | texto da própria casa |
 | **Depoimentos** (vídeo e texto) | `src/_data/depoimentos.js` | só depoimentos reais, sem mudar o sentido; o vídeo tem transcrição e legendas (`src/assets/video/*.vtt`) |
 | **Diferenciais (página Sobre)** | `src/_data/diferenciais.js` | |
-| **Outubro Rosa** (texto, link, ligar/desligar) | `src/_data/outubroRosa.js` | `ativo: false` tira a seção |
+| **Outubro Rosa** (texto, link, ligar/desligar) | `src/_data/outubroRosa.js` | hoje desligado (`ativo: false`); `true` põe a seção de volta, entre a galeria e as dúvidas |
 | **Menu** | `src/_data/nav.js` | |
 | **Fotos da galeria e da primeira dobra** | `src/_data/galeria.js` | ver seção 4 |
 | **Título e descrição de uma página (SEO)** | front matter no topo de cada `src/*.njk` (`title`, `description`) | |
@@ -852,9 +852,11 @@ outros melhoram o site, mas não impedem a publicação.
     da Empresa no Google.
 12. **Assinaturas.** Valores e condições transcritos do story da casa.
     Revise sempre que a tabela mudar (`src/_data/assinaturas.js`).
-13. **Outubro Rosa.** Seção ligada (`src/_data/outubroRosa.js`). Desligue em
-    novembro e, no próximo outubro, atualize o link do INCA para a campanha
-    do ano.
+13. **Outubro Rosa.** Desligado em novembro de 2026, a pedido da casa
+    (`ativo: false` em `src/_data/outubroRosa.js`): a seção some da home sem
+    deixar espaço, e a galeria passa direto para as perguntas frequentes. Para
+    religar num próximo outubro, ponha `ativo: true` e atualize o link do INCA
+    para a campanha do ano.
 14. **Domínio.** Sem domínio próprio, o site funciona no endereço
     `.vercel.app`, fora do Google. Conectar o domínio libera a indexação
     (seções 6 e 7).

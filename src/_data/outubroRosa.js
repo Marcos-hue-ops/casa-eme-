@@ -4,12 +4,13 @@
  * Conscientização, não venda: não há botão de agendamento nesta seção, e
  * nada aqui sugere que um procedimento estético previna ou trate câncer.
  *
- * `ativo: false` tira a seção do site. Sugestão: desligar em novembro e
- * religar em outubro, revendo o link do INCA (a página da campanha muda de
- * endereço a cada ano).
+ * `ativo: false` tira a seção do site por inteiro: a galeria passa direto
+ * para as perguntas frequentes, sem espaço no lugar. Desligada em novembro de
+ * 2026, a pedido da casa. Para religar num próximo outubro, ponha `true` e
+ * reveja o link do INCA (a página da campanha muda de endereço a cada ano).
  */
 export default {
-  ativo: true,
+  ativo: false,
   titulo: 'Outubro Rosa: um convite ao cuidado',
   paragrafos: [
     'Beleza e saúde caminham juntas. No Outubro Rosa, a Casa EME reforça a importância da informação e da prevenção.',

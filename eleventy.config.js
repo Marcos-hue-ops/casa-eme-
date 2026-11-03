@@ -1,4 +1,5 @@
 import icons from './src/_data/icons.js';
+import analytics from './src/_data/analytics.js';
 
 /**
  * Escapa o que poderia encerrar um bloco <script> a partir de dados, para que
@@ -18,6 +19,8 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ 'src/assets/img': 'assets/img' });
   eleventyConfig.addPassthroughCopy({ 'src/assets/video': 'assets/video' });
   eleventyConfig.addPassthroughCopy({ 'src/static': '.' });
+  /* Pixel da Meta: arquivo à parte, sem passar pelo esbuild (src/_data/analytics.js). */
+  if (analytics.pixelMeta) eleventyConfig.addPassthroughCopy({ 'src/assets/js/meta-pixel.js': 'assets/js/meta-pixel.js' });
 
   eleventyConfig.addWatchTarget('./src/assets/css/');
   eleventyConfig.addWatchTarget('./src/assets/js/');

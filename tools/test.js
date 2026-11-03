@@ -351,6 +351,24 @@ if (analytics.ativo) {
     ok(politica.includes(trecho), `privacidade explica: "${trecho}"`);
   }
   ok(!/não usa cookies/i.test(politica), 'privacidade não diz mais que o site não usa cookies');
+
+  /* Pixel da Meta: arquivo próprio, carregado em todas as páginas, que só
+     chama a Meta depois do "Aceitar" do mesmo aviso. */
+  if (analytics.pixelMeta) {
+    const scriptPixel = (await readdir(path.join(DIST, 'assets/js'))).find((f) => /^meta-pixel\.[0-9a-f]{10}\.js$/.test(f));
+    ok(Boolean(scriptPixel), 'Pixel da Meta: script com impressão digital no nome');
+    for (const [nome, conteudo] of Object.entries(html)) {
+      ok(conteudo.includes(`<script type="module" src="/assets/js/${scriptPixel}"></script>`), `${nome}: carrega o script do Pixel da Meta`);
+      ok(/cookies__texto">[^<]*Pixel da Meta/.test(conteudo), `${nome}: aviso de cookies cita o Pixel da Meta`);
+    }
+    const codigoPixel = scriptPixel ? await readFile(path.join(DIST, 'assets/js', scriptPixel), 'utf8') : '';
+    ok(/function ligar\(\)[\s\S]*connect\.facebook\.net\/en_US\/fbevents\.js/.test(codigoPixel), 'Pixel da Meta: fbevents.js só é pedido dentro de ligar()');
+    ok(/e === "aceito"\) ligar\(\)/.test(codigoPixel), 'Pixel da Meta: só liga com a escolha "aceito"');
+    ok(/_fbp[\s\S]*_fbc/.test(codigoPixel) && codigoPixel.includes('max-age=0'), 'Pixel da Meta: recusar apaga _fbp e _fbc');
+    for (const trecho of ['Pixel da Meta', '_fbp', '_fbc', 'Meta Platforms', 'art. 33']) {
+      ok(politica.includes(trecho), `privacidade explica: "${trecho}"`);
+    }
+  }
   for (const [nome, conteudo] of Object.entries(html)) {
     ok(!/nenhum dado sai do seu navegador/i.test(textoDe(conteudo)), `${nome}: nenhuma frase diz que nada sai do navegador (falso depois do aceite)`);
   }
@@ -359,7 +377,10 @@ if (analytics.ativo) {
     ok(!conteudo.includes('data-cookies'), `${nome}: sem aviso de cookies`);
     ok(!/googletagmanager|google-analytics|analytics\.google/.test(conteudo), `${nome}: CSP sem domínio do Google Analytics`);
   }
-  if (cspHospedagem !== null) ok(!/googletagmanager|google-analytics/.test(cspHospedagem), 'cabeçalhos sem domínio do Google Analytics');
+  for (const [nome, conteudo] of Object.entries(html)) {
+    ok(!/facebook\.(net|com)|meta-pixel/.test(conteudo), `${nome}: sem Pixel da Meta nem domínio dela na CSP`);
+  }
+  if (cspHospedagem !== null) ok(!/googletagmanager|google-analytics|facebook/.test(cspHospedagem), 'cabeçalhos sem domínio do Google Analytics nem da Meta');
   ok(/não usa cookies/.test(politica), 'privacidade diz que o site não usa cookies');
 }
 

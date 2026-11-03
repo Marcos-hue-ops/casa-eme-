@@ -587,6 +587,33 @@ cookies.
   na CSP, e a página de privacidade volta a dizer que o site não usa cookies.
   É o que acontece nas prévias da Vercel e no build local.
 
+### Pixel da Meta (Facebook e Instagram)
+
+O site também carrega o **Pixel da Meta** (ID **`4214019418843524`**), para
+medir os anúncios da Casa EME — pelo **mesmo aviso** e só depois do mesmo
+**"Aceitar"**:
+
+- **Nada da Meta antes do aceite:** sem script, sem `fbq`, sem cookie. O
+  código fica em `src/assets/js/meta-pixel.js` (onde está o ID), segue a
+  escolha guardada pelo aviso e só então baixa o `fbevents.js`.
+- **Recusar depois de aceitar** revoga o consentimento (`fbq('consent',
+  'revoke')`) e apaga os cookies `_fbp` e `_fbc`.
+- **CSP:** entram `https://connect.facebook.net` (script e conexão) e
+  `https://www.facebook.com` (imagem e conexão), na mesma lista do Analytics
+  (`src/_data/analytics.js`). A política de privacidade tem a seção própria
+  (`/privacidade/#meta`).
+- O Pixel depende do aviso de cookies, então só existe com o Analytics
+  ligado. A `versao` do aviso subiu para 2 quando ele entrou: quem tinha
+  aceitado só o Analytics é perguntado de novo.
+- `npm run qa` confere o Pixel junto com o Analytics (pedidos à Meta também
+  interceptados).
+
+> **Mudanças no site são feitas no código** (branch
+> `claude/brave-faraday-alroh1`), nunca direto na branch `hostinger`: a
+> automação regrava a `hostinger` a cada atualização, e o que for editado só
+> lá some na próxima. O Pixel foi colocado primeiro direto na `hostinger` e
+> depois trazido para o código, para não se perder.
+
 ### Onde fica o ID
 
 A Hostinger não roda build, então não adianta variável de ambiente no hPanel:
@@ -665,15 +692,17 @@ da implantação no hPanel):
 ## 10. Segurança e privacidade
 
 - Nenhum formulário, nenhum banco de dados. O agendamento acontece no
-  WhatsApp. Cookies, só os do Google Analytics, e só depois do "Aceitar" no
-  aviso de cookies; o `localStorage` guarda apenas essa escolha (seção 9).
+  WhatsApp. Cookies, só os do Google Analytics e do Pixel da Meta, e só
+  depois do "Aceitar" no aviso de cookies; o `localStorage` guarda apenas essa
+  escolha (seção 9).
 - **Content-Security-Policy** estrita em todas as páginas: só recursos do
-  próprio domínio, mais os do Google Analytics quando ele está ligado;
+  próprio domínio, mais os do Google Analytics e da Meta quando estão ligados;
   scripts inline liberados por hash (sem `unsafe-inline`); `frame-src` só
   para o Google Maps.
 - O mapa do Google **só carrega quando a pessoa clica** em "Mostrar o mapa".
 - Fontes, CSS, JS e imagens saem do próprio domínio — nenhuma requisição a
-  terceiros no carregamento. O Google Analytics só é pedido depois do aceite.
+  terceiros no carregamento. O Google Analytics e o Pixel da Meta só são
+  pedidos depois do aceite.
 - Cabeçalhos: HSTS, `X-Content-Type-Options`, `X-Frame-Options: DENY`,
   `frame-ancestors 'none'`, `Referrer-Policy`, `Permissions-Policy`,
   `Cross-Origin-Opener-Policy`.
@@ -705,8 +734,9 @@ npm run build && npm run test && npm run qa
   serviços); `FAQPage` só no FAQ; ausência de formulário, iframe, rastreador e
   recurso de terceiros no HTML; CSP sem `unsafe-*`; com Analytics, aviso de
   cookies em toda página (escondido até o script decidir, com "Recusar" do
-  mesmo peso de "Aceitar"), domínios do Google na CSP e a política de
-  privacidade explicando o GA4; sem Analytics, nada disso; preços só os das assinaturas;
+  mesmo peso de "Aceitar"), domínios do Google e da Meta na CSP, o script do
+  Pixel em toda página e a política de privacidade explicando o GA4 e o
+  Pixel; sem Analytics, nada disso; preços só os das assinaturas;
   nenhuma frase proibida pelo briefing ("resultado garantido", "sem riscos",
   clichês, superlativos, certificações, tempo de mercado, promessa de quilos
   ou de cura capilar, a Dra. Rejane chamada de médica...); um único telefone

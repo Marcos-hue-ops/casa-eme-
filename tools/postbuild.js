@@ -39,9 +39,14 @@ const sha256 = (valor) => `'sha256-${createHash('sha256').update(valor, 'utf8').
 
 /* 1. Impressão digital ------------------------------------------------------ */
 const versionados = {};
-for (const relativo of ['assets/css/main.css', 'assets/js/main.js']) {
+/* O meta-pixel.js só existe com o Pixel da Meta ligado (src/_data/analytics.js). */
+for (const relativo of ['assets/css/main.css', 'assets/js/main.js', 'assets/js/meta-pixel.js']) {
   const origem = path.join(DIST, relativo);
-  const conteudo = await readFile(origem);
+  const conteudo = await readFile(origem).catch((erro) => {
+    if (erro.code === 'ENOENT' && relativo.endsWith('meta-pixel.js')) return null;
+    throw erro;
+  });
+  if (!conteudo) continue;
   const digital = createHash('sha256').update(conteudo).digest('hex').slice(0, 10);
   const { dir, name, ext } = path.parse(relativo);
   const novo = `${dir}/${name}.${digital}${ext}`;

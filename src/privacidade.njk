@@ -27,8 +27,13 @@ trilha:
       <h2>Em resumo</h2>
       <ul>
         <li>O site não tem formulário, cadastro nem login.</li>
+        {%- if analytics.pixelMeta %}
+        <li>Cookies, só os do Google Analytics (estatística) e do Pixel da Meta (medição de anúncios), e só se você aceitar no aviso de cookies.</li>
+        <li>Os dados de visita não são vendidos. Com o seu aceite, a Meta os usa para medir e direcionar os anúncios da Casa EME no Facebook e no Instagram.</li>
+        {%- else %}
         <li>Cookies, só os de estatística do Google Analytics, e só se você aceitar no aviso de cookies.</li>
         <li>Os dados de visita não são usados para publicidade nem vendidos.</li>
+        {%- endif %}
         <li>Você pode mudar sua escolha quando quiser, em “Preferências de cookies”, no rodapé.</li>
       </ul>
 
@@ -48,6 +53,21 @@ trilha:
       <p><strong>Como mudar de ideia.</strong> Toque em “Preferências de cookies”, no rodapé de qualquer página, ou no botão abaixo. Se você recusar depois de ter aceitado, o envio para na hora e os cookies do Analytics são apagados deste navegador. Também dá para apagar os cookies nas configurações do próprio navegador.</p>
       <p><button type="button" class="btn btn--linha" data-cookies-abrir aria-controls="aviso-cookies">Rever minha escolha</button></p>
       <p><strong>Onde fica a sua escolha.</strong> No próprio navegador (armazenamento local, com o nome <code>casa-eme:cookies</code>), para o aviso não aparecer a cada página. Ela vale por {{ (analytics.validadeDias / 30.4) | round }} meses; depois disso, o site pergunta de novo.</p>
+      {%- if analytics.pixelMeta %}
+
+      <h2 id="meta">Anúncios no Facebook e no Instagram (Pixel da Meta)</h2>
+      <p>Se você tocar em “Aceitar” no aviso de cookies, o site também carrega o Pixel da Meta, a ferramenta da Meta (dona do Facebook e do Instagram) que mede os resultados dos anúncios da Casa EME. Se você recusar, ou não responder, ele não é carregado: nenhum script da Meta entra na página e nenhum cookie da Meta é gravado.</p>
+      <p><strong>Para quê.</strong> Saber se as pessoas que viram um anúncio da Casa EME visitaram o site e mostrar os anúncios a quem tem mais chance de se interessar, inclusive a quem já visitou o site.</p>
+      <p><strong>O que é coletado.</strong> As páginas visitadas, o endereço da página, o site de onde você veio, dados técnicos do navegador e do aparelho e o endereço IP. Se você estiver conectado ao Facebook ou ao Instagram no mesmo navegador, a Meta pode ligar essa visita à sua conta, conforme a política de privacidade dela.</p>
+      <p><strong>Base legal.</strong> O seu consentimento (art. 7º, inciso I, da LGPD), dado no mesmo aviso de cookies. Você pode retirá-lo a qualquer momento.</p>
+      <p><strong>Cookies gravados</strong>, só depois do “Aceitar”:</p>
+      <ul>
+        <li><code>_fbp</code> — um número que distingue um navegador do outro, para a Meta medir os anúncios. Dura até 3 meses.</li>
+        <li><code>_fbc</code> — gravado só quando você chega por um anúncio, para registrar o clique. Dura até 3 meses.</li>
+      </ul>
+      <p><strong>Quem recebe.</strong> A Meta Platforms, conforme os termos de ferramentas comerciais da Meta. Os dados podem ser processados fora do Brasil, inclusive nos Estados Unidos — uma transferência internacional de dados, nos termos do art. 33 da LGPD.</p>
+      <p><strong>Como mudar de ideia.</strong> Pelo mesmo caminho do Analytics: “Preferências de cookies”, no rodapé. Se você recusar depois de ter aceitado, o envio para a Meta para na hora e os cookies <code>_fbp</code> e <code>_fbc</code> são apagados deste navegador. Nas configurações de anúncios do Facebook e do Instagram também dá para limitar o uso de dados de outros sites.</p>
+      {%- endif %}
 
       <h2>WhatsApp</h2>
       <p>Os botões de agendamento abrem o WhatsApp com uma mensagem já escrita. Nada é enviado até você tocar em enviar, e a conversa acontece no aplicativo, sujeita à política de privacidade do WhatsApp. As informações que você compartilhar na conversa são usadas pela Casa EME para o agendamento e o atendimento.</p>
@@ -59,7 +79,7 @@ trilha:
       <p>Como qualquer site, este é entregue por um serviço de hospedagem, que pode registrar dados técnicos de acesso (como endereço IP e horário) para segurança e funcionamento, conforme a política do provedor.</p>
 
       <h2>Seus direitos</h2>
-      <p>Pela LGPD (art. 18), você pode pedir à Casa EME a confirmação de que ela trata dados seus, o acesso a eles, a correção, a anonimização, o bloqueio ou a eliminação do que for desnecessário, a portabilidade, a informação sobre com quem eles são compartilhados e a eliminação dos dados tratados com o seu consentimento — além de retirar o consentimento a qualquer momento. Como o Analytics não guarda nome nem contato, o caminho mais direto para os dados de estatística é recusar nas preferências de cookies e apagar os cookies do navegador.</p>
+      <p>Pela LGPD (art. 18), você pode pedir à Casa EME a confirmação de que ela trata dados seus, o acesso a eles, a correção, a anonimização, o bloqueio ou a eliminação do que for desnecessário, a portabilidade, a informação sobre com quem eles são compartilhados e a eliminação dos dados tratados com o seu consentimento — além de retirar o consentimento a qualquer momento. {% if analytics.pixelMeta %}Como o Analytics e o Pixel não guardam nome nem contato, o caminho mais direto é recusar nas preferências de cookies e apagar os cookies do navegador; para o que a Meta já tiver ligado à sua conta, use também as configurações de privacidade do Facebook ou do Instagram.{% else %}Como o Analytics não guarda nome nem contato, o caminho mais direto para os dados de estatística é recusar nas preferências de cookies e apagar os cookies do navegador.{% endif %}</p>
       <p>Você também pode apresentar reclamação à Autoridade Nacional de Proteção de Dados (ANPD), em <a href="https://www.gov.br/anpd/pt-br" target="_blank" rel="noopener noreferrer">gov.br/anpd</a>.</p>
 
       <h2>Mudanças nesta página</h2>

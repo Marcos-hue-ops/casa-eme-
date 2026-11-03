@@ -360,18 +360,39 @@ for (const largura of LARGURAS) {
  * marca que foi baixado; o que importa é QUANDO ele é pedido e o que o site
  * pôs no dataLayer.
  */
-const ga4 = (await readFile(new URL('../dist/index.html', import.meta.url), 'utf8')).match(/data-ga4="([^"]+)"/)?.[1];
+const homeQa = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+const ga4 = homeQa.match(/data-ga4="([^"]+)"/)?.[1];
 if (ga4) {
   const onde = 'consentimento';
   const GOOGLE = /^https:\/\/([a-z0-9-]+\.)*(googletagmanager\.com|google-analytics\.com|analytics\.google\.com)\//;
+  /* Pixel da Meta (quando o site o carrega): mesmos cuidados, mesmo aviso. Os
+     pedidos à Meta também são respondidos aqui, com um fbevents.js de mentira. */
+  const META = /^https:\/\/(connect\.facebook\.net|www\.facebook\.com)\//;
+  const arquivoPixel = homeQa.match(/\/assets\/js\/(meta-pixel\.[0-9a-f]{10}\.js)/)?.[1];
+  const idPixel = arquivoPixel
+    ? (await readFile(new URL(`../dist/assets/js/${arquivoPixel}`, import.meta.url), 'utf8')).match(/PIXEL_ID = "(\d+)"/)?.[1]
+    : null;
+  if (arquivoPixel && !idPixel) anota(onde, `não achei o ID do Pixel da Meta em ${arquivoPixel}`);
+  /* A versão do aviso vem do HTML: subir a versão não quebra o teste. */
+  const versaoAviso = Number(homeQa.match(/data-versao="(\d+)"/)?.[1]);
   const contexto = await navegador.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
   let pedidos = [];
+  let pedidosMeta = [];
   await contexto.route(GOOGLE, (rota) => {
     const url = rota.request().url();
     pedidos.push(url);
     const gtag = url.startsWith('https://www.googletagmanager.com/gtag/js');
     return rota.fulfill({ status: gtag ? 200 : 204, contentType: 'text/javascript', body: gtag ? 'window.__gtagBaixado = (window.__gtagBaixado || 0) + 1;' : '' });
   });
+  await contexto.route(META, (rota) => {
+    const url = rota.request().url();
+    pedidosMeta.push(url);
+    const fbevents = url.startsWith('https://connect.facebook.net/en_US/fbevents.js');
+    return rota.fulfill({ status: fbevents ? 200 : 204, contentType: 'text/javascript', body: fbevents ? 'window.__fbeventsBaixado = (window.__fbeventsBaixado || 0) + 1;' : '' });
+  });
+  /* O que o site pôs na fila do fbq (o fbevents.js de mentira não a consome). */
+  const filaMeta = () => pagina.evaluate(() => (window.fbq?.queue || []).map((item) => Array.from(item)));
+  const pedidosFbevents = () => pedidosMeta.filter((u) => u.startsWith('https://connect.facebook.net/en_US/fbevents.js'));
   await contexto.addInitScript(() => {
     window.__violacoes = [];
     document.addEventListener('securitypolicyviolation', (e) => window.__violacoes.push(`${e.violatedDirective} ${e.blockedURI || ''}`));
@@ -394,6 +415,8 @@ if (ga4) {
   if (!(await visivel())) anota(onde, 'o aviso não aparece na primeira visita');
   if (pedidos.length) anota(onde, `pedido ao Google antes de qualquer escolha: ${pedidos[0]}`);
   if ((await camadas()).length) anota(onde, 'dataLayer preenchido antes de qualquer escolha');
+  if (pedidosMeta.length) anota(onde, `pedido à Meta antes de qualquer escolha: ${pedidosMeta[0]}`);
+  if (await pagina.evaluate(() => 'fbq' in window)) anota(onde, 'fbq criado antes de qualquer escolha');
 
   /* O botão fixo do WhatsApp não pode ficar por baixo do aviso no celular. */
   /* `behavior: 'instant'`: o site rola suave (reset.css), e numa página longa a
@@ -414,6 +437,7 @@ if (ga4) {
   await pagina.goto(`${BASE}/servicos/`, { waitUntil: 'networkidle' });
   if (await visivel()) anota(onde, 'o aviso volta depois de recusado');
   if (pedidos.length) anota(onde, `pedido ao Google depois de recusar: ${pedidos[0]}`);
+  if (pedidosMeta.length) anota(onde, `pedido à Meta depois de recusar: ${pedidosMeta[0]}`);
 
   /* 3. Rever pelo rodapé e aceitar: o gtag.js é pedido uma vez, com o ID certo,
         e o foco volta ao botão de onde a pessoa saiu. */
@@ -430,6 +454,19 @@ if (ga4) {
   if (!(await pagina.evaluate(() => document.activeElement?.matches('.rodape [data-cookies-abrir]'))))
     anota(onde, 'o foco não volta ao botão de preferências');
 
+  const conferirPixel = async (pagina_) => {
+    if (!arquivoPixel) return;
+    await pagina.waitForFunction(() => window.__fbeventsBaixado === 1, null, { timeout: 5000 }).catch(() => {});
+    if (pedidosFbevents().length !== 1) anota(`${onde} ${pagina_}`, `fbevents.js pedido ${pedidosFbevents().length} vez(es) depois do aceite (esperado: 1)`);
+    const fila = await filaMeta();
+    const chamada = (...args) => fila.some((item) => args.every((a, i) => item[i] === a));
+    if (!chamada('consent', 'grant')) anota(`${onde} ${pagina_}`, 'Pixel da Meta sem consent grant depois do aceite');
+    if (!chamada('init', idPixel)) anota(`${onde} ${pagina_}`, `Pixel da Meta não iniciado com o ID ${idPixel}`);
+    if (fila.filter((item) => item[0] === 'track' && item[1] === 'PageView').length !== 1)
+      anota(`${onde} ${pagina_}`, 'Pixel da Meta: esperado um PageView por página');
+  };
+  await conferirPixel('/servicos/');
+
   const conferirCamadas = async (pagina_) => {
     const itens = await camadas();
     const padrao = itens.find(([c, t]) => c === 'consent' && t === 'default')?.[2];
@@ -445,15 +482,19 @@ if (ga4) {
 
   /* 4. Página seguinte, já aceito: o GA4 carrega sozinho, uma vez, sem aviso. */
   pedidos = [];
+  pedidosMeta = [];
   await pagina.goto(`${BASE}/contato/`, { waitUntil: 'networkidle' });
   if (await visivel()) anota(onde, 'o aviso volta depois de aceito');
   if (pedidosGtag().length !== 1) anota(onde, `gtag.js pedido ${pedidosGtag().length} vez(es) na página seguinte (esperado: 1)`);
   await conferirCamadas('/contato/');
+  await conferirPixel('/contato/');
 
   /* 5. Voltar atrás: o envio é cortado na hora e os cookies do GA4 somem. */
   await pagina.evaluate((id) => {
     document.cookie = '_ga=GA1.1.111.222; path=/';
     document.cookie = `_ga_${id.slice(2)}=GS1.1.333; path=/`;
+    document.cookie = '_fbp=fb.1.111.222; path=/';
+    document.cookie = '_fbc=fb.1.111.abc; path=/';
   }, ga4);
   await pagina.click('.rodape [data-cookies-abrir]');
   /* Com escolha feita, o Esc fecha sem mudar nada. */
@@ -469,6 +510,11 @@ if (ga4) {
   if (!depois.desligado) anota(onde, 'recusar depois de aceitar não corta o envio (ga-disable)');
   if (!depois.atualizacao) anota(onde, 'recusar depois de aceitar não atualiza o consentimento para denied');
   if (/(^|;\s*)_ga/.test(depois.cookies)) anota(onde, `cookies do GA4 continuam depois da recusa: ${depois.cookies}`);
+  if (arquivoPixel) {
+    await pagina.waitForFunction(() => !/(^|;\s*)_fb[pc]=/.test(document.cookie), null, { timeout: 3000 }).catch(() => {});
+    if (/(^|;\s*)_fb[pc]=/.test(await pagina.evaluate(() => document.cookie))) anota(onde, 'cookies da Meta (_fbp/_fbc) continuam depois da recusa');
+    if (!(await filaMeta()).some(([c, t]) => c === 'consent' && t === 'revoke')) anota(onde, 'recusar depois de aceitar não revoga o consentimento do Pixel da Meta');
+  }
   if ((await escolhaGuardada()) !== 'recusado') anota(onde, 'a nova recusa não foi guardada');
 
   /* 5b. Recusa feita em outra aba desliga esta, que continua aberta. */
@@ -484,20 +530,37 @@ if (ga4) {
   await outraAba.close();
 
   pedidos = [];
+  pedidosMeta = [];
   await pagina.goto(`${BASE}/privacidade/`, { waitUntil: 'networkidle' });
   if (pedidos.length) anota(onde, `pedido ao Google depois de voltar atrás: ${pedidos[0]}`);
+  if (pedidosMeta.length) anota(onde, `pedido à Meta depois de voltar atrás: ${pedidosMeta[0]}`);
   /* O botão da própria política também reabre o aviso. */
   await pagina.click('.prosa [data-cookies-abrir]');
   if (!(await visivel())) anota(onde, '"Rever minha escolha", na privacidade, não reabre o aviso');
 
   /* 6. Escolha vencida: depois do prazo, a pergunta volta e nada carrega antes. */
-  await pagina.evaluate(() =>
-    localStorage.setItem('casa-eme:cookies', JSON.stringify({ escolha: 'aceito', versao: 1, data: '2000-01-01T00:00:00.000Z' }))
+  await pagina.evaluate((versao) =>
+    localStorage.setItem('casa-eme:cookies', JSON.stringify({ escolha: 'aceito', versao, data: '2000-01-01T00:00:00.000Z' })), versaoAviso
   );
   pedidos = [];
+  pedidosMeta = [];
   await pagina.goto(`${BASE}/`, { waitUntil: 'networkidle' });
   if (!(await visivel())) anota(onde, 'escolha vencida não faz o aviso voltar');
   if (pedidos.length) anota(onde, 'escolha vencida ainda carrega o GA4');
+  if (pedidosMeta.length) anota(onde, 'escolha vencida ainda carrega o Pixel da Meta');
+
+  /* 6b. Escolha de uma versão anterior do aviso (antes do Pixel, por exemplo):
+         vale como sem escolha — o aviso volta e nada carrega. */
+  if (versaoAviso > 1) {
+    await pagina.evaluate((versao) =>
+      localStorage.setItem('casa-eme:cookies', JSON.stringify({ escolha: 'aceito', versao, data: new Date().toISOString() })), versaoAviso - 1
+    );
+    pedidos = [];
+    pedidosMeta = [];
+    await pagina.goto(`${BASE}/sobre/`, { waitUntil: 'networkidle' });
+    if (!(await visivel())) anota(onde, 'aceite de uma versão anterior do aviso não faz o aviso voltar');
+    if (pedidos.length || pedidosMeta.length) anota(onde, 'aceite de uma versão anterior do aviso ainda carrega o Google ou a Meta');
+  }
 
   const violacoes = await pagina.evaluate(() => window.__violacoes || []);
   violacoes.forEach((v) => anota(onde, `violação de CSP: ${v}`));
@@ -508,8 +571,9 @@ if (ga4) {
   for (const largura of LARGURAS) {
     const ctx = await navegador.newContext({ viewport: { width: largura, height: 900 }, isMobile: largura < 768, hasTouch: largura < 768 });
     await ctx.route(GOOGLE, (rota) => rota.fulfill({ status: 204, body: '' }));
-    await ctx.addInitScript(() =>
-      localStorage.setItem('casa-eme:cookies', JSON.stringify({ escolha: 'recusado', versao: 1, data: new Date().toISOString() }))
+    await ctx.route(META, (rota) => rota.fulfill({ status: 204, body: '' }));
+    await ctx.addInitScript((versao) =>
+      localStorage.setItem('casa-eme:cookies', JSON.stringify({ escolha: 'recusado', versao, data: new Date().toISOString() })), versaoAviso
     );
     const p = await ctx.newPage();
     await p.goto(`${BASE}/`, { waitUntil: 'networkidle' });
@@ -535,6 +599,7 @@ if (ga4) {
   for (const [largura, altura, url] of [[320, 568, '/contato/'], [375, 667, '/'], [768, 1024, '/contato/'], [320, 256, '/'], [568, 320, '/servicos/']]) {
     const ctx = await navegador.newContext({ viewport: { width: largura, height: altura }, isMobile: largura < 768, hasTouch: largura < 768 });
     await ctx.route(GOOGLE, (rota) => rota.fulfill({ status: 204, body: '' }));
+    await ctx.route(META, (rota) => rota.fulfill({ status: 204, body: '' }));
     const p = await ctx.newPage();
     const aqui = `${onde} ${url} @${largura}×${altura}`;
     await p.goto(`${BASE}${url}`, { waitUntil: 'networkidle' });
@@ -574,15 +639,16 @@ if (ga4) {
   const semJs = await navegador.newContext({ javaScriptEnabled: false });
   const pedidosSemJs = [];
   await semJs.route(GOOGLE, (rota) => (pedidosSemJs.push(rota.request().url()), rota.abort()));
+  await semJs.route(META, (rota) => (pedidosSemJs.push(rota.request().url()), rota.abort()));
   const paginaSemJs = await semJs.newPage();
   await paginaSemJs.goto(`${BASE}/`, { waitUntil: 'networkidle' });
   if (await paginaSemJs.isVisible(aviso)) anota(`${onde} sem JS`, 'o aviso aparece sem JavaScript');
   if (await paginaSemJs.isVisible('.rodape [data-cookies-abrir]')) anota(`${onde} sem JS`, 'o botão de preferências aparece sem JavaScript');
-  if (pedidosSemJs.length) anota(`${onde} sem JS`, `pedido ao Google: ${pedidosSemJs[0]}`);
+  if (pedidosSemJs.length) anota(`${onde} sem JS`, `pedido ao Google ou à Meta: ${pedidosSemJs[0]}`);
   await semJs.close();
 
   await contexto.close();
-  console.log(`qa: consentimento de cookies conferido (${ga4})`);
+  console.log(`qa: consentimento de cookies conferido (${ga4}${arquivoPixel ? `, Pixel da Meta ${idPixel}` : ''})`);
 }
 
 await navegador.close();

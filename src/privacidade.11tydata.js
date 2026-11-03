@@ -8,7 +8,7 @@ import analytics from './_data/analytics.js';
 export default analytics.ativo
   ? {
       description:
-        'Como o site da Casa EME usa o Google Analytics, só se você aceitar, e como funcionam o WhatsApp, o Instagram e o mapa. Seus direitos pela LGPD.',
+        `Como o site da Casa EME usa o Google Analytics${analytics.pixelMeta ? ' e o Pixel da Meta' : ''}, só se você aceitar, e como funcionam o WhatsApp, o Instagram e o mapa. Seus direitos pela LGPD.`,
       chamadaPagina:
         'O que o site coleta, para quê, com quem compartilha e como mudar de ideia a qualquer momento.',
     }

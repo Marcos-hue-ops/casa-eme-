@@ -1,0 +1,51 @@
+{%- import "components/macros.njk" as m -%}
+{%- set est = servicos | categoria('estetica-avancada') -%}
+{%- set t = destaques.estetica -%}
+{#-
+  Estética avançada — a faixa escura da home. Linguagem responsável:
+  avaliação antes de tudo. `comCasosFaciais` (home) traz, na mesma faixa,
+  os antes e depois do rosto — foto logo depois do texto.
+-#}
+<section class="estetica faixa-noite" aria-labelledby="estetica-titulo">
+  <svg class="estetica__aneis" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+    <circle cx="100" cy="100" r="98"/><circle cx="100" cy="100" r="88"/>
+  </svg>
+  <div class="env estetica__grade">
+    <div class="estetica__texto">
+      <p class="rotulo">{{ servicos | numeroDe('estetica-avancada') }} · {{ est.nome }}</p>
+      <h2 class="estetica__titulo" id="estetica-titulo">{{ t.titulo | enfase(t.enfase) | safe }}</h2>
+      <p>{{ est.texto }}</p>
+      <p class="estetica__nota">{{ t.nota }}</p>
+      <div class="acoes">
+        {{ m.wa(business, 'estetica', est.cta, 'btn btn--claro') }}
+        {{ m.seta(est.pagina, 'Conhecer a estética avançada', 'link-seta link-seta--claro') }}
+      </div>
+    </div>
+
+    <div class="estetica__listas">
+      {%- for g in est.grupos %}
+      <div class="lista-dupla">
+        <h3 class="lista-dupla__titulo"><span>{{ g.nome }}</span></h3>
+        <ul>
+          {%- for i in g.itens %}<li>{{ i.nome }}</li>{% endfor %}
+        </ul>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+
+  {%- if comCasosFaciais %}
+  <div class="env estetica__casos" data-lupa-grupo>
+    <div class="estetica__casos-cab">
+      <h3 class="estetica__sub">No rosto: <em>antes e depois</em></h3>
+      <p>{{ destaques.casos.introFacial }}</p>
+    </div>
+    <ul class="casos__grade casos__grade--facial">
+      {%- for c in casos.itens | casosDe('facial') %}
+      <li>{{ m.caso(c, aviso=casos.aviso) }}</li>
+      {%- endfor %}
+    </ul>
+    <p class="estetica__ressalva">{{ casos.ressalva }} {{ casos.aviso }}</p>
+  </div>
+  {%- endif %}
+</section>

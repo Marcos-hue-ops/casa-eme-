@@ -1,0 +1,21 @@
+{%- import "components/macros.njk" as m -%}
+{%- set rel = servicos | categoria('relax-spa') -%}
+{#- Relax & Spa — a seção mais quieta da página: texto, quatro técnicas, uma ação. -#}
+<section class="relax" aria-labelledby="relax-titulo">
+  <div class="env relax__grade">
+    <div class="relax__texto">
+      <p class="rotulo">{{ servicos | numeroDe('relax-spa') }} · {{ rel.chamada }}</p>
+      <h2 class="relax__titulo" id="relax-titulo">{{ rel.nome }}</h2>
+      <p>{{ rel.texto }}</p>
+      {{ m.wa(business, 'relax', rel.cta, 'btn btn--linha') }}
+    </div>
+    <ol class="relax__lista">
+      {%- for i in rel.grupos[0].itens %}
+      <li class="relax__item">
+        <h3 class="relax__nome">{{ i.nome }}</h3>
+        <p class="relax__desc">{{ i.desc }}</p>
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+</section>

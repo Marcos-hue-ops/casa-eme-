@@ -1,0 +1,34 @@
+/**
+ * Duas famílias, servidas do próprio domínio.
+ *
+ * Baskervville (títulos) foi escolhida por ser a mais próxima do letreiro da
+ * logo entre as fontes livres comparadas — e o itálico dela conversa com o
+ * itálico do manifesto que a casa publica. Hanken Grotesk (texto e
+ * interface) faz o papel das versais finas do slogan.
+ *
+ * Os caminhos são absolutos: o Lightning CSS empacota sem reescrever URL
+ * relativa. Licença das duas: SIL Open Font License.
+ */
+@font-face {
+  font-family: 'Baskervville';
+  src: url('/assets/fonts/baskervville-latin.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Baskervville';
+  src: url('/assets/fonts/baskervville-italic-latin.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hanken Grotesk';
+  src: url('/assets/fonts/hanken-grotesk-latin.woff2') format('woff2');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}

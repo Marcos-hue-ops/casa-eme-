@@ -1,0 +1,28 @@
+{%- import "components/macros.njk" as m -%}
+{#- Galeria na home: um recorte, e o caminho para a página completa e para o Instagram. -#}
+<section class="mostra" aria-labelledby="mostra-titulo">
+  <div class="env">
+    <div class="mostra__cab">
+      <div>
+        <p class="rotulo">Galeria</p>
+        <h2 class="mostra__titulo" id="mostra-titulo">Trabalhos da casa</h2>
+      </div>
+      <div class="acoes">
+        {{ m.seta('/galeria/', 'Ver a galeria') }}
+        <a class="link-seta" href="{{ business.instagram.url }}" target="_blank" rel="noopener noreferrer"><span>{{ business.instagram.handle }}</span>{% icon "externo" %}</a>
+      </div>
+    </div>
+
+    <ul class="mostra__grade" data-lupa-grupo>
+      {%- for foto in galeria.fotos | batch(4) | first %}
+      <li class="mostra__item mostra__item--{{ loop.index }}">
+        <button type="button" class="mostra__abrir" data-lupa="{{ foto.imagem | src }}" data-lupa-legenda="{{ foto.legenda }}">
+          {{ m.foto(foto.imagem, foto.alt, '(min-width: 64rem) 30vw, (min-width: 40rem) 46vw, 92vw') }}
+          <span class="so-leitor">Ampliar foto: {{ foto.legenda }}</span>
+        </button>
+        <p class="mostra__legenda">{{ foto.legenda }}</p>
+      </li>
+      {%- endfor %}
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,140 @@
+/** Abertura das páginas internas: trilha, h1, chamada e o anel duplo vazado ao fundo. */
+.abertura {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(2.5rem, 1.5rem + 5vw, 6rem) clamp(3rem, 2rem + 4vw, 5.5rem);
+  border-block-end: 1px solid var(--fio);
+}
+
+.abertura__env {
+  position: relative;
+  z-index: 1;
+}
+
+.abertura__titulo {
+  font-size: var(--t-h1);
+  max-inline-size: 18ch;
+  margin-block-start: var(--e-3);
+}
+
+.abertura__lead {
+  margin-block-start: var(--e-3);
+  max-inline-size: 38rem;
+  font-size: var(--t-lead);
+  color: var(--texto-2);
+}
+
+.abertura__lead a {
+  color: var(--marca);
+}
+
+.abertura__aneis {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: -6rem;
+  inline-size: clamp(16rem, 34vw, 30rem);
+  translate: 0 -50%;
+  fill: none;
+  stroke: var(--fio-forte);
+  stroke-width: 0.6;
+  opacity: 0.8;
+}
+
+@media (max-width: 47.99rem) {
+  .abertura__aneis {
+    inset-block-start: auto;
+    inset-block-end: -8rem;
+    inset-inline-end: -7rem;
+    translate: none;
+    opacity: 0.5;
+  }
+}
+
+.trilha ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  list-style: none;
+  padding: 0;
+  font-size: var(--t-mini);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--texto-2);
+}
+
+.trilha li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.trilha li + li::before {
+  content: '';
+  inline-size: 0.875rem;
+  block-size: 1px;
+  background-color: var(--mel);
+}
+
+.trilha a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  text-decoration: none;
+}
+
+.trilha a:hover {
+  color: var(--marca);
+}
+
+.trilha [aria-current='page'] {
+  color: var(--cafe);
+}
+
+/* Atalhos por categoria (serviços, FAQ) */
+.atalhos {
+  position: sticky;
+  inset-block-start: var(--altura-cab);
+  z-index: 5;
+  background-color: rgb(251 247 241 / 0.95);
+  border-block-end: 1px solid var(--fio);
+}
+
+.atalhos__lista {
+  display: flex;
+  gap: var(--e-1);
+  overflow-x: auto;
+  padding-block: 0.625rem;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+}
+
+.atalhos__lista::-webkit-scrollbar {
+  display: none;
+}
+
+.atalho {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  padding-inline: 1rem;
+  border: 1px solid var(--fio-forte);
+  border-radius: var(--raio-pilula);
+  font-size: var(--t-pequeno);
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+  scroll-snap-align: start;
+  transition:
+    background-color var(--rapido) var(--curva),
+    border-color var(--rapido) var(--curva);
+}
+
+.atalho:hover {
+  border-color: var(--marca);
+  background-color: var(--creme);
+}
+
+.atalho--destaque {
+  border-color: var(--marca);
+  color: var(--marca);
+}

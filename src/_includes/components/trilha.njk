@@ -1,0 +1,16 @@
+{#- Trilha de navegação. A mesma lista alimenta o BreadcrumbList do JSON-LD. -#}
+{%- if trilha %}
+<nav class="trilha" aria-label="Você está em">
+  <ol>
+    {%- for item in trilha %}
+    <li>
+      {%- if loop.last %}
+      <span aria-current="page">{{ item.nome }}</span>
+      {%- else %}
+      <a href="{{ item.href }}">{{ item.nome }}</a>
+      {%- endif %}
+    </li>
+    {%- endfor %}
+  </ol>
+</nav>
+{%- endif %}

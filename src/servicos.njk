@@ -1,0 +1,74 @@
+---
+layout: layouts/pagina.njk
+permalink: /servicos/
+title: "Serviços: Saúde Capilar, Estética e Beleza em Moema | Casa EME"
+description: "Saúde capilar, emagrecimento, estética facial e corporal, cabelo, unhas, sobrancelhas, cílios e massagens na Casa EME, em Moema. Veja também as assinaturas."
+tituloPagina: "Serviços de saúde capilar, estética e beleza em Moema"
+chamadaPagina: "Da saúde capilar ao salão de beleza, tudo o que a casa faz. Valores e horários, pelo WhatsApp."
+waChave: beleza
+trilha:
+  - nome: Início
+    href: /
+  - nome: Serviços
+    href: /servicos/
+---
+{%- import "components/macros.njk" as m -%}
+
+<nav class="atalhos" aria-label="Categorias de serviços">
+  <div class="env">
+    <ul class="atalhos__lista">
+      {%- for cat in servicos %}
+      <li><a class="atalho" href="/servicos/#{{ cat.id }}">{{ cat.nome }}</a></li>
+      {%- endfor %}
+      <li><a class="atalho atalho--destaque" href="/servicos/#assinaturas">Assinaturas</a></li>
+    </ul>
+  </div>
+</nav>
+
+{%- for cat in servicos %}
+<section class="categoria{% if loop.index is even %} categoria--alt{% endif %}" id="{{ cat.id }}" aria-labelledby="cat-{{ cat.id }}">
+  <div class="env categoria__grade">
+    <header class="categoria__cab">
+      <p class="categoria__num" aria-hidden="true">{{ loop.index | dois }}</p>
+      <h2 class="categoria__titulo" id="cat-{{ cat.id }}">{{ cat.nome }}</h2>
+      <p class="categoria__chamada">{{ cat.chamada }}</p>
+      <p class="categoria__texto">{{ cat.texto }}</p>
+      {%- if cat.responsavel %}{% set resp = equipe[cat.responsavel] %}
+      <p class="categoria__responsavel"><span>Responsável</span> <a href="/sobre/#{{ resp.ancora }}">{{ resp.nome }}</a> · {{ resp.resumo }}</p>
+      {%- endif %}
+      <div class="acoes">
+        {{ m.wa(business, cat.wa, cat.cta, 'btn btn--linha') }}
+        {%- if cat.pagina.startsWith('/') and not cat.pagina.startsWith('/servicos/') %}
+        {{ m.seta(cat.pagina, cat.nome + ' em detalhe') }}
+        {%- endif %}
+      </div>
+    </header>
+
+    <div class="categoria__grupos{% if cat.grupos.length == 1 %} categoria__grupos--um{% endif %}">
+      {%- for g in cat.grupos %}
+      <div class="grupo" id="{{ g.id }}">
+        {%- if cat.grupos.length > 1 %}
+        <h3 class="grupo__titulo">{{ g.nome }}</h3>
+        {%- else %}
+        <h3 class="so-leitor">{{ g.nome }}</h3>
+        {%- endif %}
+        <ul class="grupo__itens">
+          {%- for i in g.itens %}
+          <li class="grupo__item">
+            <span class="grupo__nome">{{ i.nome }}</span>
+            {%- if i.desc %}<span class="grupo__desc">{{ i.desc }}</span>{% endif %}
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+{%- endfor %}
+
+{% include "sections/assinaturas.njk" %}
+
+{% set contextoFaq = 'servicos' %}
+{% set tituloFaq = 'Dúvidas sobre os serviços' %}
+{% include "sections/faq-resumo.njk" %}

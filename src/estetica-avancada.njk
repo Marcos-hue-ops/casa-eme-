@@ -1,0 +1,97 @@
+---
+layout: layouts/pagina.njk
+permalink: /estetica-avancada/
+title: "Estética Avançada em Moema | Facial e Corporal | Casa EME"
+description: "Estética facial e corporal em Moema com avaliação individual: toxina botulínica, preenchimento, bioestimuladores, skinbooster, flacidez, celulite e contorno."
+tituloPagina: "Estética avançada em Moema, facial e corporal"
+chamadaPagina: "Toxina botulínica, preenchimento, bioestimuladores, skinbooster e protocolos corporais, indicados só depois de entender o que você procura."
+waChave: estetica
+trilha:
+  - nome: Início
+    href: /
+  - nome: Serviços
+    href: /servicos/
+  - nome: Estética avançada
+    href: /estetica-avancada/
+eleventyComputed:
+  servicoSchema:
+    "@context": https://schema.org
+    "@type": Service
+    name: Estética avançada
+    serviceType: Estética facial e corporal
+    url: "{{ site.url }}/estetica-avancada/"
+    areaServed: Moema, São Paulo
+    provider:
+      "@id": "{{ site.url }}/#casa-eme"
+---
+{%- import "components/macros.njk" as m -%}
+{%- set est = servicos | categoria('estetica-avancada') -%}
+
+<section class="processo" aria-labelledby="processo-titulo">
+  <div class="env processo__grade">
+    <div>
+      <p class="rotulo">Como funciona</p>
+      <h2 class="processo__titulo" id="processo-titulo">Antes do procedimento, <em>a conversa</em></h2>
+    </div>
+    <ol class="processo__passos">
+      <li>
+        <h3>Avaliação individual</h3>
+        <p>Conversa e análise da pele ou do corpo.</p>
+      </li>
+      <li>
+        <h3>Protocolo para você</h3>
+        <p>Se houver indicação, só entram as técnicas que fazem sentido.</p>
+      </li>
+      <li>
+        <h3>Dúvidas antes de marcar</h3>
+        <p>Valor, duração e preparo da avaliação: pergunte pelo WhatsApp.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+{%- for g in est.grupos %}
+<section class="categoria{% if loop.index is even %} categoria--alt{% endif %}" id="{{ g.id }}" aria-labelledby="grupo-{{ g.id }}">
+  <div class="env categoria__grade">
+    <header class="categoria__cab">
+      <p class="categoria__num" aria-hidden="true">{{ loop.index | dois }}</p>
+      <h2 class="categoria__titulo" id="grupo-{{ g.id }}">Estética {{ g.nome | lower }}</h2>
+      {%- if g.id == 'facial' %}
+      <p class="categoria__texto">Injetáveis e técnicas para a pele do rosto. O que entra no seu protocolo se decide na avaliação.</p>
+      {%- else %}
+      <p class="categoria__texto">Protocolos para o corpo, definidos na avaliação, que podem combinar técnicas diferentes, entre elas a drenagem.</p>
+      {%- endif %}
+    </header>
+    <div class="categoria__grupos categoria__grupos--um">
+      <div class="grupo">
+        <h3 class="so-leitor">{{ g.nome }}: procedimentos</h3>
+        <ul class="grupo__itens">
+          {%- for i in g.itens %}
+          <li class="grupo__item">
+            <span class="grupo__nome">{{ i.nome }}</span>
+            {%- if i.desc %}<span class="grupo__desc">{{ i.desc }}</span>{% endif %}
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+{%- endfor %}
+
+{% set areaCasos = 'facial' %}
+{% include "sections/casos.njk" %}
+
+<section class="aviso-responsavel faixa-noite" aria-labelledby="responsavel-titulo">
+  <div class="env aviso-responsavel__env">
+    <h2 class="aviso-responsavel__titulo" id="responsavel-titulo">Com responsabilidade</h2>
+    <p>Há contraindicações, e cada organismo responde de um jeito. A Casa EME não promete resultado: só indica depois de avaliar.</p>
+    <div class="acoes acoes--centro">
+      {{ m.wa(business, 'estetica', 'Agendar avaliação de estética', 'btn btn--claro btn--grande') }}
+    </div>
+  </div>
+</section>
+
+{% set contextoFaq = 'estetica' %}
+{% set tituloFaq = 'Dúvidas sobre estética avançada' %}
+{% include "sections/faq-resumo.njk" %}

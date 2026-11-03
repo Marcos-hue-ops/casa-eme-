@@ -1,0 +1,44 @@
+{%- import "components/macros.njk" as m -%}
+{#-
+  Emagrecimento — textos em destaques.js → emagrecimento, itens em
+  servicos.js. Sem número de quilos, prazo ou nome de medicamento: o plano
+  sai da avaliação.
+
+  `nivelEmagrecimento` ajusta o nível do título; `semLinkEmagrecimento`
+  tira o link para a página própria quando a seção já está nela, e
+  `rotuloEmagrecimento` troca o sobretítulo numerado da home.
+-#}
+{%- set em_ = servicos | categoria('emagrecimento') -%}
+{%- set t = destaques.emagrecimento -%}
+{%- set n = nivelEmagrecimento or 2 -%}
+<section class="emagrecer" aria-labelledby="emagrecer-titulo">
+  <div class="env emagrecer__grade">
+    <div class="emagrecer__texto">
+      <p class="rotulo">{{ rotuloEmagrecimento or (servicos | numeroDe('emagrecimento')) + ' · ' + em_.nome }}</p>
+      <h{{ n }} class="emagrecer__titulo" id="emagrecer-titulo">{{ t.titulo | enfase(t.enfase) | safe }}</h{{ n }}>
+      {%- for p in t.paragrafos %}
+      <p>{{ p }}</p>
+      {%- endfor %}
+      <p class="emagrecer__aviso">{{ t.aviso }}</p>
+      <div class="acoes">
+        {{ m.wa(business, em_.wa, em_.cta) }}
+        {%- if not semLinkEmagrecimento %}{{ m.seta(em_.pagina, 'Emagrecimento em detalhe') }}{% endif %}
+      </div>
+    </div>
+
+    <div class="emagrecer__lado">
+      <ol class="emagrecer__etapas">
+        {%- for e in t.etapas %}
+        <li class="emagrecer__etapa">
+          <span class="emagrecer__num" aria-hidden="true">{{ loop.index | dois }}</span>
+          <h{{ n + 1 }} class="emagrecer__nome">{{ e.nome }}</h{{ n + 1 }}>
+          <p>{{ e.texto }}</p>
+        </li>
+        {%- endfor %}
+      </ol>
+      {%- if not semLinkEmagrecimento %}
+      <p class="emagrecer__itens"><span class="so-leitor">O que pode entrar no plano: </span>{{ em_.destaques | join(' · ') }}</p>
+      {%- endif %}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,61 @@
+---
+layout: layouts/pagina.njk
+permalink: /saude-capilar/
+title: "Saúde Capilar, Queda e Alopecia em Moema | Casa EME"
+description: "Avaliação capilar em Moema com a biomédica Dra. Rejane Rabelo: consulta, exame e registro fotográfico para queda, alopecias, dermatite e afinamento dos fios."
+tituloPagina: "Saúde capilar em Moema"
+chamadaPagina: "Alopecias, dermatite, queda, afinamento e falta de crescimento, com avaliação e acompanhamento da Dra. Rejane Rabelo, biomédica esteta."
+waChave: capilar
+videoSchema: true
+trilha:
+  - nome: Início
+    href: /
+  - nome: Serviços
+    href: /servicos/
+  - nome: Saúde capilar
+    href: /saude-capilar/
+eleventyComputed:
+  servicoSchema:
+    "@context": https://schema.org
+    "@type": Service
+    name: Saúde capilar
+    serviceType: Avaliação e tratamento capilar
+    url: "{{ site.url }}/saude-capilar/"
+    areaServed: Moema, São Paulo
+    provider:
+      "@id": "{{ site.url }}/#casa-eme"
+---
+{%- import "components/macros.njk" as m -%}
+
+<section class="texto-longo" aria-labelledby="capilar-intro">
+  <div class="env texto-longo__grade">
+    <p class="rotulo">Por onde começa</p>
+    <div>
+      <h2 class="texto-longo__titulo" id="capilar-intro">Primeiro, a avaliação</h2>
+      <p class="texto-longo__lead">Queixas parecidas podem ter causas diferentes. Por isso, tudo começa pela consulta e pela tricoscopia.</p>
+      <p>A tricoscopia examina o couro cabeludo e os fios com um aparelho de ampliação e, junto com a consulta, orienta o seu plano.</p>
+    </div>
+  </div>
+</section>
+
+{% set semIntroCapilar = true %}
+{% set rotuloQueixas = 'Queixas capilares' %}
+{% include "sections/capilar-destaque.njk" %}
+
+{% set nivelCapilar = 2 %}
+{% set semLinkCapilar = true %}
+{% set detalharCapilar = true %}
+{% include "sections/capilar.njk" %}
+
+{% set rejaneCompleta = true %}
+{% set pessoaId = 'rejane' %}
+{% include "sections/pessoa.njk" %}
+
+{% set areaCasos = 'capilar' %}
+{% include "sections/casos.njk" %}
+
+{% include "sections/depoimentos.njk" %}
+
+{% set contextoFaq = 'capilar' %}
+{% set tituloFaq = 'Dúvidas sobre saúde capilar' %}
+{% include "sections/faq-resumo.njk" %}
